@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Kerala Gold Rate</title>
+<style>
+:root{--bg:#fffdf6;--card:#fff3cf;--text:#2b2410;--muted:#7a6a3a;--gold:#b8860b;--line:#e6d9a8;--inp:#fff;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#17140a;--card:#2a2410;--text:#f3ead0;--muted:#b9a977;--gold:#e0b030;--line:#4a3f1c;--inp:#201b0c;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#17140a;--card:#2a2410;--text:#f3ead0;--muted:#b9a977;--gold:#e0b030;--line:#4a3f1c;--inp:#201b0c;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--text);font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+main{max-width:480px;margin:0 auto;padding:16px}
+h1{color:var(--gold);font-size:24px;margin:8px 0 0}
+h2{font-size:18px;margin:28px 0 8px}
+.sub{color:var(--muted);font-size:12px;margin-bottom:12px}
+.warn{color:#d63a3a;font-weight:600}
+label{display:block;font-size:13px;color:var(--muted);margin:10px 0 4px}
+input[type=number]{width:100%;box-sizing:border-box;padding:12px;font-size:16px;border:1px solid var(--line);border-radius:8px;background:var(--inp);color:var(--text)}
+button{width:100%;margin-top:10px;padding:12px;font-size:16px;border:0;border-radius:8px;background:var(--gold);color:#fff;font-weight:600}
+.card{background:var(--card);border-radius:10px;padding:12px;margin-top:12px}
+.row{display:flex;justify-content:space-between;gap:12px;padding:2px 0}
+.big{font-weight:700;margin-top:6px}
+.tot{border-top:1px solid var(--line);margin-top:6px;padding-top:6px;font-weight:700}
+.lights{display:flex;gap:10px;margin:8px 0}.light{width:26px;height:26px;border-radius:50%;opacity:.2}.light.on{opacity:1;box-shadow:0 0 10px currentColor}
+.l-green{background:#2e9e4f;color:#2e9e4f}.l-orange{background:#f08a1c;color:#f08a1c}.l-red{background:#d63a3a;color:#d63a3a}
+.gt{font-weight:700;font-size:18px}.gd{margin:4px 0}.leg{font-size:13px;color:var(--muted);margin-top:8px}
+#chart svg,#mchart svg{width:100%;height:auto;display:block}
+#chart text,#mchart text{fill:var(--text);font-size:9px}#chart .bar{fill:var(--gold);opacity:.55}
+#mchart .ln{fill:none;stroke:var(--gold);stroke-width:2;stroke-linejoin:round;stroke-linecap:round}
+#mchart .ar{fill:var(--gold);opacity:.15}#mchart .gl{stroke:var(--line);stroke-width:1}
+.badge{display:inline-block;color:#fff;font-weight:700;padding:4px 12px;border-radius:6px;margin-bottom:8px;letter-spacing:.5px}
+</style>
+</head>
+<body>
+<main>
+<h1>Kerala Gold Rate</h1>
+<div class="sub" id="upd">Loading rates…</div>
+<div class="sub" id="latest"></div>
+
+<div class="card">
+<div class="row"><span>22K / gram</span><span id="r22">—</span></div>
+<div class="row big"><span>22K / pavan (8 g)</span><span id="rp">—</span></div>
+</div>
+
+<h2>Purchasing guide</h2>
+<div class="card" id="guide" hidden>
+<div class="lights"><div class="light l-green" id="lg"></div><div class="light l-orange" id="lo"></div><div class="light l-red" id="lr"></div></div>
+<div class="gt" id="gt"></div>
+<div class="gd" id="gd"></div>
+<div class="leg" id="gr"></div>
+<div class="leg"><b>Green</b>: low in recent range, good time to buy. <b>Orange</b>: mid range, buy if you need it, or buy in parts. <b>Red</b>: near the recent high, wait if you can. A simple guide from recent price movement, not financial advice.</div>
+</div>
+
+<h2>Daily comparison</h2>
+<div class="card"><div id="chart"></div>
+<div class="leg">22K price per gram, last 7 days vs today. Dashed line = 7-day average. Bars are scaled to the recent range, not from zero.</div></div>
+
+<h2>Monthly comparison</h2>
+<div class="card"><div id="mchart"></div><div id="mstats" style="margin-top:8px"></div>
+<div class="leg" id="mleg">22K price per gram this month (last announced rate of each day). Dashed line = month average. The axis is scaled to the month's range, not from zero.</div></div>
+
+<h2>Broker-style view</h2>
+<div class="card" id="reco" hidden>
+<span class="badge" id="qt"></span>
+<div class="row"><span>Buy zone</span><span id="qz"></span></div>
+<div class="row"><span>Support (recent low)</span><span id="qs"></span></div>
+<div class="row"><span>Resistance / target (recent high)</span><span id="qr"></span></div>
+<div class="row"><span>vs 7-day average</span><span id="qa"></span></div>
+<div class="row"><span>vs yesterday</span><span id="qy"></span></div>
+<div class="gd" id="qx" style="margin-top:8px;font-weight:600"></div>
+<div class="leg">Rating is rule-based on the last 8 days of 22K prices. It is not a forecast or financial advice, and gold can move either way after you buy.</div>
+</div>
+
+<h2>Jewellery price calculator</h2>
+<label for="w">Weight (grams)</label>
+<input id="w" type="number" inputmode="decimal" step="any">
+<label for="m">Making charge (%)</label>
+<input id="m" type="number" inputmode="decimal" step="any" value="10">
+<button id="calc">Calculate</button>
+<div class="card" id="res" hidden></div>
+</main>
+<script>
+var $=function(i){return document.getElementById(i)};
+var fmt=new Intl.NumberFormat('en-IN',{style:'currency',currency:'INR',maximumFractionDigits:2});
+var MON=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+var rate=0,HIST=[],DAYS=[],MONTH=[],MDAYS=[],TODAYD='',MLABEL='';
+function dlabel(k){var p=k.split('-');return(+p[2])+' '+MON[+p[1]-1]+' '+p[0]}
+function latest(t){if(t.e>0)return['Evening',t.e];if(t.a>0)return['Afternoon',t.a];if(t.m>0)return['Morning',t.m];return null}
+function sgn(n){return(n>=0?'+':'−')+fmt.format(Math.abs(n))}
+
+function load(){
+ fetch('data.json?'+Date.now(),{cache:'no-store'}).then(function(r){if(!r.ok)throw 0;return r.json()})
+ .then(function(d){prep(d);render(d)})
+ .catch(function(){$('upd').innerHTML='<span class="warn">Could not load the rates (data.json). Open this page from its web address, not as a file.</span>'})}
+
+function prep(d){
+ var t=d.today,l=latest(t);rate=l?Number(l[1]):0;TODAYD=t.date;
+ var keys=Object.keys(d.days).sort().filter(function(k){return k<t.date});
+ var h=keys.slice(-7);
+ HIST=h.map(function(k){return Number(d.days[k])});
+ DAYS=h.map(function(k){return String(+k.slice(8))});
+ var mk=keys.filter(function(k){return k.slice(0,7)===t.date.slice(0,7)});
+ MONTH=mk.map(function(k){return Number(d.days[k])});
+ MDAYS=mk.map(function(k){return +k.slice(8)});
+ MLABEL=MON[+t.date.slice(5,7)-1]+' '+t.date.slice(0,4)}
+
+function render(d){
+ var t=d.today,l=latest(t);
+ var up=$('upd'),now=new Date(),iso=now.getFullYear()+'-'+('0'+(now.getMonth()+1)).slice(-2)+'-'+('0'+now.getDate()).slice(-2);
+ up.textContent='Rate for '+dlabel(t.date)+' · updates automatically';
+ if(t.date<iso){var s=document.createElement('span');s.className='warn';s.textContent=' · Today’s rate is not available yet; showing the latest ('+dlabel(t.date)+').';up.appendChild(s)}
+ $('latest').textContent=l?'Using latest: '+l[0]+' rate ('+fmt.format(l[1])+'/g, 22K)':'No rate available';
+ $('r22').textContent=rate>0?fmt.format(rate):'—';
+ $('rp').textContent=rate>0?fmt.format(rate*8):'—';
+ guide();chart();mchart();reco()}
+
+function stats(){var all=HIST.concat([rate]),mn=Math.min.apply(null,all),mx=Math.max.apply(null,all);
+ return{all:all,mn:mn,mx:mx,p:mx>mn?(rate-mn)/(mx-mn):0.5,avg:HIST.reduce(function(a,b){return a+b},0)/HIST.length}}
+function ok(){return rate>0&&HIST.length>=2}
+
+function guide(){var g=$('guide');if(!ok()){g.hidden=true;return}g.hidden=false;
+ var s=stats(),p=s.p,c,t,d;
+ if(p<=0.33){c='g';t='Good time to buy';d='Today’s rate is in the lower part of the recent range.'}
+ else if(p<=0.66){c='o';t='Fair – buy only if needed';d='Today’s rate is in the middle of the recent range. Consider buying in parts.'}
+ else{c='r';t='Expensive – better to wait';d='Today’s rate is near the recent high.'}
+ $('lg').className='light l-green'+(c=='g'?' on':'');$('lo').className='light l-orange'+(c=='o'?' on':'');$('lr').className='light l-red'+(c=='r'?' on':'');
+ $('gt').textContent=t;$('gd').textContent=d;
+ $('gr').textContent='Recent range (22K/g): '+fmt.format(s.mn)+' to '+fmt.format(s.mx)+' · now '+Math.round(p*100)+'% of the way up'}
+
+function chart(){var el=$('chart');if(!ok()){el.innerHTML='';return}
+ var s=stats(),v=s.all,lab=DAYS.concat(['Today']),lo=s.mn-100,hi=s.mx+100,W=360,H=190,L=8,B=24,T=16,bw=(W-2*L)/v.length;
+ var y=function(x){return T+(H-T-B)*(1-(x-lo)/(hi-lo))};
+ var tc=s.p<=0.33?'#2e9e4f':s.p<=0.66?'#f08a1c':'#d63a3a',o='<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Daily 22K gold price comparison">';
+ for(var i=0;i<v.length;i++){var x=L+i*bw+4,yy=y(v[i]),last=i==v.length-1;
+  o+='<rect class="'+(last?'':'bar')+'" x="'+x+'" y="'+yy+'" width="'+(bw-8)+'" height="'+(H-B-yy)+'" rx="3"'+(last?' style="fill:'+tc+'"':'')+'/>';
+  o+='<text x="'+(x+(bw-8)/2)+'" y="'+(yy-3)+'" text-anchor="middle">'+Math.round(v[i]).toLocaleString('en-IN')+'</text>';
+  o+='<text x="'+(x+(bw-8)/2)+'" y="'+(H-9)+'" text-anchor="middle">'+lab[i]+'</text>'}
+ o+='<line x1="'+L+'" x2="'+(W-L)+'" y1="'+y(s.avg)+'" y2="'+y(s.avg)+'" stroke="#888" stroke-dasharray="4 3"/>';
+ el.innerHTML=o+'</svg>'}
+
+function mchart(){var el=$('mchart'),st=$('mstats');
+ if(!(rate>0)||MONTH.length<1){el.innerHTML='<div class="leg">The monthly chart appears once there are at least two days of rates this month.</div>';st.innerHTML='';return}
+ var td=+TODAYD.slice(8),dd=MDAYS.concat([td]),v=MONTH.concat([rate]),n=v.length,mn=Math.min.apply(null,v),mx=Math.max.apply(null,v),sum=0,i,k;
+ for(i=0;i<n;i++)sum+=v[i];
+ var avg=sum/n,W=360,H=210,L=42,R=10,T=20,B=26,lo=mn-150,hi=mx+150,d0=dd[0],span=Math.max(td-d0,1);
+ var x=function(day){return L+(W-L-R)*(day-d0)/span},y=function(q){return T+(H-T-B)*(1-(q-lo)/(hi-lo))};
+ var p=mx>mn?(rate-mn)/(mx-mn):0.5,tc=p<=0.33?'#2e9e4f':p<=0.66?'#f08a1c':'#d63a3a';
+ var o='<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Monthly 22K gold price chart for '+MLABEL+'">';
+ for(k=0;k<4;k++){var t=lo+(hi-lo)*k/3;o+='<line class="gl" x1="'+L+'" x2="'+(W-R)+'" y1="'+y(t)+'" y2="'+y(t)+'"/><text x="'+(L-4)+'" y="'+(y(t)+3)+'" text-anchor="end">'+(Math.round(t/10)*10).toLocaleString('en-IN')+'</text>'}
+ var pts=[];for(i=0;i<n;i++)pts.push(x(dd[i]).toFixed(1)+','+y(v[i]).toFixed(1));
+ o+='<polygon class="ar" points="'+pts.join(' ')+' '+x(td).toFixed(1)+','+(H-B)+' '+x(d0).toFixed(1)+','+(H-B)+'"/>';
+ o+='<polyline class="ln" points="'+pts.join(' ')+'"/>';
+ o+='<line x1="'+L+'" x2="'+(W-R)+'" y1="'+y(avg)+'" y2="'+y(avg)+'" stroke="#888" stroke-dasharray="4 3"/>';
+ var imx=v.indexOf(mx),imn=v.indexOf(mn);
+ var an=function(j){return j>n*0.7?'end':j<n*0.15?'start':'middle'};
+ o+='<circle cx="'+x(dd[imx])+'" cy="'+y(mx)+'" r="3" fill="#d63a3a"/><text x="'+x(dd[imx])+'" y="'+(y(mx)-6)+'" text-anchor="'+an(imx)+'">High '+mx.toLocaleString('en-IN')+'</text>';
+ o+='<circle cx="'+x(dd[imn])+'" cy="'+y(mn)+'" r="3" fill="#2e9e4f"/><text x="'+x(dd[imn])+'" y="'+(y(mn)+14)+'" text-anchor="'+an(imn)+'">Low '+mn.toLocaleString('en-IN')+'</text>';
+ o+='<circle cx="'+x(td)+'" cy="'+y(rate)+'" r="4.5" fill="'+tc+'" stroke="#fff" stroke-width="1"/>';
+ var tk=[1,5,10,15,20,25,30];
+ for(i=0;i<tk.length;i++){if(tk[i]>=d0&&tk[i]<=td-3)o+='<text x="'+x(tk[i])+'" y="'+(H-9)+'" text-anchor="middle">'+tk[i]+' '+MON[+TODAYD.slice(5,7)-1]+'</text>'}
+ o+='<text x="'+x(td)+'" y="'+(H-9)+'" text-anchor="end">Today</text>';
+ el.innerHTML=o+'</svg>';
+ var dn=function(j){return dd[j]==td&&j==n-1?'today':dd[j]+' '+MON[+TODAYD.slice(5,7)-1]};
+ var ch=rate-v[0],cp=ch/v[0]*100;
+ st.innerHTML='<div class="row"><span>Month high</span><span>'+fmt.format(mx)+' ('+dn(imx)+')</span></div>'+
+ '<div class="row"><span>Month low</span><span>'+fmt.format(mn)+' ('+dn(imn)+')</span></div>'+
+ '<div class="row"><span>Month average</span><span>'+fmt.format(avg)+'</span></div>'+
+ '<div class="row tot"><span>Change since '+dd[0]+' '+MON[+TODAYD.slice(5,7)-1]+'</span><span>'+sgn(ch)+' ('+(cp>=0?'+':'−')+Math.abs(cp).toFixed(1)+'%)</span></div>'}
+
+function reco(){var r=$('reco');if(!ok()){r.hidden=true;return}r.hidden=false;
+ var s=stats(),prev=HIST[HIST.length-1],dev=(rate-s.avg)/s.avg*100,p=s.p,rt,cl,act;
+ if(p<=0.2){rt='STRONG BUY';cl='#2e9e4f';act='Action: buy the full planned quantity now.'}
+ else if(p<=0.4){rt='BUY';cl='#2e9e4f';act='Action: buy about 60–70% now and keep the rest for any dip.'}
+ else if(p<=0.6){rt='HOLD / ACCUMULATE';cl='#f08a1c';act='Action: buy only what you need; add small lots on dips toward support.'}
+ else if(p<=0.8){rt='WAIT';cl='#f08a1c';act='Action: delay non-urgent purchases and watch for a pullback toward the average.'}
+ else{rt='AVOID';cl='#d63a3a';act='Action: price is near the recent high; wait for a dip before buying.'}
+ $('qt').textContent=rt;$('qt').style.background=cl;
+ $('qz').textContent=fmt.format(s.mn)+' – '+fmt.format(s.avg)+'/g';
+ $('qs').textContent=fmt.format(s.mn)+'/g';$('qr').textContent=fmt.format(s.mx)+'/g';
+ $('qa').textContent=(dev>=0?'+':'−')+Math.abs(dev).toFixed(1)+'%';
+ $('qy').textContent=sgn(rate-prev)+'/g';$('qx').textContent=act}
+
+$('calc').onclick=function(){
+ if(!(rate>0)){alert('Rate not loaded yet');return}
+ var w=parseFloat($('w').value);if(!(w>0)){alert('Enter the weight');return}
+ var mp=parseFloat($('m').value)||0;
+ var g=rate*w,mk=g*mp/100,gst=(g+mk)*0.03,t=g+mk+gst;
+ var r=$('res');r.hidden=false;
+ r.innerHTML='<div class="row"><span>Gold value (22K)</span><span>'+fmt.format(g)+'</span></div>'+
+ '<div class="row"><span>Making ('+mp+'%)</span><span>'+fmt.format(mk)+'</span></div>'+
+ '<div class="row"><span>GST (3%)</span><span>'+fmt.format(gst)+'</span></div>'+
+ '<div class="row tot"><span>Total</span><span>'+fmt.format(t)+'</span></div>'};
+load();
+</script>
+</body>
+</html>
