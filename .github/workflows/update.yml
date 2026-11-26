@@ -1,0 +1,31 @@
+name: Update gold rate
+
+on:
+  schedule:
+    # 09:35, 11:35, 14:35, 17:35, 20:35 India time
+    - cron: "5 4,6,9,12,15 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: update-gold-rate
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Fetch rate
+        run: python update_rates.py
+      - name: Commit data
+        run: |
+          git config user.name "gold-rate-bot"
+          git config user.email "gold-rate-bot@users.noreply.github.com"
+          git add data.json
+          git diff --staged --quiet || (git commit -m "Update gold rate" && git push)
