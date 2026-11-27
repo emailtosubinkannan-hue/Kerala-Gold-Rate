@@ -26,10 +26,11 @@ button{width:100%;margin-top:10px;padding:12px;font-size:16px;border:0;border-ra
 .lights{display:flex;gap:10px;margin:8px 0}.light{width:26px;height:26px;border-radius:50%;opacity:.2}.light.on{opacity:1;box-shadow:0 0 10px currentColor}
 .l-green{background:#2e9e4f;color:#2e9e4f}.l-orange{background:#f08a1c;color:#f08a1c}.l-red{background:#d63a3a;color:#d63a3a}
 .gt{font-weight:700;font-size:18px}.gd{margin:4px 0}.leg{font-size:13px;color:var(--muted);margin-top:8px}
-#chart svg,#mchart svg{width:100%;height:auto;display:block}
-#chart text,#mchart text{fill:var(--text);font-size:9px}#chart .bar{fill:var(--gold);opacity:.55}
-#mchart .ln{fill:none;stroke:var(--gold);stroke-width:2;stroke-linejoin:round;stroke-linecap:round}
-#mchart .ar{fill:var(--gold);opacity:.15}#mchart .gl{stroke:var(--line);stroke-width:1}
+#chart svg,#mchart svg,#ychart svg{width:100%;height:auto;display:block}
+#chart text,#mchart text,#ychart text{fill:var(--text);font-size:9px}#chart .bar{fill:var(--gold);opacity:.55}
+#mchart .ln,#ychart .ln{fill:none;stroke:var(--gold);stroke-width:2;stroke-linejoin:round;stroke-linecap:round}
+#mchart .ar,#ychart .ar{fill:var(--gold);opacity:.15}#mchart .gl,#ychart .gl{stroke:var(--line);stroke-width:1}
+#ychart .rg{stroke:var(--gold);stroke-width:3;stroke-linecap:round;opacity:.35}
 .badge{display:inline-block;color:#fff;font-weight:700;padding:4px 12px;border-radius:6px;margin-bottom:8px;letter-spacing:.5px}
 </style>
 </head>
@@ -61,6 +62,10 @@ button{width:100%;margin-top:10px;padding:12px;font-size:16px;border:0;border-ra
 <div class="card"><div id="mchart"></div><div id="mstats" style="margin-top:8px"></div>
 <div class="leg" id="mleg">22K price per gram this month (last announced rate of each day). Dashed line = month average. The axis is scaled to the month's range, not from zero.</div></div>
 
+<h2>Yearly comparison</h2>
+<div class="card"><div id="ychart"></div><div id="ystats" style="margin-top:8px"></div>
+<div class="leg">22K price per gram, average of each month over the last 12 months. The thick bar behind each point is that month's low to high; the dashed line is the overall average. The axis is scaled to the range, not from zero. Older months fill in as the daily rates are collected.</div></div>
+
 <h2>Broker-style view</h2>
 <div class="card" id="reco" hidden>
 <span class="badge" id="qt"></span>
@@ -85,7 +90,7 @@ button{width:100%;margin-top:10px;padding:12px;font-size:16px;border:0;border-ra
 var $=function(i){return document.getElementById(i)};
 var fmt=new Intl.NumberFormat('en-IN',{style:'currency',currency:'INR',maximumFractionDigits:2});
 var MON=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-var rate=0,HIST=[],DAYS=[],MONTH=[],MDAYS=[],TODAYD='',MLABEL='';
+var rate=0,HIST=[],DAYS=[],MONTH=[],MDAYS=[],TODAYD='',MLABEL='',YM=[],YALL=[];
 function dlabel(k){var p=k.split('-');return(+p[2])+' '+MON[+p[1]-1]+' '+p[0]}
 function latest(t){if(t.e>0)return['Evening',t.e];if(t.a>0)return['Afternoon',t.a];if(t.m>0)return['Morning',t.m];return null}
 function sgn(n){return(n>=0?'+':'−')+fmt.format(Math.abs(n))}
@@ -104,7 +109,15 @@ function prep(d){
  var mk=keys.filter(function(k){return k.slice(0,7)===t.date.slice(0,7)});
  MONTH=mk.map(function(k){return Number(d.days[k])});
  MDAYS=mk.map(function(k){return +k.slice(8)});
- MLABEL=MON[+t.date.slice(5,7)-1]+' '+t.date.slice(0,4)}
+ MLABEL=MON[+t.date.slice(5,7)-1]+' '+t.date.slice(0,4);
+ /* yearly: every day we have for the last 12 months (including today), grouped by month */
+ var ad={},ak;for(ak in d.days)ad[ak]=Number(d.days[ak]);if(rate>0)ad[t.date]=rate;
+ var cy=+t.date.slice(0,4),cm=+t.date.slice(5,7),sm=cm-11,sy=cy;if(sm<1){sm+=12;sy-=1}
+ var sk=sy+'-'+('0'+sm).slice(-2),ek=t.date.slice(0,7),g={};YALL=[];
+ Object.keys(ad).sort().forEach(function(k){var mk=k.slice(0,7);if(mk<sk||mk>ek||!(ad[k]>0))return;(g[mk]=g[mk]||[]).push(k);YALL.push({k:k,v:ad[k]})});
+ YM=Object.keys(g).sort().map(function(mk){var a=g[mk],s=0,mn=Infinity,mx=-Infinity,i,v;
+  for(i=0;i<a.length;i++){v=ad[a[i]];s+=v;if(v<mn)mn=v;if(v>mx)mx=v}
+  return{mk:mk,avg:s/a.length,mn:mn,mx:mx,n:a.length}})}
 
 function render(d){
  var t=d.today,l=latest(t);
@@ -114,7 +127,7 @@ function render(d){
  $('latest').textContent=l?'Using latest: '+l[0]+' rate ('+fmt.format(l[1])+'/g, 22K)':'No rate available';
  $('r22').textContent=rate>0?fmt.format(rate):'—';
  $('rp').textContent=rate>0?fmt.format(rate*8):'—';
- guide();chart();mchart();reco()}
+ guide();chart();mchart();ychart();reco()}
 
 function stats(){var all=HIST.concat([rate]),mn=Math.min.apply(null,all),mx=Math.max.apply(null,all);
  return{all:all,mn:mn,mx:mx,p:mx>mn?(rate-mn)/(mx-mn):0.5,avg:HIST.reduce(function(a,b){return a+b},0)/HIST.length}}
@@ -168,6 +181,41 @@ function mchart(){var el=$('mchart'),st=$('mstats');
  '<div class="row"><span>Month low</span><span>'+fmt.format(mn)+' ('+dn(imn)+')</span></div>'+
  '<div class="row"><span>Month average</span><span>'+fmt.format(avg)+'</span></div>'+
  '<div class="row tot"><span>Change since '+dd[0]+' '+MON[+TODAYD.slice(5,7)-1]+'</span><span>'+sgn(ch)+' ('+(cp>=0?'+':'−')+Math.abs(cp).toFixed(1)+'%)</span></div>'}
+
+function ychart(){var el=$('ychart'),st=$('ystats'),n=YM.length;
+ if(!(rate>0)||n<1||YALL.length<1){el.innerHTML='';st.innerHTML='';return}
+ var i,sum=0,dmn=YALL[0],dmx=YALL[0];
+ for(i=0;i<YALL.length;i++){sum+=YALL[i].v;if(YALL[i].v<dmn.v)dmn=YALL[i];if(YALL[i].v>dmx.v)dmx=YALL[i]}
+ var avg=sum/YALL.length,mlab=function(m){return MON[+m.slice(5,7)-1]+' '+m.slice(0,4)};
+ if(n<2){el.innerHTML='<div class="leg">The yearly chart appears once rates for at least two months are available. So far: '+mlab(YM[0].mk)+' ('+YM[0].n+' days). It fills in automatically as new months are collected.</div>'}
+ else{
+  var W=360,H=216,L=42,R=14,T=20,B=36,lo=Infinity,hi=-Infinity;
+  for(i=0;i<n;i++){if(YM[i].mn<lo)lo=YM[i].mn;if(YM[i].mx>hi)hi=YM[i].mx}
+  var pad=Math.max((hi-lo)*0.12,100);lo-=pad;hi+=pad;
+  var x=function(j){return L+(W-L-R)*j/(n-1)},y=function(q){return T+(H-T-B)*(1-(q-lo)/(hi-lo))};
+  var cur=YM[n-1],p=hi>lo?(cur.avg-lo)/(hi-lo):0.5,tc=p<=0.33?'#2e9e4f':p<=0.66?'#f08a1c':'#d63a3a';
+  var o='<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Yearly 22K gold price chart, monthly averages">',k;
+  for(k=0;k<4;k++){var tv=lo+(hi-lo)*k/3;o+='<line class="gl" x1="'+L+'" x2="'+(W-R)+'" y1="'+y(tv)+'" y2="'+y(tv)+'"/><text x="'+(L-4)+'" y="'+(y(tv)+3)+'" text-anchor="end">'+(Math.round(tv/10)*10).toLocaleString('en-IN')+'</text>'}
+  var pts=[];for(i=0;i<n;i++)pts.push(x(i).toFixed(1)+','+y(YM[i].avg).toFixed(1));
+  o+='<polygon class="ar" points="'+pts.join(' ')+' '+x(n-1).toFixed(1)+','+(H-B)+' '+x(0).toFixed(1)+','+(H-B)+'"/>';
+  for(i=0;i<n;i++)o+='<line class="rg" x1="'+x(i).toFixed(1)+'" x2="'+x(i).toFixed(1)+'" y1="'+y(YM[i].mx).toFixed(1)+'" y2="'+y(YM[i].mn).toFixed(1)+'"/>';
+  o+='<polyline class="ln" points="'+pts.join(' ')+'"/>';
+  o+='<line x1="'+L+'" x2="'+(W-R)+'" y1="'+y(avg)+'" y2="'+y(avg)+'" stroke="#888" stroke-dasharray="4 3"/>';
+  var ia=function(j){return j==0?'start':j==n-1?'end':'middle'},ib=function(j){return j==0&&n>1?'start':j==n-1?'end':'middle'},imx=0,imn=0;
+  for(i=0;i<n;i++){if(YM[i].avg>YM[imx].avg)imx=i;if(YM[i].avg<YM[imn].avg)imn=i}
+  for(i=0;i<n;i++)o+='<circle cx="'+x(i).toFixed(1)+'" cy="'+y(YM[i].avg).toFixed(1)+'" r="'+(i==n-1?4.5:2.5)+'" fill="'+(i==n-1?tc:'var(--gold)')+'"/>';
+  o+='<text x="'+x(imx)+'" y="'+(y(YM[imx].mx)-6)+'" text-anchor="'+ia(imx)+'">High '+Math.round(YM[imx].avg).toLocaleString('en-IN')+'</text>';
+  if(imn!=imx)o+='<text x="'+x(imn)+'" y="'+(y(YM[imn].mn)+14)+'" text-anchor="'+ia(imn)+'">Low '+Math.round(YM[imn].avg).toLocaleString('en-IN')+'</text>';
+  var hasJan=false;for(i=0;i<n;i++)if(YM[i].mk.slice(5,7)=='01')hasJan=true;
+  for(i=0;i<n;i++){var m=+YM[i].mk.slice(5,7),xs=x(i).toFixed(1),an=i==0?'middle':i==n-1?'middle':'middle';
+   o+='<text x="'+xs+'" y="'+(H-20)+'" text-anchor="'+an+'">'+MON[m-1]+'</text>';
+   if(m==1||(i==0&&!hasJan))o+='<text x="'+xs+'" y="'+(H-8)+'" text-anchor="'+an+'" style="fill:var(--muted)">'+YM[i].mk.slice(0,4)+'</text>'}
+  el.innerHTML=o+'</svg>'}
+ var ch=rate-YM[0].avg,cp=ch/YM[0].avg*100;
+ st.innerHTML='<div class="row"><span>Highest day</span><span>'+fmt.format(dmx.v)+' ('+dlabel(dmx.k)+')</span></div>'+
+ '<div class="row"><span>Lowest day</span><span>'+fmt.format(dmn.v)+' ('+dlabel(dmn.k)+')</span></div>'+
+ '<div class="row"><span>Average ('+YALL.length+' days)</span><span>'+fmt.format(avg)+'</span></div>'+
+ '<div class="row tot"><span>Today vs '+mlab(YM[0].mk)+' average</span><span>'+sgn(ch)+' ('+(cp>=0?'+':'−')+Math.abs(cp).toFixed(1)+'%)</span></div>'}
 
 function reco(){var r=$('reco');if(!ok()){r.hidden=true;return}r.hidden=false;
  var s=stats(),prev=HIST[HIST.length-1],dev=(rate-s.avg)/s.avg*100,p=s.p,rt,cl,act;
