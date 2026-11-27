@@ -131,6 +131,56 @@ input:focus-visible,button:focus-visible,.tabs a:focus-visible{outline:2px solid
 .ct.h{color:var(--muted);font-size:11.5px;font-weight:600;margin-top:10px}.ct span:nth-child(n+2){text-align:right}
 details{margin-top:14px;border-top:1px solid var(--line);padding-top:6px}summary{cursor:pointer;font-weight:600;padding:8px 0}
 .foot{margin-top:38px;padding-top:16px;border-top:1px solid var(--line);font-size:12.5px;color:var(--muted)}
+
+/* ===== layouts: phone (default above) / tablet / desktop ===== */
+.brand,.d-only{display:none}
+.blk{min-width:0}
+.cols{display:block}
+.calc-in{display:block}
+@media (min-width:640px){
+ main,.hero-in,.tabs-in{max-width:720px}
+ #chart,#mchart,#ychart,#achart{max-width:600px;margin-left:auto;margin-right:auto}
+}
+@media (min-width:1000px){
+ body{font-size:17px}
+ .m-only{display:none!important}.d-only{display:inline}
+ /* hero: title left, price right */
+ .hero{padding-top:46px}
+ .hero-in{max-width:1180px;padding:0 32px 48px;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:40px;align-items:end}
+ .hero h1{font-size:44px;margin:6px 0 8px}.ml{font-size:19px}.hero .sub{font-size:15px}
+ .h-price{text-align:right}
+ .pv-l{margin-top:0;font-size:16px}.pv{font-size:92px}.gm{font-size:18px}.gm b{font-size:28px}
+ .chg{font-size:15px;margin:14px 0 8px}
+ .coin{top:auto;right:auto;bottom:56px;left:max(32px,calc(50% - 558px));width:84px;height:84px}
+ .coin i{font-size:22px}.coin .cb{font-size:30px}
+ .h-title{align-self:start;padding-bottom:110px}
+ /* top bar */
+ .tabs{overflow:visible}
+ .tabs-in{max-width:1180px;padding:0 32px;align-items:center}
+ .brand{display:flex;align-items:baseline;gap:12px;margin-right:auto;font:600 17px var(--serif);color:var(--text)}
+ .brand span{font:600 14px system-ui,sans-serif;color:var(--gold)}
+ .tabs a{padding:16px 16px 13px;font-size:15px}
+ /* content grid: three charts across, wide analysis/strategy */
+ main{max-width:1180px;padding:6px 32px 72px;display:grid;grid-template-columns:repeat(6,minmax(0,1fr));column-gap:28px;align-items:stretch}
+ .blk{grid-column:span 6;display:flex;flex-direction:column}
+ .blk>.card,.blk>.calc-in{flex:1}
+ .b-daily,.b-monthly,.b-yearly{grid-column:span 2}
+ h2{font-size:26px;margin-top:44px}
+ .foot{grid-column:1/-1;text-align:center}
+ .cols{display:grid;grid-template-columns:1fr 1fr;gap:0 36px;align-items:start}
+ .cols>.col>.sec:first-child{margin-top:0;padding-top:0;border-top:0}
+ .calc-in{display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:start}
+ .calc-in>.card{margin-top:0}
+ /* guide as a wide banner: traffic light on the left */
+ #guide{display:grid;grid-template-columns:auto 1fr;gap:2px 28px;align-items:center}
+ #guide .lights{grid-row:1/4;flex-direction:column;margin:0}
+ #guide .leg:last-child{grid-column:1/-1}
+ .tip{font-size:13px}
+}
+@media (min-width:1000px) and (max-width:1180px){.pv{font-size:76px}}
+@media (min-width:1000px){.b-daily .row,.b-monthly .row,.b-yearly .row{flex-wrap:wrap;column-gap:10px;row-gap:0;font-size:15px}
+.b-daily .row>span:first-child,.b-monthly .row>span:first-child,.b-yearly .row>span:first-child{white-space:nowrap}
+.b-daily .row>span:last-child,.b-monthly .row>span:last-child,.b-yearly .row>span:last-child{margin-left:auto}}
 </style>
 </head>
 <body>
@@ -139,22 +189,28 @@ details{margin-top:14px;border-top:1px solid var(--line);padding-top:6px}summary
 <canvas id="dust" aria-hidden="true"></canvas>
 <div class="coin" aria-hidden="true"><div class="cw"><i class="cf">22K</i><i class="cb">₹</i></div></div>
 <div class="hero-in">
+<div class="h-title">
 <div class="ml" lang="ml">ഇന്നത്തെ സ്വർണവില</div>
 <h1>Kerala Gold Rate</h1>
 <div class="sub" id="upd">Loading rates…</div>
+</div>
+<div class="h-price">
 <div class="pv-l">22K gold, 1 pavan (8 g)</div>
 <div class="pv" id="rp">—</div>
 <div class="gm"><b id="r22">—</b> per gram</div>
 <div class="chg" id="hchg"></div>
 <div class="sub" id="latest"></div>
 </div>
+</div>
 <div class="zari" aria-hidden="true"></div>
 </header>
 <nav class="tabs" id="tabs" aria-label="Sections"><div class="tabs-in">
-<a href="#today">Today</a><a href="#s-guide">Guide</a><a href="#s-daily">Daily</a><a href="#s-monthly">Monthly</a><a href="#s-yearly">Yearly</a><a href="#s-analysis">Analysis</a><a href="#s-strategy">Strategy</a><a href="#s-calc">Calculator</a>
+<span class="brand"><b>Kerala Gold Rate</b><span id="nbp"></span></span>
+<a href="#today">Today</a><a href="#s-guide">Guide</a><a href="#s-daily"><span class="m-only">Daily</span><span class="d-only">Charts</span></a><a class="m-only" href="#s-monthly">Monthly</a><a class="m-only" href="#s-yearly">Yearly</a><a href="#s-analysis">Analysis</a><a href="#s-strategy">Strategy</a><a href="#s-calc">Calculator</a>
 </div></nav>
 <main>
 
+<section class="blk b-guide">
 <h2 id="s-guide">Purchasing guide</h2>
 <div class="card" id="guide" hidden>
 <div class="lights"><div class="light l-green" id="lg"></div><div class="light l-orange" id="lo"></div><div class="light l-red" id="lr"></div></div>
@@ -163,39 +219,53 @@ details{margin-top:14px;border-top:1px solid var(--line);padding-top:6px}summary
 <div class="leg" id="gr"></div>
 <div class="leg"><b>Green</b>: favourable to buy now. <b>Orange</b>: buy in parts. <b>Red</b>: better to wait. A rule-based guide from the price history on this page, not financial advice.</div>
 </div>
+</section>
 
+<section class="blk b-daily">
 <h2 id="s-daily">Daily comparison</h2>
 <div class="card"><div id="chart"></div>
 <div class="leg">22K price per gram, last 7 days vs today. Dashed line = 7-day average. Bars are scaled to the recent range, not from zero. Hover or tap a bar to see its amount.</div></div>
+</section>
 
+<section class="blk b-monthly">
 <h2 id="s-monthly">Monthly comparison</h2>
 <div class="card"><div id="mchart"></div><div id="mstats" style="margin-top:8px"></div>
 <div class="leg" id="mleg">22K price per gram this month (last announced rate of each day). Dashed line = month average. The axis is scaled to the month's range, not from zero. Hover or tap the chart to see each day's amount.</div></div>
+</section>
 
+<section class="blk b-yearly">
 <h2 id="s-yearly">Yearly comparison</h2>
 <div class="card"><div id="ychart"></div><div id="ystats" style="margin-top:8px"></div>
 <div class="leg">22K price per gram, average of each month over the last 12 months. The thick bar behind each point is that month's low to high; the dashed line is the overall average. The axis is scaled to the range, not from zero. Each month uses every daily rate we have for it. Months with no data stay empty. Hover or tap a month to see its amount.</div></div>
+</section>
 
+<section class="blk b-analysis">
 <h2 id="s-analysis">Market analysis</h2>
 <div class="card" id="ma" hidden>
+<div class="cols"><div class="col">
 <span class="badge" id="mv"></span>
 <div class="gd" id="msum" style="margin-top:4px"></div>
 <div class="sec">Short term vs long term</div>
 <div class="hz" id="mhz"></div>
 <div id="achart"></div>
 <div class="leg"><span style="color:var(--gold)">●</span> daily 22K price/gram &nbsp;<span style="color:#4f8ef7">●</span> 30-day average &nbsp;<span style="color:#a259d9">●</span> 90-day average. Dashed lines are the nearest support (green) and resistance (red). Hover or tap the chart to see a day.</div>
+</div><div class="col">
 <div class="sec">Moving averages</div><div id="mavg"></div>
 <div class="sec">RSI: are prices stretched?</div><div id="mrsi"></div>
 <div class="sec">MACD: is momentum turning?</div><div id="mmacd"></div>
 <div class="sec">Support and resistance</div><div id="mlad"></div>
 <div class="gd" id="mwatch" style="margin-top:8px;font-weight:600"></div>
 <div class="leg"><b>Support</b> is a price where falls have stopped before. <b>Resistance</b> is a price where rises have stopped before. Levels come from past turning points in the 22K history on this page and can fail.</div>
+</div></div>
 <details><summary>All indicators</summary><div id="mtbl"></div></details>
 <div class="leg"><b>Bullish</b> = prices trending up. <b>Bearish</b> = prices trending down. This is rule-based analysis of the 22K price history on this page (moving averages, momentum, RSI, MACD). It does not include global gold prices, the dollar/rupee rate, interest rates or news, which also move gold. Not financial advice, and gold can move either way after you buy.</div>
 </div>
+</section>
 
+<section class="blk b-strategy">
 <h2 id="s-strategy">Buying strategy</h2>
 <div class="card" id="st" hidden>
+<div class="cols"><div class="col">
 <div id="sdec"></div>
 <div class="sec">Your purchase plan</div>
 <div class="two">
@@ -205,12 +275,17 @@ details{margin-top:14px;border-top:1px solid var(--line);padding-top:6px}summary
 <div class="gd" id="srem" style="margin-top:10px"></div>
 <div id="splan"></div>
 <div class="leg">Grams are for gold only, at the price shown for each part. Making charges and 3% GST are extra, so use the calculator below for the final bill. Your numbers stay on this device only.</div>
+</div><div class="col">
 <div class="sec">How far below recent highs</div><div id="smet"></div>
 <div class="sec">What past falls tell us</div><div id="scor"></div>
+</div></div>
 <div class="leg">A fall means price dropped 5% or more from a peak. The history here is one year of daily rates, which is a small sample. Past falls do not predict the next one.</div>
 </div>
+</section>
 
+<section class="blk b-calc">
 <h2 id="s-calc">Jewellery price calculator</h2>
+<div class="calc-in">
 <div class="card">
 <label for="w">Weight (grams)</label>
 <input id="w" type="number" inputmode="decimal" step="any">
@@ -219,6 +294,9 @@ details{margin-top:14px;border-top:1px solid var(--line);padding-top:6px}summary
 <button id="calc">Calculate price</button>
 </div>
 <div class="card" id="res" hidden></div>
+</div>
+</section>
+
 <div class="foot">Rates are collected from public Kerala gold-rate sites several times a day. Your jeweller’s final price can differ, and making charges, GST and hallmarking are extra.</div>
 </main>
 <script>
@@ -278,6 +356,7 @@ function render(d){
  if(t.date<iso){var s=document.createElement('span');s.className='warn';s.textContent=' Today’s rate is not available yet, so this is the latest ('+dlabel(t.date)+').';up.appendChild(s)}
  $('latest').textContent=l?'Based on the '+l[0].toLowerCase()+' rate.':'No rate available';
  $('r22').textContent=rate>0?f0.format(rate):'—';
+ $('nbp').textContent=rate>0?f0.format(rate)+' /g · 22K':'';
  $('rp').textContent=rate>0?f0.format(rate*8):'—';
  var hc=$('hchg');
  if(rate>0&&HIST.length){var dv=rate-HIST[HIST.length-1],pp=dv/HIST[HIST.length-1]*100;
@@ -643,7 +722,7 @@ $('calc').onclick=function(){
  '<div class="row tot"><span>Total</span><span>'+fmt.format(t)+'</span></div>'};
 (function(){var tabs=document.querySelectorAll('#tabs a'),bar=$('tabs'),hs=[];
  tabs.forEach(function(a){hs.push(document.querySelector(a.getAttribute('href')))});
- var cur=-1;function on(){var y=window.scrollY+90,c=0,i;for(i=0;i<hs.length;i++){if(hs[i]&&hs[i].getBoundingClientRect().top+window.scrollY<=y)c=i}
+ var cur=-1;function on(){var y=window.scrollY+90,c=0,i;var bt=-1e9;for(i=0;i<hs.length;i++){if(!hs[i])continue;var tp=hs[i].getBoundingClientRect().top+window.scrollY;if(tp<=y&&tp>bt){bt=tp;c=i}}
   if(c===cur)return;cur=c;tabs.forEach(function(a,j){a.classList.toggle('on',j==c)});
   var a=tabs[c];bar.scrollLeft=a.offsetLeft-bar.clientWidth/2+a.clientWidth/2}
  window.addEventListener('scroll',on,{passive:true});window.addEventListener('load',on);on()})();
