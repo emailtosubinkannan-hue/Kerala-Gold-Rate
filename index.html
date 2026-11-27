@@ -6,16 +6,23 @@
 <meta name="theme-color" content="#0E3B2E">
 <title>Kerala Gold Rate</title>
 <style>
-:root{--bg:#F0F3EA;--card:#FBFCF8;--text:#18261F;--muted:#5B695F;--gold:#8F6608;--line:#D9DFD0;--inp:#fff;
+:root{--bg:#F0F3EA;--card:#FBFCF8;--glass:rgba(251,252,248,.90);--glow1:rgba(200,150,46,.16);--glow2:rgba(30,120,90,.12);--text:#18261F;--muted:#5B695F;--gold:#8F6608;--line:#D9DFD0;--inp:#fff;
 --hero:#0E3B2E;--hero-ink:#F6EBCB;--hero-mute:#A9C4B5;--zari:#C8962E;--zari2:#EBCB78;
 --serif:"Iowan Old Style","Palatino Linotype",Palatino,"Book Antiqua",Georgia,serif;color-scheme:light}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0A1612;--card:#11231C;--text:#E8EFE6;--muted:#9BAEA2;--gold:#E2BC55;--line:#233A2F;--inp:#0D1D17;--hero:#0F3A2C;color-scheme:dark}}
-:root[data-theme="dark"]{--bg:#0A1612;--card:#11231C;--text:#E8EFE6;--muted:#9BAEA2;--gold:#E2BC55;--line:#233A2F;--inp:#0D1D17;--hero:#0F3A2C;color-scheme:dark}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0A1612;--card:#11231C;--glass:rgba(17,35,28,.88);--glow1:rgba(226,188,85,.09);--glow2:rgba(60,170,125,.13);--text:#E8EFE6;--muted:#9BAEA2;--gold:#E2BC55;--line:#233A2F;--inp:#0D1D17;--hero:#0F3A2C;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0A1612;--card:#11231C;--glass:rgba(17,35,28,.88);--glow1:rgba(226,188,85,.09);--glow2:rgba(60,170,125,.13);--text:#E8EFE6;--muted:#9BAEA2;--gold:#E2BC55;--line:#233A2F;--inp:#0D1D17;--hero:#0F3A2C;color-scheme:dark}
 *{box-sizing:border-box}
 html{scroll-padding-top:56px}
 @media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
 body{margin:0;background:var(--bg);color:var(--text);font:16px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;-webkit-text-size-adjust:100%}
 main{max-width:560px;margin:0 auto;padding:4px 16px 40px}
+
+/* page-wide background: drifting glow + gold dust, fixed behind the cards */
+body::before{content:"";position:fixed;inset:-30%;z-index:0;pointer-events:none;
+ background:radial-gradient(36% 30% at 15% 20%,var(--glow1),transparent 70%),radial-gradient(34% 30% at 85% 80%,var(--glow2),transparent 70%);
+ animation:drift 26s ease-in-out infinite alternate}
+#bgdust{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
+main{position:relative;z-index:1}
 
 /* hero: the one bold element */
 .hero{position:relative;overflow:hidden;isolation:isolate;background:var(--hero);color:var(--hero-ink);padding:calc(26px + env(safe-area-inset-top,0px)) 0 0}
@@ -45,7 +52,7 @@ main{max-width:560px;margin:0 auto;padding:4px 16px 40px}
 .gm{font-size:16px;margin-top:2px}.gm b{font:600 22px var(--serif);color:var(--zari2);font-variant-numeric:lining-nums tabular-nums}
 .zari::after{content:"";position:absolute;inset:0;background:linear-gradient(100deg,transparent 38%,rgba(255,255,255,.65) 50%,transparent 62%);transform:translateX(-110%);animation:sheen 6s ease-in-out infinite}
 @keyframes sheen{0%,55%{transform:translateX(-110%)}100%{transform:translateX(110%)}}
-@media (prefers-reduced-motion:reduce){.hero::before,.cw,.zari::after{animation:none}}
+@media (prefers-reduced-motion:reduce){.hero::before,.cw,.zari::after,body::before{animation:none}}
 .chg{display:inline-block;margin:12px 0 8px;font-size:14px;font-weight:600;padding:5px 12px;border-radius:999px;background:rgba(255,255,255,.09);color:var(--hero-ink)}
 .chg:empty{display:none}.chg.up{color:#FFB9AE}.chg.dn{color:#9FE3B6}
 .zari{position:relative;overflow:hidden;height:12px;background:repeating-linear-gradient(90deg,rgba(14,59,46,.38) 0 2px,transparent 2px 9px),linear-gradient(180deg,var(--zari2),var(--zari) 60%,#A9781B)}
@@ -62,7 +69,7 @@ h2{font:600 22px/1.2 var(--serif);letter-spacing:-.01em;margin:38px 0 12px}
 h2::after{content:"";display:block;width:44px;height:5px;margin-top:9px;border-top:1px solid var(--gold);border-bottom:1px solid var(--gold)}
 .sub{color:var(--muted);font-size:13px;margin-bottom:12px}
 .warn{color:#d63a3a;font-weight:600}
-.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px;margin-top:12px}
+.card{background:var(--glass,var(--card));border:1px solid var(--line);border-radius:12px;padding:14px;margin-top:12px}
 h2+.card{margin-top:0}
 .row{display:flex;justify-content:space-between;gap:12px;padding:7px 0;border-bottom:1px solid var(--line)}
 .row:last-child{border-bottom:0}
@@ -127,6 +134,7 @@ details{margin-top:14px;border-top:1px solid var(--line);padding-top:6px}summary
 </style>
 </head>
 <body>
+<canvas id="bgdust" aria-hidden="true"></canvas>
 <header class="hero" id="today">
 <canvas id="dust" aria-hidden="true"></canvas>
 <div class="coin" aria-hidden="true"><div class="cw"><i class="cf">22K</i><i class="cb">₹</i></div></div>
@@ -639,6 +647,26 @@ $('calc').onclick=function(){
   if(c===cur)return;cur=c;tabs.forEach(function(a,j){a.classList.toggle('on',j==c)});
   var a=tabs[c];bar.scrollLeft=a.offsetLeft-bar.clientWidth/2+a.clientWidth/2}
  window.addEventListener('scroll',on,{passive:true});window.addEventListener('load',on);on()})();
+(function(){
+ var cv=$('bgdust'),cx=cv.getContext&&cv.getContext('2d');if(!cx)return;
+ var mq=window.matchMedia?window.matchMedia('(prefers-reduced-motion: reduce)'):{matches:false},md=window.matchMedia?window.matchMedia('(prefers-color-scheme: dark)'):{matches:false},
+  dpr=Math.min(2,window.devicePixelRatio||1),W=0,H=0,ps=[],run=false,raf=0;
+ function dark(){var t=document.documentElement.getAttribute('data-theme');return t?t==='dark':md.matches}
+ function mk(init){return{x:Math.random()*W,y:init?Math.random()*H:H+10,r:.8+Math.random()*2,v:.12+Math.random()*.28,a:.35+Math.random()*.5,ph:Math.random()*6.28,s:.5+Math.random()}}
+ function size(){var w=window.innerWidth,h=window.innerHeight;if(!w||!h)return;
+  var wide=Math.abs(w-W)>20||!ps.length;W=w;H=h;cv.width=w*dpr;cv.height=h*dpr;cx.setTransform(dpr,0,0,dpr,0,0);
+  if(wide){var n=Math.max(18,Math.min(48,Math.round(w*h/14000)));ps=[];for(var i=0;i<n;i++)ps.push(mk(true))}}
+ function frame(t){cx.clearRect(0,0,W,H);var dk=dark(),k=dk?1:.8;cx.fillStyle=dk?'#F3D98B':'#B07F12';
+  for(var i=0;i<ps.length;i++){var p=ps[i];p.y-=p.v;p.x+=Math.sin(t/2000*p.s+p.ph)*.16;
+   if(p.y<-10){ps[i]=mk(false);continue}
+   var tw=.5+.5*Math.sin(t/600*p.s+p.ph);cx.globalAlpha=p.a*tw*k;
+   cx.beginPath();cx.arc(p.x,p.y,p.r,0,6.283);cx.fill();
+   if(p.r>2.0){cx.globalAlpha=p.a*tw*k*.7;cx.fillRect(p.x-p.r*2.3,p.y-.4,p.r*4.6,.8);cx.fillRect(p.x-.4,p.y-p.r*2.3,.8,p.r*4.6)}}
+  cx.globalAlpha=1;if(run)raf=requestAnimationFrame(frame)}
+ size();
+ if(mq.matches)frame(0);else{run=true;raf=requestAnimationFrame(frame)}
+ window.addEventListener('resize',function(){size();if(mq.matches)frame(0)});
+})();
 (function(){
  var cv=$('dust'),hero=cv.parentNode,cx=cv.getContext&&cv.getContext('2d');if(!cx)return;
  var mq=window.matchMedia?window.matchMedia('(prefers-reduced-motion: reduce)'):{matches:false},dpr=Math.min(2,window.devicePixelRatio||1),W=0,H=0,ps=[],run=false,raf=0;
