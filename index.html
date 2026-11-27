@@ -31,6 +31,13 @@ button{width:100%;margin-top:10px;padding:12px;font-size:16px;border:0;border-ra
 #mchart .ln,#ychart .ln{fill:none;stroke:var(--gold);stroke-width:2;stroke-linejoin:round;stroke-linecap:round}
 #mchart .ar,#ychart .ar{fill:var(--gold);opacity:.15}#mchart .gl,#ychart .gl{stroke:var(--line);stroke-width:1}
 #ychart .rg{stroke:var(--gold);stroke-width:3;stroke-linecap:round;opacity:.35}
+#mchart,#ychart{position:relative}
+#mchart svg,#ychart svg{touch-action:pan-y;cursor:crosshair;-webkit-tap-highlight-color:transparent}
+#mchart .cur,#ychart .cur{stroke:var(--gold);stroke-width:1;stroke-dasharray:2 2}
+#mchart .curd,#ychart .curd{fill:var(--bg);stroke:var(--gold);stroke-width:2}
+.tip{position:absolute;z-index:2;pointer-events:none;white-space:nowrap;background:var(--bg);color:var(--text);border:1px solid var(--line);border-radius:8px;padding:6px 10px;font-size:12px;line-height:1.4;box-shadow:0 4px 14px rgba(0,0,0,.22)}
+.tip[hidden]{display:none}.tip b{color:var(--gold);font-size:13px}.tip small{color:var(--muted);font-size:11px}
+.tip .up{color:#d63a3a}.tip .dn{color:#2e9e4f}
 .badge{display:inline-block;color:#fff;font-weight:700;padding:4px 12px;border-radius:6px;margin-bottom:8px;letter-spacing:.5px}
 </style>
 </head>
@@ -60,11 +67,11 @@ button{width:100%;margin-top:10px;padding:12px;font-size:16px;border:0;border-ra
 
 <h2>Monthly comparison</h2>
 <div class="card"><div id="mchart"></div><div id="mstats" style="margin-top:8px"></div>
-<div class="leg" id="mleg">22K price per gram this month (last announced rate of each day). Dashed line = month average. The axis is scaled to the month's range, not from zero.</div></div>
+<div class="leg" id="mleg">22K price per gram this month (last announced rate of each day). Dashed line = month average. The axis is scaled to the month's range, not from zero. Hover or tap the chart to see each day's amount.</div></div>
 
 <h2>Yearly comparison</h2>
 <div class="card"><div id="ychart"></div><div id="ystats" style="margin-top:8px"></div>
-<div class="leg">22K price per gram, average of each month over the last 12 months. The thick bar behind each point is that month's low to high; the dashed line is the overall average. The axis is scaled to the range, not from zero. Each month uses every daily rate we have for it. Months with no data stay empty.</div></div>
+<div class="leg">22K price per gram, average of each month over the last 12 months. The thick bar behind each point is that month's low to high; the dashed line is the overall average. The axis is scaled to the range, not from zero. Each month uses every daily rate we have for it. Months with no data stay empty. Hover or tap a month to see its amount.</div></div>
 
 <h2>Broker-style view</h2>
 <div class="card" id="reco" hidden>
@@ -89,11 +96,28 @@ button{width:100%;margin-top:10px;padding:12px;font-size:16px;border:0;border-ra
 <script>
 var $=function(i){return document.getElementById(i)};
 var fmt=new Intl.NumberFormat('en-IN',{style:'currency',currency:'INR',maximumFractionDigits:2});
+var f0=new Intl.NumberFormat('en-IN',{style:'currency',currency:'INR',maximumFractionDigits:0});
 var MON=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 var rate=0,HIST=[],DAYS=[],MONTH=[],MDAYS=[],TODAYD='',MLABEL='',YM=[],YALL=[];
 function dlabel(k){var p=k.split('-');return(+p[2])+' '+MON[+p[1]-1]+' '+p[0]}
 function latest(t){if(t.e>0)return['Evening',t.e];if(t.a>0)return['Afternoon',t.a];if(t.m>0)return['Morning',t.m];return null}
 function sgn(n){return(n>=0?'+':'−')+fmt.format(Math.abs(n))}
+
+function attach(el,W,H,pts){
+ var svg=el.querySelector('svg'),tip=el.querySelector('.tip'),ln=svg&&svg.querySelector('.cur'),dt=svg&&svg.querySelector('.curd');
+ if(!svg||!tip||!ln||!dt||!pts.length)return;
+ var hide=function(){tip.hidden=true;ln.style.display='none';dt.style.display='none'};
+ var show=function(i){var p=pts[i],lp=p.x/W*100,tp=p.y/H*100;
+  ln.setAttribute('x1',p.x);ln.setAttribute('x2',p.x);ln.style.display='';
+  dt.setAttribute('cx',p.x);dt.setAttribute('cy',p.y);dt.style.display='';
+  tip.innerHTML=p.t;tip.hidden=false;
+  tip.style.left=lp+'%';tip.style.top=tp+'%';
+  tip.style.transform='translate('+(lp<22?'-12%':lp>78?'-88%':'-50%')+','+(tp<38?'18px':'calc(-100% - 14px)')+')'};
+ var move=function(e){var r=svg.getBoundingClientRect(),vx=(e.clientX-r.left)/r.width*W,b=0,bd=1e9,i,d;
+  for(i=0;i<pts.length;i++){d=Math.abs(pts[i].x-vx);if(d<bd){bd=d;b=i}}show(b)};
+ svg.addEventListener('pointermove',move);svg.addEventListener('pointerdown',move);
+ svg.addEventListener('pointerleave',function(e){if(e.pointerType==='mouse')hide()});
+ document.addEventListener('pointerdown',function(e){if(!el.contains(e.target))hide()})}
 
 function load(){
  fetch('data.json?'+Date.now(),{cache:'no-store'}).then(function(r){if(!r.ok)throw 0;return r.json()})
@@ -174,7 +198,11 @@ function mchart(){var el=$('mchart'),st=$('mstats');
  var tk=[1,5,10,15,20,25,30];
  for(i=0;i<tk.length;i++){if(tk[i]>=d0&&tk[i]<=td-3)o+='<text x="'+x(tk[i])+'" y="'+(H-9)+'" text-anchor="middle">'+tk[i]+' '+MON[+TODAYD.slice(5,7)-1]+'</text>'}
  o+='<text x="'+x(td)+'" y="'+(H-9)+'" text-anchor="end">Today</text>';
- el.innerHTML=o+'</svg>';
+ o+='<line class="cur" y1="'+T+'" y2="'+(H-B)+'" style="display:none"/><circle class="curd" r="5" style="display:none"/>';
+ el.innerHTML=o+'</svg><div class="tip" hidden></div>';
+ var hp=[];for(i=0;i<n;i++){var isT=(i==n-1),pv=i>0?v[i]-v[i-1]:null;
+  hp.push({x:x(dd[i]),y:y(v[i]),t:'<b>'+(isT?'Today · ':'')+dd[i]+' '+MON[+TODAYD.slice(5,7)-1]+' '+TODAYD.slice(0,4)+'</b><br>'+f0.format(v[i])+' /g<br>'+f0.format(v[i]*8)+' /pavan'+(pv===null?'':'<br><small class="'+(pv>0?'up':pv<0?'dn':'')+'">'+(pv>0?'▲ ':pv<0?'▼ ':'')+f0.format(Math.abs(pv))+' vs previous day</small>')})}
+ attach(el,W,H,hp);
  var dn=function(j){return dd[j]==td&&j==n-1?'today':dd[j]+' '+MON[+TODAYD.slice(5,7)-1]};
  var ch=rate-v[0],cp=ch/v[0]*100;
  st.innerHTML='<div class="row"><span>Month high</span><span>'+fmt.format(mx)+' ('+dn(imx)+')</span></div>'+
@@ -212,7 +240,11 @@ function ychart(){var el=$('ychart'),st=$('ystats'),n=YM.length;
  for(i=0;i<N;i++){var mi=sm-1+i,m=(mi%12)+1,yr=sy+Math.floor(mi/12),xs=x(i).toFixed(1);
   o+='<text x="'+xs+'" y="'+(H-20)+'" text-anchor="middle">'+MON[m-1]+'</text>';
   if(m==1)o+='<text x="'+xs+'" y="'+(H-8)+'" text-anchor="middle" style="fill:var(--muted)">'+yr+'</text>'}
- el.innerHTML=o+'</svg>';
+ o+='<line class="cur" y1="'+T+'" y2="'+(H-B)+'" style="display:none"/><circle class="curd" r="5" style="display:none"/>';
+ el.innerHTML=o+'</svg><div class="tip" hidden></div>';
+ var hp=[];for(i=0;i<n;i++){var mi2=+YM[i].mk.slice(5,7),pa=i>0?YM[i].avg-YM[i-1].avg:null;
+  hp.push({x:x(sl[i]),y:y(YM[i].avg),t:'<b>'+MON[mi2-1]+' '+YM[i].mk.slice(0,4)+'</b><br>Avg '+f0.format(YM[i].avg)+' /g<br><small>Low '+f0.format(YM[i].mn)+' · High '+f0.format(YM[i].mx)+'<br>'+YM[i].n+(YM[i].n==1?' reading':' days')+'</small>'+(pa===null?'':'<br><small class="'+(pa>0?'up':pa<0?'dn':'')+'">'+(pa>0?'▲ ':pa<0?'▼ ':'')+f0.format(Math.abs(pa))+' vs previous month</small>')})}
+ attach(el,W,H,hp);
  var ch=rate-YM[0].avg,cp=ch/YM[0].avg*100;
  st.innerHTML='<div class="row"><span>Highest day</span><span>'+fmt.format(dmx.v)+' ('+dlabel(dmx.k)+')</span></div>'+
  '<div class="row"><span>Lowest day</span><span>'+fmt.format(dmn.v)+' ('+dlabel(dmn.k)+')</span></div>'+
