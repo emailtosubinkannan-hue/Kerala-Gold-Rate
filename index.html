@@ -38,6 +38,13 @@ button{width:100%;margin-top:10px;padding:12px;font-size:16px;border:0;border-ra
 .tip{position:absolute;z-index:2;pointer-events:none;white-space:nowrap;background:var(--bg);color:var(--text);border:1px solid var(--line);border-radius:8px;padding:6px 10px;font-size:12px;line-height:1.4;box-shadow:0 4px 14px rgba(0,0,0,.22)}
 .tip[hidden]{display:none}.tip b{color:var(--gold);font-size:13px}.tip small{color:var(--muted);font-size:11px}
 .tip .up{color:#d63a3a}.tip .dn{color:#2e9e4f}
+.bu{color:#2e9e4f;font-weight:700}.be{color:#d63a3a;font-weight:700}.ne{color:#f08a1c;font-weight:700}
+.hz{display:flex;gap:8px;margin:10px 0}.hz div{flex:1;background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:8px 4px;text-align:center;font-size:11px;color:var(--muted)}.hz b{display:block;font-size:13px}
+.sec{margin:12px 0 4px;font-weight:700}.row small{color:var(--muted);font-size:11px}
+#achart{position:relative}
+#achart svg{width:100%;height:auto;display:block;touch-action:pan-y;cursor:crosshair;-webkit-tap-highlight-color:transparent}
+#achart text{fill:var(--text);font-size:9px}#achart .gl{stroke:var(--line);stroke-width:1}
+#achart .cur{stroke:var(--gold);stroke-width:1;stroke-dasharray:2 2}#achart .curd{fill:var(--bg);stroke:var(--gold);stroke-width:2}
 .badge{display:inline-block;color:#fff;font-weight:700;padding:4px 12px;border-radius:6px;margin-bottom:8px;letter-spacing:.5px}
 </style>
 </head>
@@ -73,6 +80,19 @@ button{width:100%;margin-top:10px;padding:12px;font-size:16px;border:0;border-ra
 <div class="card"><div id="ychart"></div><div id="ystats" style="margin-top:8px"></div>
 <div class="leg">22K price per gram, average of each month over the last 12 months. The thick bar behind each point is that month's low to high; the dashed line is the overall average. The axis is scaled to the range, not from zero. Each month uses every daily rate we have for it. Months with no data stay empty. Hover or tap a month to see its amount.</div></div>
 
+<h2>Market analysis</h2>
+<div class="card" id="ma" hidden>
+<span class="badge" id="mv"></span>
+<div class="gd" id="msum" style="margin-top:4px"></div>
+<div class="hz" id="mhz"></div>
+<div id="achart"></div>
+<div class="leg"><span style="color:var(--gold)">●</span> daily 22K price/gram &nbsp;<span style="color:#4f8ef7">●</span> 30-day average &nbsp;<span style="color:#a259d9">●</span> 90-day average. Hover or tap the chart to see the values for a day.</div>
+<div class="sec">Indicators</div><div id="mtbl"></div>
+<div class="sec">Key levels (22K per gram)</div><div id="mlv"></div>
+<div class="gd" id="mwatch" style="margin-top:8px;font-weight:600"></div>
+<div class="leg"><b>Bullish</b> = prices trending up (favourable for holders and sellers, buyers may pay more). <b>Bearish</b> = prices trending down. Rule-based technical analysis of the 22K price history on this page: moving averages, momentum, RSI and MACD. It does not include global gold prices, the dollar/rupee rate, interest rates or news, which also move gold. Not financial advice, and gold can move either way after you buy.</div>
+</div>
+
 <h2>Broker-style view</h2>
 <div class="card" id="reco" hidden>
 <span class="badge" id="qt"></span>
@@ -98,7 +118,7 @@ var $=function(i){return document.getElementById(i)};
 var fmt=new Intl.NumberFormat('en-IN',{style:'currency',currency:'INR',maximumFractionDigits:2});
 var f0=new Intl.NumberFormat('en-IN',{style:'currency',currency:'INR',maximumFractionDigits:0});
 var MON=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-var rate=0,HIST=[],DAYS=[],MONTH=[],MDAYS=[],TODAYD='',MLABEL='',YM=[],YALL=[],HK=[];
+var rate=0,HIST=[],DAYS=[],MONTH=[],MDAYS=[],TODAYD='',MLABEL='',YM=[],YALL=[],HK=[],AD={};
 function dlabel(k){var p=k.split('-');return(+p[2])+' '+MON[+p[1]-1]+' '+p[0]}
 function latest(t){if(t.e>0)return['Evening',t.e];if(t.a>0)return['Afternoon',t.a];if(t.m>0)return['Morning',t.m];return null}
 function sgn(n){return(n>=0?'+':'−')+fmt.format(Math.abs(n))}
@@ -135,7 +155,7 @@ function prep(d){
  MDAYS=mk.map(function(k){return +k.slice(8)});
  MLABEL=MON[+t.date.slice(5,7)-1]+' '+t.date.slice(0,4);
  /* yearly: every day we have for the last 12 months (including today), grouped by month */
- var ad={},ak;for(ak in d.days)ad[ak]=Number(d.days[ak]);if(rate>0)ad[t.date]=rate;
+ var ad={},ak;for(ak in d.days)ad[ak]=Number(d.days[ak]);if(rate>0)ad[t.date]=rate;AD=ad;
  var cy=+t.date.slice(0,4),cm=+t.date.slice(5,7),sm=cm-11,sy=cy;if(sm<1){sm+=12;sy-=1}
  var sk=sy+'-'+('0'+sm).slice(-2),ek=t.date.slice(0,7),g={};YALL=[];
  Object.keys(ad).sort().forEach(function(k){var mk=k.slice(0,7);if(mk<sk||mk>ek||!(ad[k]>0))return;(g[mk]=g[mk]||[]).push(k);YALL.push({k:k,v:ad[k]})});
@@ -151,7 +171,7 @@ function render(d){
  $('latest').textContent=l?'Using latest: '+l[0]+' rate ('+fmt.format(l[1])+'/g, 22K)':'No rate available';
  $('r22').textContent=rate>0?fmt.format(rate):'—';
  $('rp').textContent=rate>0?fmt.format(rate*8):'—';
- guide();chart();mchart();ychart();reco()}
+ guide();chart();mchart();ychart();analysis();reco()}
 
 function stats(){var all=HIST.concat([rate]),mn=Math.min.apply(null,all),mx=Math.max.apply(null,all);
  return{all:all,mn:mn,mx:mx,p:mx>mn?(rate-mn)/(mx-mn):0.5,avg:HIST.reduce(function(a,b){return a+b},0)/HIST.length}}
@@ -254,6 +274,86 @@ function ychart(){var el=$('ychart'),st=$('ystats'),n=YM.length;
  '<div class="row"><span>Lowest day</span><span>'+fmt.format(dmn.v)+' ('+dlabel(dmn.k)+')</span></div>'+
  '<div class="row"><span>Average of months shown</span><span>'+fmt.format(avg)+'</span></div>'+
  '<div class="row tot"><span>Change since '+mlab(YM[0].mk)+'</span><span>'+sgn(ch)+' ('+(cp>=0?'+':'−')+Math.abs(cp).toFixed(1)+'%)</span></div>'}
+
+function dnum(k){var q=k.split('-');return Date.UTC(+q[0],+q[1]-1,+q[2])/864e5}
+function emaA(a,N){var k=2/(N+1),e=a[0],o=[e],i;for(i=1;i<a.length;i++){e=a[i]*k+e*(1-k);o.push(e)}return o}
+function sdev(a){var m=0,i,t=0;for(i=0;i<a.length;i++)m+=a[i];m/=a.length;for(i=0;i<a.length;i++)t+=(a[i]-m)*(a[i]-m);return Math.sqrt(t/a.length)}
+function pcs(x){return(x>=0?'+':'−')+Math.abs(x).toFixed(1)+'%'}
+function rel(a,b){return Math.abs((a/b-1)*100).toFixed(1)+'% '+(a>=b?'above':'below')}
+
+function analysis(){
+ var box=$('ma'),ks=Object.keys(AD).filter(function(k){return AD[k]>0}).sort(),i,j;
+ var st=ks.length-1;while(st>0&&dnum(ks[st])-dnum(ks[st-1])<=5)st--;
+ var K=ks.slice(st),C=K.map(function(k){return AD[k]}),n=C.length;
+ if(!(rate>0)||n<35){box.hidden=true;return}
+ box.hidden=false;
+ var P=C[n-1],D=K.map(dnum),LD=D[n-1];
+ var sma=function(N,end){end=end===undefined?n:end;if(end<N)return null;var t=0,q;for(q=end-N;q<end;q++)t+=C[q];return t/N};
+ var back=function(days){var tg=LD-days,jj=-1,q;for(q=0;q<n;q++)if(D[q]<=tg)jj=q;return jj<0?null:(P/C[jj]-1)*100};
+ var s7=sma(7),s30=sma(30),s90=sma(90),s200=sma(200),c7=back(7),c30=back(30),c90=back(90);
+ var rsi=null;
+ if(n>=15){var g=0,l=0,ch;for(i=1;i<=14;i++){ch=C[i]-C[i-1];if(ch>0)g+=ch;else l-=ch}g/=14;l/=14;
+  for(i=15;i<n;i++){ch=C[i]-C[i-1];g=(g*13+(ch>0?ch:0))/14;l=(l*13+(ch<0?-ch:0))/14}
+  rsi=l==0?100:100-100/(1+g/l)}
+ var e12=emaA(C,12),e26=emaA(C,26),mc=e12.map(function(v,q){return v-e26[q]}),sg=emaA(mc,9),hist=mc[n-1]-sg[n-1];
+ var rets=[];for(i=1;i<n;i++)rets.push((C[i]/C[i-1]-1)*100);
+ var v30=sdev(rets.slice(-30)),v90=rets.length>=60?sdev(rets.slice(-90)):null;
+ var S=[],add=function(g2,name,val,r){S.push({g:g2,name:name,val:val,r:r})};
+ var cmp=function(a,b,band){var d=(a/b-1)*100;return d>band?1:d<-band?-1:0};
+ var avgRow=function(g2,name,N,av){if(av)add(g2,'Price vs '+N+'-day average',f0.format(P)+' vs '+f0.format(av)+' ('+pcs((P/av-1)*100)+')',cmp(P,av,.3))};
+ avgRow('s','',7,s7);
+ if(c7!==null)add('s','7-day change',pcs(c7),c7>.5?1:c7<-.5?-1:0);
+ if(rsi!==null)add('s','RSI (14-day)',rsi.toFixed(0)+(rsi>=70?' · overbought':rsi<=30?' · oversold':' · no extreme'),rsi>55?1:rsi<45?-1:0);
+ add('s','MACD momentum',hist>0?'above its signal line':'below its signal line',Math.abs(hist)<P*0.0003?0:hist>0?1:-1);
+ avgRow('m','',30,s30);
+ if(c30!==null)add('m','30-day change',pcs(c30),c30>1.5?1:c30<-1.5?-1:0);
+ avgRow('l','',90,s90);avgRow('l','',200,s200);
+ if(s30&&s90)add('l','30-day vs 90-day average',f0.format(s30)+' vs '+f0.format(s90),cmp(s30,s90,.3));
+ if(c90!==null)add('l','90-day change',pcs(c90),c90>3?1:c90<-3?-1:0);
+ var sum=0,bull=0,bear=0,neu=0,gs={s:0,m:0,l:0},gc={s:0,m:0,l:0};
+ S.forEach(function(x){sum+=x.r;if(x.r>0)bull++;else if(x.r<0)bear++;else neu++;gs[x.g]+=x.r;gc[x.g]++});
+ var tot=S.length,ratio=sum/tot;
+ var col={bu:'#2e9e4f',be:'#d63a3a',ne:'#f08a1c'};
+ var vt=ratio>=.5?['Strong bullish','bu','▲▲']:ratio>=.2?['Bullish','bu','▲']:ratio>-.2?['Neutral','ne','◆']:ratio>-.5?['Bearish','be','▼']:['Strong bearish','be','▼▼'];
+ var hv=function(g2){var a=gc[g2]?gs[g2]/gc[g2]:0;return a>.25?['Bullish','bu','▲']:a<-.25?['Bearish','be','▼']:['Neutral','ne','◆']};
+ $('mv').textContent=vt[0].toUpperCase()+' '+vt[2];$('mv').style.background=col[vt[1]];
+ // key levels
+ var rng=function(days){var tg=LD-days,hi=-1,lo=1e12,hk='',lk='',q;for(q=0;q<n;q++)if(D[q]>=tg){if(C[q]>hi){hi=C[q];hk=K[q]}if(C[q]<lo){lo=C[q];lk=K[q]}}return{hi:hi,lo:lo,hk:hk,lk:lk}};
+ var r30=rng(30),r90=rng(90),ra=rng(9999),since=MON[+K[0].slice(5,7)-1]+' '+K[0].slice(0,4);
+ // summary
+ var m=['The 22K price trend is <b class="'+vt[1]+'">'+vt[0].toLowerCase()+'</b>: '+bull+' of '+tot+' indicators point up, '+bear+' point down and '+neu+' are neutral.'];
+ if(s30&&s90)m.push('Today’s '+f0.format(P)+' is '+rel(P,s30)+' its 30-day average ('+f0.format(s30)+') and '+rel(P,s90)+' its 90-day average ('+f0.format(s90)+').');
+ if(c7!==null&&c30!==null)m.push('It has moved '+pcs(c7)+' over 7 days and '+pcs(c30)+' over 30 days.');
+ if(rsi!==null)m.push(rsi<=30?'RSI is '+rsi.toFixed(0)+', in oversold territory, so a short-term bounce is possible even if the trend is down.':rsi>=70?'RSI is '+rsi.toFixed(0)+', in overbought territory, so a short-term pullback is possible even if the trend is up.':'RSI is '+rsi.toFixed(0)+', which shows no extreme.');
+ m.push('It is '+Math.abs((P/ra.hi-1)*100).toFixed(1)+'% below the high since '+since+' ('+f0.format(ra.hi)+' on '+dlabel(ra.hk)+') and '+Math.abs((P/ra.lo-1)*100).toFixed(1)+'% above the low ('+f0.format(ra.lo)+' on '+dlabel(ra.lk)+').');
+ m.push(ratio>=.2?'<b>What it means:</b> prices are trending up. Buyers who wait may pay more, so buying in parts is sensible; holders are in a favourable trend.':ratio<=-.2?'<b>What it means:</b> prices are trending down. Buyers who can wait may get lower prices, but a falling market can turn quickly, so buying in two or three parts is safer than trying to catch the exact bottom.':'<b>What it means:</b> there is no clear direction yet. Buy only what you need and add more on dips towards support.');
+ $('msum').innerHTML=m.join(' ');
+ $('mhz').innerHTML=[['Short term','days',hv('s')],['Medium term','weeks',hv('m')],['Long term','months',hv('l')]].map(function(h){return'<div>'+h[0]+' ('+h[1]+')<b class="'+h[2][1]+'">'+h[2][0]+' '+h[2][2]+'</b></div>'}).join('');
+ $('mtbl').innerHTML=S.map(function(x){var c=x.r>0?['bu','Bullish ▲']:x.r<0?['be','Bearish ▼']:['ne','Neutral ◆'];return'<div class="row"><span>'+x.name+'<br><small>'+x.val+'</small></span><span class="'+c[0]+'">'+c[1]+'</span></div>'}).join('')+
+  '<div class="row"><span>Volatility<br><small>typical daily move '+v30.toFixed(2)+'% (30-day)'+(v90?' vs '+v90.toFixed(2)+'% (90-day)':'')+'</small></span><span class="ne">'+(v90?(v30/v90>1.3?'High':v30/v90<.75?'Low':'Normal'):'—')+'</span></div>';
+ var lv=function(name,val,note){return'<div class="row"><span>'+name+'<br><small>'+note+'</small></span><span>'+f0.format(val)+'</span></div>'};
+ $('mlv').innerHTML=lv('Resistance · 30-day high',r30.hi,dlabel(r30.hk)+' · '+pcs((r30.hi/P-1)*100)+' from today')+
+  lv('Resistance · 90-day high',r90.hi,dlabel(r90.hk)+' · '+pcs((r90.hi/P-1)*100)+' from today')+
+  lv('Support · 30-day low',r30.lo,dlabel(r30.lk)+' · '+pcs((r30.lo/P-1)*100)+' from today')+
+  lv('Support · 90-day low',r90.lo,dlabel(r90.lk)+' · '+pcs((r90.lo/P-1)*100)+' from today')+
+  lv('High since '+since,ra.hi,dlabel(ra.hk))+lv('Low since '+since,ra.lo,dlabel(ra.lk));
+ $('mwatch').textContent='Watch: a move above '+f0.format(r30.hi)+' (30-day high) would hint at a reversal upwards; a fall below '+f0.format(r30.lo)+' (30-day low) would extend a downtrend.';
+ // chart: price + 30/90-day averages
+ var a30=C.map(function(_,q){return q+1<30?null:sma(30,q+1)}),a90=C.map(function(_,q){return q+1<90?null:sma(90,q+1)});
+ var W=360,H=230,L=42,R=10,T=14,B=30,lo=Infinity,hi=-Infinity;
+ for(i=0;i<n;i++){[C[i],a30[i],a90[i]].forEach(function(v){if(v!==null){if(v<lo)lo=v;if(v>hi)hi=v}})}
+ var pd=(hi-lo)*.06;lo-=pd;hi+=pd;
+ var x=function(q){return L+(W-L-R)*(D[q]-D[0])/(LD-D[0])},y=function(v){return T+(H-T-B)*(1-(v-lo)/(hi-lo))};
+ var path=function(a){var d='',q;for(q=0;q<n;q++)if(a[q]!==null)d+=(d?'L':'M')+x(q).toFixed(1)+','+y(a[q]).toFixed(1);return d};
+ var o='<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Daily 22K gold price with 30-day and 90-day moving averages">',k2;
+ for(k2=0;k2<4;k2++){var tv=lo+(hi-lo)*k2/3;o+='<line class="gl" x1="'+L+'" x2="'+(W-R)+'" y1="'+y(tv)+'" y2="'+y(tv)+'"/><text x="'+(L-4)+'" y="'+(y(tv)+3)+'" text-anchor="end">'+(Math.round(tv/10)*10).toLocaleString('en-IN')+'</text>'}
+ var pm='';for(i=0;i<n;i++){var mk=K[i].slice(0,7);if(mk!==pm){pm=mk;var mm=+K[i].slice(5,7);if(x(i)>L+8||i==0){o+='<text x="'+x(i).toFixed(1)+'" y="'+(H-16)+'" text-anchor="middle">'+MON[mm-1]+'</text>';if(mm==1)o+='<text x="'+x(i).toFixed(1)+'" y="'+(H-5)+'" text-anchor="middle" style="fill:var(--muted)">'+K[i].slice(0,4)+'</text>'}}}
+ o+='<path d="'+path(a90)+'" fill="none" stroke="#a259d9" stroke-width="1.6"/><path d="'+path(a30)+'" fill="none" stroke="#4f8ef7" stroke-width="1.6"/><path d="'+path(C)+'" fill="none" stroke="var(--gold)" stroke-width="1.8" stroke-linejoin="round"/>';
+ o+='<circle cx="'+x(n-1).toFixed(1)+'" cy="'+y(P).toFixed(1)+'" r="3.5" fill="'+col[vt[1]]+'"/>';
+ o+='<line class="cur" y1="'+T+'" y2="'+(H-B)+'" style="display:none"/><circle class="curd" r="5" style="display:none"/>';
+ $('achart').innerHTML=o+'</svg><div class="tip" hidden></div>';
+ var hp=[];for(i=0;i<n;i++)hp.push({x:x(i),y:y(C[i]),t:'<b>'+dlabel(K[i])+'</b><br>'+f0.format(C[i])+' /g'+(a30[i]!==null?'<br><small><span style="color:#4f8ef7">●</span> 30-day avg '+f0.format(a30[i])+'</small>':'')+(a90[i]!==null?'<br><small><span style="color:#a259d9">●</span> 90-day avg '+f0.format(a90[i])+'</small>':'')});
+ attach($('achart'),W,H,hp)}
 
 function reco(){var r=$('reco');if(!ok()){r.hidden=true;return}r.hidden=false;
  var s=stats(),prev=HIST[HIST.length-1],dev=(rate-s.avg)/s.avg*100,p=s.p,rt,cl,act;
