@@ -31,10 +31,10 @@ button{width:100%;margin-top:10px;padding:12px;font-size:16px;border:0;border-ra
 #mchart .ln,#ychart .ln{fill:none;stroke:var(--gold);stroke-width:2;stroke-linejoin:round;stroke-linecap:round}
 #mchart .ar,#ychart .ar{fill:var(--gold);opacity:.15}#mchart .gl,#ychart .gl{stroke:var(--line);stroke-width:1}
 #ychart .rg{stroke:var(--gold);stroke-width:3;stroke-linecap:round;opacity:.35}
-#mchart,#ychart{position:relative}
-#mchart svg,#ychart svg{touch-action:pan-y;cursor:crosshair;-webkit-tap-highlight-color:transparent}
-#mchart .cur,#ychart .cur{stroke:var(--gold);stroke-width:1;stroke-dasharray:2 2}
-#mchart .curd,#ychart .curd{fill:var(--bg);stroke:var(--gold);stroke-width:2}
+#chart,#mchart,#ychart{position:relative}
+#chart svg,#mchart svg,#ychart svg{touch-action:pan-y;cursor:crosshair;-webkit-tap-highlight-color:transparent}
+#chart .cur,#mchart .cur,#ychart .cur{stroke:var(--gold);stroke-width:1;stroke-dasharray:2 2}
+#chart .curd,#mchart .curd,#ychart .curd{fill:var(--bg);stroke:var(--gold);stroke-width:2}
 .tip{position:absolute;z-index:2;pointer-events:none;white-space:nowrap;background:var(--bg);color:var(--text);border:1px solid var(--line);border-radius:8px;padding:6px 10px;font-size:12px;line-height:1.4;box-shadow:0 4px 14px rgba(0,0,0,.22)}
 .tip[hidden]{display:none}.tip b{color:var(--gold);font-size:13px}.tip small{color:var(--muted);font-size:11px}
 .tip .up{color:#d63a3a}.tip .dn{color:#2e9e4f}
@@ -63,7 +63,7 @@ button{width:100%;margin-top:10px;padding:12px;font-size:16px;border:0;border-ra
 
 <h2>Daily comparison</h2>
 <div class="card"><div id="chart"></div>
-<div class="leg">22K price per gram, last 7 days vs today. Dashed line = 7-day average. Bars are scaled to the recent range, not from zero.</div></div>
+<div class="leg">22K price per gram, last 7 days vs today. Dashed line = 7-day average. Bars are scaled to the recent range, not from zero. Hover or tap a bar to see its amount.</div></div>
 
 <h2>Monthly comparison</h2>
 <div class="card"><div id="mchart"></div><div id="mstats" style="margin-top:8px"></div>
@@ -98,7 +98,7 @@ var $=function(i){return document.getElementById(i)};
 var fmt=new Intl.NumberFormat('en-IN',{style:'currency',currency:'INR',maximumFractionDigits:2});
 var f0=new Intl.NumberFormat('en-IN',{style:'currency',currency:'INR',maximumFractionDigits:0});
 var MON=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-var rate=0,HIST=[],DAYS=[],MONTH=[],MDAYS=[],TODAYD='',MLABEL='',YM=[],YALL=[];
+var rate=0,HIST=[],DAYS=[],MONTH=[],MDAYS=[],TODAYD='',MLABEL='',YM=[],YALL=[],HK=[];
 function dlabel(k){var p=k.split('-');return(+p[2])+' '+MON[+p[1]-1]+' '+p[0]}
 function latest(t){if(t.e>0)return['Evening',t.e];if(t.a>0)return['Afternoon',t.a];if(t.m>0)return['Morning',t.m];return null}
 function sgn(n){return(n>=0?'+':'−')+fmt.format(Math.abs(n))}
@@ -127,7 +127,7 @@ function load(){
 function prep(d){
  var t=d.today,l=latest(t);rate=l?Number(l[1]):0;TODAYD=t.date;
  var keys=Object.keys(d.days).sort().filter(function(k){return k<t.date});
- var h=keys.slice(-7);
+ var h=keys.slice(-7);HK=h;
  HIST=h.map(function(k){return Number(d.days[k])});
  DAYS=h.map(function(k){return String(+k.slice(8))});
  var mk=keys.filter(function(k){return k.slice(0,7)===t.date.slice(0,7)});
@@ -175,7 +175,11 @@ function chart(){var el=$('chart');if(!ok()){el.innerHTML='';return}
   o+='<text x="'+(x+(bw-8)/2)+'" y="'+(yy-3)+'" text-anchor="middle">'+Math.round(v[i]).toLocaleString('en-IN')+'</text>';
   o+='<text x="'+(x+(bw-8)/2)+'" y="'+(H-9)+'" text-anchor="middle">'+lab[i]+'</text>'}
  o+='<line x1="'+L+'" x2="'+(W-L)+'" y1="'+y(s.avg)+'" y2="'+y(s.avg)+'" stroke="#888" stroke-dasharray="4 3"/>';
- el.innerHTML=o+'</svg>'}
+ o+='<line class="cur" y1="'+T+'" y2="'+(H-B)+'" style="display:none"/><circle class="curd" r="5" style="display:none"/>';
+ el.innerHTML=o+'</svg><div class="tip" hidden></div>';
+ var hp=[];for(i=0;i<v.length;i++){var last2=(i==v.length-1),pv=i>0?v[i]-v[i-1]:null;
+  hp.push({x:L+i*bw+4+(bw-8)/2,y:y(v[i]),t:'<b>'+(last2?'Today · '+dlabel(TODAYD):dlabel(HK[i]))+'</b><br>'+f0.format(v[i])+' /g<br>'+f0.format(v[i]*8)+' /pavan'+(pv===null?'':'<br><small class="'+(pv>0?'up':pv<0?'dn':'')+'">'+(pv>0?'▲ ':pv<0?'▼ ':'')+f0.format(Math.abs(pv))+' vs previous day</small>')})}
+ attach(el,W,H,hp)}
 
 function mchart(){var el=$('mchart'),st=$('mstats');
  if(!(rate>0)||MONTH.length<1){el.innerHTML='<div class="leg">The monthly chart appears once there are at least two days of rates this month.</div>';st.innerHTML='';return}
