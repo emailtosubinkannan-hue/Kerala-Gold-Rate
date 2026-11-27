@@ -64,7 +64,7 @@ button{width:100%;margin-top:10px;padding:12px;font-size:16px;border:0;border-ra
 
 <h2>Yearly comparison</h2>
 <div class="card"><div id="ychart"></div><div id="ystats" style="margin-top:8px"></div>
-<div class="leg">22K price per gram, average of each month over the last 12 months. The thick bar behind each point is that month's low to high; the dashed line is the overall average. The axis is scaled to the range, not from zero. Months with no data yet stay empty and fill in as the daily rates are collected.</div></div>
+<div class="leg">22K price per gram, average of each month over the last 12 months. The thick bar behind each point is that month's low to high; the dashed line is the overall average. The axis is scaled to the range, not from zero. Older months use a single reading from the 15th of the month; the current and recent months use every daily rate. Months with no data stay empty.</div></div>
 
 <h2>Broker-style view</h2>
 <div class="card" id="reco" hidden>
@@ -186,7 +186,7 @@ function ychart(){var el=$('ychart'),st=$('ystats'),n=YM.length;
  if(!(rate>0)||n<1||YALL.length<1){el.innerHTML='';st.innerHTML='';return}
  var i,sum=0,dmn=YALL[0],dmx=YALL[0];
  for(i=0;i<YALL.length;i++){sum+=YALL[i].v;if(YALL[i].v<dmn.v)dmn=YALL[i];if(YALL[i].v>dmx.v)dmx=YALL[i]}
- var avg=sum/YALL.length,mlab=function(m){return MON[+m.slice(5,7)-1]+' '+m.slice(0,4)};
+ var avg=YM.reduce(function(a,m){return a+m.avg},0)/n,mlab=function(m){return MON[+m.slice(5,7)-1]+' '+m.slice(0,4)};
  var cy=+TODAYD.slice(0,4),cm=+TODAYD.slice(5,7),sm=cm-11,sy=cy;if(sm<1){sm+=12;sy-=1}
  var N=12,slot=function(mk){return(+mk.slice(0,4)-sy)*12+(+mk.slice(5,7))-sm};
  var W=360,H=216,L=42,R=14,T=20,B=36,lo=Infinity,hi=-Infinity;
@@ -214,10 +214,10 @@ function ychart(){var el=$('ychart'),st=$('ystats'),n=YM.length;
   if(m==1)o+='<text x="'+xs+'" y="'+(H-8)+'" text-anchor="middle" style="fill:var(--muted)">'+yr+'</text>'}
  el.innerHTML=o+'</svg>';
  var ch=rate-YM[0].avg,cp=ch/YM[0].avg*100;
- st.innerHTML='<div class="row"><span>Highest day</span><span>'+fmt.format(dmx.v)+' ('+dlabel(dmx.k)+')</span></div>'+
- '<div class="row"><span>Lowest day</span><span>'+fmt.format(dmn.v)+' ('+dlabel(dmn.k)+')</span></div>'+
- '<div class="row"><span>Average ('+YALL.length+' days)</span><span>'+fmt.format(avg)+'</span></div>'+
- '<div class="row tot"><span>Today vs '+mlab(YM[0].mk)+' average</span><span>'+sgn(ch)+' ('+(cp>=0?'+':'−')+Math.abs(cp).toFixed(1)+'%)</span></div>'}
+ st.innerHTML='<div class="row"><span>Highest recorded</span><span>'+fmt.format(dmx.v)+' ('+dlabel(dmx.k)+')</span></div>'+
+ '<div class="row"><span>Lowest recorded</span><span>'+fmt.format(dmn.v)+' ('+dlabel(dmn.k)+')</span></div>'+
+ '<div class="row"><span>Average of months shown</span><span>'+fmt.format(avg)+'</span></div>'+
+ '<div class="row tot"><span>Change since '+mlab(YM[0].mk)+'</span><span>'+sgn(ch)+' ('+(cp>=0?'+':'−')+Math.abs(cp).toFixed(1)+'%)</span></div>'}
 
 function reco(){var r=$('reco');if(!ok()){r.hidden=true;return}r.hidden=false;
  var s=stats(),prev=HIST[HIST.length-1],dev=(rate-s.avg)/s.avg*100,p=s.p,rt,cl,act;
