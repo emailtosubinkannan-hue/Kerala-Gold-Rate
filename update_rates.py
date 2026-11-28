@@ -104,6 +104,10 @@ def main():
         return
     data["today"][slot] = rate
     days[today] = rate
+    # keep every day's morning / afternoon / evening rates, so the page can show how a day moved
+    slots = data.setdefault("slots", {})
+    slots[today] = {k: v for k, v in data["today"].items() if k in ("m", "a", "e") and v}
+    data["slots"] = dict(sorted(slots.items())[-400:])
     data["days"] = dict(sorted(days.items()))
     data["updated"] = now.isoformat(timespec="minutes")
 

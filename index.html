@@ -212,6 +212,15 @@ details{margin-top:14px;border-top:1px solid var(--line);padding-top:6px}summary
 .b-daily .row>span:first-child,.b-monthly .row>span:first-child,.b-yearly .row>span:first-child{white-space:nowrap}
 .b-daily .row>span:last-child,.b-monthly .row>span:last-child,.b-yearly .row>span:last-child{margin-left:auto}}
 
+/* ===== day history ===== */
+.dht{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums;font-size:13px}
+.dht th{font-weight:600;color:var(--muted);font-size:11.5px;text-align:right;padding:6px 3px;border-bottom:1px solid var(--line)}
+.dht td{padding:8px 3px;border-bottom:1px solid var(--line);text-align:right;vertical-align:top}
+.dht th:first-child,.dht td:first-child{text-align:left;padding-left:0;white-space:nowrap}
+.dht tr:last-child td{border-bottom:0}.dht tr.td td{font-weight:700}.dht small{display:block;font-weight:400;font-size:11px}
+.dht .u,.hz .u{color:#d63a3a}.dht .d,.hz .d{color:#2e9e4f}.dht .z{color:var(--muted)}
+.dht .na{color:var(--muted);font-weight:400}
+.sub-h{margin:16px 0 6px;font:600 15px var(--serif)}
 /* ===== global drivers ===== */
 .gtb{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums;font-size:13.5px}
 .gtb th{font-weight:600;color:var(--muted);font-size:11.5px;text-align:right;padding:6px 4px;border-bottom:1px solid var(--line)}
@@ -288,7 +297,7 @@ html.loading main{visibility:hidden}
 </header>
 <nav class="tabs" id="tabs" aria-label="Sections"><div class="tabs-in">
 <span class="brand"><b data-i18n>Kerala Gold Rate</b><span id="nbp"></span></span>
-<a href="#today" data-i18n>Today</a><a href="#s-guide" data-i18n>Guide</a><a href="#s-daily"><span class="m-only" data-i18n>Daily</span><span class="d-only" data-i18n>Charts</span></a><a class="m-only" href="#s-monthly" data-i18n>Monthly</a><a class="m-only" href="#s-yearly" data-i18n>Yearly</a><a href="#s-analysis" data-i18n>Analysis</a><a href="#s-global" data-i18n>Global</a><a href="#s-strategy" data-i18n>Strategy</a><a href="#s-calc" data-i18n>Calculator</a>
+<a href="#today" data-i18n>Today</a><a href="#s-guide" data-i18n>Guide</a><a href="#s-daily"><span class="m-only" data-i18n>Daily</span><span class="d-only" data-i18n>Charts</span></a><a class="m-only" href="#s-monthly" data-i18n>Monthly</a><a class="m-only" href="#s-yearly" data-i18n>Yearly</a><a href="#s-day" data-i18n>History</a><a href="#s-analysis" data-i18n>Analysis</a><a href="#s-global" data-i18n>Global</a><a href="#s-strategy" data-i18n>Strategy</a><a href="#s-calc" data-i18n>Calculator</a>
 <button type="button" class="lgt" id="lgt" aria-label="Language"></button>
 </div></nav>
 <main>
@@ -324,6 +333,17 @@ html.loading main{visibility:hidden}
 <h2 id="s-yearly" data-i18n>Yearly comparison</h2>
 <div class="card"><div id="ychart"></div><div id="ystats" style="margin-top:8px"></div>
 <div class="leg" data-i18n-html="yearly_leg">22K price per gram, average of each month over the last 12 months. The thick bar behind each point is that month's low to high; the dashed line is the overall average. The axis is scaled to the range, not from zero. Each month uses every daily rate we have for it. Months with no data stay empty. Hover or tap a month to see its amount.</div></div>
+</section>
+
+<section class="blk b-day">
+<h2 id="s-day" data-i18n>Day history</h2>
+<div class="card" id="dh" hidden>
+<div class="sub-h" data-i18n>Today, step by step</div>
+<div class="hz" id="dtoday"></div>
+<div class="sub-h" data-i18n>Last 14 days</div>
+<div id="dtbl"></div>
+<div class="leg" data-i18n-html="day_leg">Each day’s rate as announced in the morning, afternoon and evening, so you can see how the price moved within the day. “—” means no rate was saved for that time. Earlier days fill in from now on.</div>
+</div>
 </section>
 
 <section class="blk b-analysis">
@@ -723,7 +743,22 @@ var ML={
 "ETF and demand":"ETF-ഉം ആവശ്യകതയും",
 "The overall signal is {0}: {1} of {2} indicators point up, {3} point down and {4} are neutral.":"മൊത്തത്തിലുള്ള സൂചന {0}: {2} സൂചകങ്ങളിൽ {1} എണ്ണം വില കൂടുമെന്നും {3} എണ്ണം കുറയുമെന്നും കാണിക്കുന്നു, {4} എണ്ണം നിഷ്പക്ഷമാണ്.",
 "#glchart_leg":"<span style='color:var(--gold)'>●</span> കേരള 22K &nbsp;<span style='color:#4f8ef7'>●</span> അന്താരാഷ്ട്ര സ്വർണം (US$) &nbsp;<span style='color:#a259d9'>●</span> ഡോളർ–രൂപ നിരക്ക്. ആദ്യ ദിവസം എല്ലാ വരകളും 100-ൽ തുടങ്ങുന്നു, അതിനാൽ ഓരോന്നും എത്ര മാറിയെന്ന് താരതമ്യം ചെയ്യാം. കേരള നിരക്ക് രാവിലെ പ്രഖ്യാപിക്കുന്നതിനാൽ ലോക വിലകൾ തലേദിവസത്തെ ക്ലോസിങ് ആണ്.",
-"#gdec_leg":"ആദ്യ വരി കേരള 22K വിലയിലെ മാറ്റമാണ്. അന്താരാഷ്ട്ര സ്വർണവും ഡോളർ–രൂപ നിരക്കുമാണ് അതിന്റെ ഭൂരിഭാഗവും വിശദീകരിക്കുന്നത്. അവസാന വരി ബാക്കിയുള്ളതാണ്: ഇറക്കുമതി തീരുവ മാറ്റങ്ങൾ, പ്രാദേശിക ആവശ്യകത, ലോക വിപണിയും രാവിലത്തെ നിരക്കും തമ്മിലുള്ള ഒരു ദിവസത്തെ വ്യത്യാസം. ഡോളർ–രൂപ നിരക്ക് കൂടുന്നത് രൂപ ദുർബലമാകുന്നതാണ്; അത് രൂപയിലെ സ്വർണവില കൂട്ടും."
+"#gdec_leg":"ആദ്യ വരി കേരള 22K വിലയിലെ മാറ്റമാണ്. അന്താരാഷ്ട്ര സ്വർണവും ഡോളർ–രൂപ നിരക്കുമാണ് അതിന്റെ ഭൂരിഭാഗവും വിശദീകരിക്കുന്നത്. അവസാന വരി ബാക്കിയുള്ളതാണ്: ഇറക്കുമതി തീരുവ മാറ്റങ്ങൾ, പ്രാദേശിക ആവശ്യകത, ലോക വിപണിയും രാവിലത്തെ നിരക്കും തമ്മിലുള്ള ഒരു ദിവസത്തെ വ്യത്യാസം. ഡോളർ–രൂപ നിരക്ക് കൂടുന്നത് രൂപ ദുർബലമാകുന്നതാണ്; അത് രൂപയിലെ സ്വർണവില കൂട്ടും.",
+"Day history":"ദിവസത്തെ വില ചരിത്രം",
+"History":"ചരിത്രം",
+"Today, step by step":"ഇന്ന്, ഘട്ടം ഘട്ടമായി",
+"Last 14 days":"കഴിഞ്ഞ 14 ദിവസം",
+"Morning":"രാവിലെ",
+"Afternoon":"ഉച്ചയ്ക്ക്",
+"Evening":"വൈകുന്നേരം",
+"Date":"തീയതി",
+"Change in the day":"ദിവസത്തെ മാറ്റം",
+"Not announced yet":"ഇതുവരെ പ്രഖ്യാപിച്ചിട്ടില്ല",
+"No change":"മാറ്റമില്ല",
+"vs yesterday":"ഇന്നലത്തേതിനെ അപേക്ഷിച്ച്",
+"vs morning":"രാവിലത്തേതിനെ അപേക്ഷിച്ച്",
+"vs afternoon":"ഉച്ചയ്ക്കത്തേതിനെ അപേക്ഷിച്ച്",
+"#day_leg":"ഓരോ ദിവസത്തെയും രാവിലെയും ഉച്ചയ്ക്കും വൈകുന്നേരവും പ്രഖ്യാപിച്ച നിരക്ക്, ദിവസത്തിനുള്ളിൽ വില എങ്ങനെ മാറിയെന്ന് കാണാൻ. “—” എന്നാൽ ആ സമയത്തെ നിരക്ക് സൂക്ഷിച്ചിട്ടില്ല. മുൻ ദിവസങ്ങളുടെ വിവരങ്ങൾ ഇനി മുതൽ നിറഞ്ഞുവരും."
 };
 var MON_ML=['ജനു','ഫെബ്','മാർ','ഏപ്രി','മേയ്','ജൂൺ','ജൂലൈ','ഓഗ','സെപ്','ഒക്ടോ','നവം','ഡിസം'];
 function tr(s){var o=(LANG==='ml'&&ML[s])||s,i;for(i=1;i<arguments.length;i++)o=o.split('{'+(i-1)+'}').join(arguments[i]);return o}
@@ -796,7 +831,7 @@ function render(d){
  var ld=$('lead');
  if(ld)ld.textContent=rate>0?tr(t.date<iso?'Latest Kerala gold rate ({0}): 22K gold is {1} per gram and {2} per pavan (8 g).':'Kerala gold rate today ({0}): 22K gold is {1} per gram and {2} per pavan (8 g).',dlabel(t.date),f0.format(rate),f0.format(rate*8)):'';
  setTitle();
- computeMA();guide();chart();mchart();ychart();analysis();globalSec();strategy();ready()}
+ computeMA();guide();chart();mchart();ychart();analysis();globalSec();dayHist();strategy();ready()}
 
 function stats(){var all=HIST.concat([rate]),mn=Math.min.apply(null,all),mx=Math.max.apply(null,all);
  return{all:all,mn:mn,mx:mx,p:mx>mn?(rate-mn)/(mx-mn):0.5,avg:HIST.reduce(function(a,b){return a+b},0)/HIST.length}}
@@ -1101,6 +1136,32 @@ function analysis(){
  $('achart').innerHTML=o+'</svg><div class="tip" hidden></div>';
  var hp=[];for(i=0;i<n;i++)hp.push({x:x(i),y:y(C[i]),t:'<b>'+dlabel(K[i])+'</b><br>'+tr('{0} /g',f0.format(C[i]))+(a30[i]!==null?'<br><small><span style="color:#4f8ef7">●</span> '+tr('{0}-day average',30)+' '+f0.format(a30[i])+'</small>':'')+(a90[i]!==null?'<br><small><span style="color:#a259d9">●</span> '+tr('{0}-day average',90)+' '+f0.format(a90[i])+'</small>':'')});
  attach($('achart'),W,Ht,hp)}
+
+
+/* ===== day history: morning / afternoon / evening rates (data.slots, written by update_rates.py) ===== */
+function dl(n){return(n>0?'+':n<0?'−':'')+f0.format(Math.abs(n))}
+function dayHist(){
+ var box=$('dh'),t=DATA.today,S=DATA.slots||{},sl={},k,i;
+ for(k in S)sl[k]=S[k];sl[t.date]={m:t.m,a:t.a,e:t.e};
+ var nm=[['m','Morning','vs yesterday'],['a','Afternoon','vs morning'],['e','Evening','vs afternoon']];
+ var ks=Object.keys(sl).filter(function(d){var q=sl[d];return q&&(q.m>0||q.a>0||q.e>0)}).sort().reverse().slice(0,14);
+ $('s-day').hidden=!ks.length;if(!ks.length){box.hidden=true;return}box.hidden=false;
+ /* today's tiles: each rate against the one before it (the morning against yesterday's last rate) */
+ var td=sl[t.date],prev=HIST.length?HIST[HIST.length-1]:null,ref=prev,h='';
+ nm.forEach(function(n){var v=Number(td[n[0]])||0,sm,cls='z';
+  if(v>0){var df=ref===null?null:v-ref;
+   if(df===null)sm='';else if(df===0)sm=tr('No change');else{cls=df>0?'u':'d';sm=(df>0?'▲ ':'▼ ')+dl(df)+' ('+pcs(df/ref*100)+') '+tr(n[2])}
+   ref=v;h+='<div>'+tr(n[1])+'<b>'+f0.format(v)+'</b><small class="'+cls+'">'+sm+'</small></div>'}
+  else h+='<div>'+tr(n[1])+'<b class="na">—</b><small>'+tr('Not announced yet')+'</small></div>'});
+ $('dtoday').innerHTML=h;
+ /* table of recent days */
+ var o='<table class="dht"><tr><th>'+tr('Date')+'</th><th>'+tr('Morning')+'</th><th>'+tr('Afternoon')+'</th><th>'+tr('Evening')+'</th><th>'+tr('Change in the day')+'</th></tr>';
+ ks.forEach(function(d){var q=sl[d],vals=[],c='';
+  ['m','a','e'].forEach(function(x){var v=Number(q[x])||0;c+='<td'+(v?'':' class="na"')+'>'+(v?f0.format(v):'—')+'</td>';if(v)vals.push(v)});
+  var ch='<td class="na">—</td>';
+  if(vals.length>1){var df=vals[vals.length-1]-vals[0];ch=df===0?'<td class="z">'+tr('No change')+'</td>':'<td class="'+(df>0?'u':'d')+'">'+(df>0?'▲ ':'▼ ')+dl(df)+'<small>'+pcs(df/vals[0]*100)+'</small></td>'}
+  o+='<tr'+(d===t.date?' class="td"':'')+'><td>'+(d===t.date?tr('Today'):dshort(d))+'</td>'+c+ch+'</tr>'});
+ $('dtbl').innerHTML=o+'</table>'}
 
 /* ===== international gold, USD/INR and news (global.json, written by update_global.py) ===== */
 var GDATA=null,GL=null;
