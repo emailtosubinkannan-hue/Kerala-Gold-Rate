@@ -679,7 +679,7 @@ var ML={
 "Dollar-rupee rate":"ഡോളർ–രൂപ നിരക്ക്",
 "Gold in ₹ per gram (24K)":"₹ വിലയിൽ സ്വർണം, ഗ്രാമിന് (24K)",
 "{0} over 30 days":"30 ദിവസത്തിൽ {0}",
-"Kerala 22K price vs this: {0}":"കേരള 22K വില ഇതിനെ അപേക്ഷിച്ച്: {0}",
+"Kerala premium over world price: {0}":"ലോക വിലയെക്കാൾ കേരള പ്രീമിയം: {0}",
 "Why Kerala moved":"കേരളത്തിലെ വില മാറിയത് എന്തുകൊണ്ട്",
 "Kerala 22K price":"കേരള 22K വില",
 "Kerala 22K":"കേരള 22K",
@@ -1154,7 +1154,7 @@ function globalSec(){
  var usd=function(v){return'$'+Math.round(v).toLocaleString('en-US')},prem=(P/(G.par*22/24)-1)*100;
  $('ghz').innerHTML='<div>'+tr('Gold, per ounce')+'<b>'+usd(G.gl)+'</b><small>'+tr('{0} over 30 days',G.g30===null?'—':pcs(G.g30))+'</small></div>'+
   '<div>'+tr('Dollar-rupee rate')+'<b>₹'+G.fl.toFixed(2)+'</b><small>'+tr('{0} over 30 days',G.f30===null?'—':pcs(G.f30))+'</small></div>'+
-  '<div>'+tr('Gold in ₹ per gram (24K)')+'<b>'+f0.format(G.par)+'</b><small>'+tr('Kerala 22K price vs this: {0}',pcs(prem))+'</small></div>';
+  '<div>'+tr('Gold in ₹ per gram (24K)')+'<b>'+f0.format(G.par)+'</b><small>'+tr('Kerala premium over world price: {0}',pcs(prem))+'</small></div>';
 
  /* chart: the last 90 days, each line starting at 100 */
  var R=G.rows.slice(-90),nr=R.length,W=360,Ht=230,L=34,Rr=10,T0=14,B=30,b0=R[0],lo=Infinity,hi=-Infinity;
