@@ -111,6 +111,11 @@ def main():
         json.dump(data, f, indent=1, ensure_ascii=False)
         f.write("\n")
     print(f"Saved {today} ({slot}): {rate}")
+    try:  # refresh the title, description and summary text that search engines read
+        import seo
+        seo.refresh(data)
+    except Exception as exc:  # never lose a saved rate because of the SEO step
+        print(f"SEO refresh skipped: {exc}")
 
 
 if __name__ == "__main__":

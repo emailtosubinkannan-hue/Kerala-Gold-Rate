@@ -79,3 +79,9 @@ After this it runs on its own.
   more than 15% away from the previous day, so a wrong read does not corrupt the history.
 - The purchase guide and broker-style view are simple rules on the last 8 days of prices.
   They are not financial advice.
+
+## Search (SEO) and custom domain
+
+- `seo.py` keeps the page title, description, share tags, structured data, the rate summary sentence and the FAQ in step with `data.json`, and writes `sitemap.xml` and `robots.txt`. The bot runs it after every new rate. To run it by hand: `python3 seo.py`.
+- The site address used in those files is taken from a file named `CNAME` (a custom domain). With no `CNAME`, the GitHub Pages address is used.
+- To move to a custom domain: add a `CNAME` file containing only the domain (for example `keralagoldrate.in`), run `python3 seo.py`, commit, then set the same domain in the repository's Settings > Pages and tick "Enforce HTTPS".
