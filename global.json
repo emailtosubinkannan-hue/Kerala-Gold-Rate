@@ -563,7 +563,7 @@
 "t": "Gold Price Forecast: Why Gold Is Rising Despite a Strong Dollar; Can Prices Reach ₹1.50 Lakh in One Year?",
 "s": "theopenpress.in",
 "u": "https://news.google.com/rss/articles/CBMihwFBVV95cUxPdWtQSUxLdTVpQmtxR0s5Y0R4WEd6Nkh2Wk1xakVOcDk1SGdnT0wzdjN4dUdETlVyaW9ZbTQ5NC1DZkxSN3lSaGNKMGQzTVZ0SDd2Y1pjZTNoX1RTTHgxcFNFUmg5WERZZExqSi1PYTdoN2NXTFZIcF9EYlJWWlVaT2UwTFI5RWc?oc=5",
-"d": "2026-11-28T13:36Z"
+"d": "2026-11-28T15:15Z"
 },
 {
 "t": "Gold Rate Today in India, 28 Nov 2026 - Live 18K, 22K & 24K Gold Prices",
@@ -652,8 +652,39 @@
 "gold: Yahoo XAUUSD failed (HTTP Error 404: Not Found)",
 "gold: Yahoo gold futures ok (502 days, latest 2026-11-27)",
 "usdinr: ECB via Frankfurter ok (280 days, latest 2026-11-27)",
-"news: 3 of 3 searches ok, 12 headlines"
+"news: 3 of 3 searches ok, 12 headlines",
+"gulf: 6 of 6 countries read"
 ],
-"checked": "2026-11-28T15:12+00:00",
-"updated": "2026-11-28T15:12+00:00"
+"checked": "2026-11-28T15:37+00:00",
+"updated": "2026-11-28T15:37+00:00",
+"gulf": {
+"date": "2026-11-28",
+"src": "GoodReturns",
+"r": {
+"AE": {
+"24": 439.0,
+"22": 406.5
+},
+"SA": {
+"24": 452.0,
+"22": 414.0
+},
+"QA": {
+"24": 441.5,
+"22": 400.5
+},
+"KW": {
+"24": 36.87,
+"22": 33.96
+},
+"OM": {
+"24": 46.4,
+"22": 42.75
+},
+"BH": {
+"24": 44.8,
+"22": 41.8
+}
+}
+}
 }
