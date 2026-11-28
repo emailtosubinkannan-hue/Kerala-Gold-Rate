@@ -31,6 +31,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","@id":"https://emailtosubinkannan-hue.github.io/Kerala-Gold-Rate/#website","url":"https://emailtosubinkannan-hue.github.io/Kerala-Gold-Rate/","name":"Kerala Gold Rate","description":"Today's 22K gold rate in Kerala per gram and per pavan, with charts and a buying guide.","inLanguage":["en-IN","ml-IN"]},{"@type":"WebPage","@id":"https://emailtosubinkannan-hue.github.io/Kerala-Gold-Rate/#webpage","url":"https://emailtosubinkannan-hue.github.io/Kerala-Gold-Rate/","name":"Kerala Gold Rate Today: 22K ₹11,720/g, ₹93,760/Pavan","description":"Kerala gold rate today (28 Nov 2026): 22K ₹11,720/gram, ₹93,760/pavan. Daily, monthly and yearly charts, buy-or-wait signal, price calculator. English and Malayalam.","isPartOf":{"@id":"https://emailtosubinkannan-hue.github.io/Kerala-Gold-Rate/#website"},"inLanguage":"en-IN","dateModified":"2026-11-28T10:29+05:30","primaryImageOfPage":{"@type":"ImageObject","url":"https://emailtosubinkannan-hue.github.io/Kerala-Gold-Rate/og-image.png","width":1200,"height":630},"about":{"@type":"Thing","name":"Gold price in Kerala"}},{"@type":"FAQPage","@id":"https://emailtosubinkannan-hue.github.io/Kerala-Gold-Rate/#faq","isPartOf":{"@id":"https://emailtosubinkannan-hue.github.io/Kerala-Gold-Rate/#webpage"},"mainEntity":[{"@type":"Question","name":"How many grams are in one pavan of gold?","acceptedAnswer":{"@type":"Answer","text":"One pavan is 8 grams. To get the price of one pavan, multiply the per-gram rate by 8."}},{"@type":"Question","name":"What is the difference between 22K and 24K gold?","acceptedAnswer":{"@type":"Answer","text":"24K gold is almost pure (99.9%) and is mostly sold as coins and bars. 22K gold is about 91.6% gold mixed with other metals such as copper or silver, which makes it strong enough for jewellery. Kerala jewellers price ornaments at the 22K rate."}},{"@type":"Question","name":"Why is the price at the jeweller higher than the gold rate?","acceptedAnswer":{"@type":"Answer","text":"The gold rate is the price of the gold only. The jeweller adds making charges (a percentage that depends on the design), 3% GST on the gold value plus making charges, and a small hallmarking fee. Use the jewellery price calculator on this page to estimate the final bill."}},{"@type":"Question","name":"Why does the gold rate change?","acceptedAnswer":{"@type":"Answer","text":"Kerala rates follow international gold prices and the dollar-rupee exchange rate, and are also affected by import duty and local demand. The day’s rate is usually announced in the morning and can be revised later the same day when markets move sharply."}},{"@type":"Question","name":"Is the gold rate the same in every Kerala jeweller?","acceptedAnswer":{"@type":"Answer","text":"Most jewellers in Kerala follow the daily rate announced by the state’s gold traders’ association, so the gold rate is usually the same across the state. Making charges and discounts differ from shop to shop."}},{"@type":"Question","name":"Is it a good time to buy gold today?","acceptedAnswer":{"@type":"Answer","text":"See the purchasing guide, market analysis and buying strategy on this page. They use the last year of 22K prices to show the trend, momentum, support and resistance, and suggest whether to buy now, buy in parts or wait. It is a rule-based guide, not financial advice."}},{"@type":"Question","name":"Where do these rates come from?","acceptedAnswer":{"@type":"Answer","text":"The rates are collected automatically from public Kerala gold-rate websites several times a day, and the charts are built from the daily rates saved on this page."}}]}]}</script>
 <!--SEO:end-->
+<script>document.documentElement.className+=" loading";setTimeout(function(){document.documentElement.className=document.documentElement.className.replace(/\bloading\b/g,"").trim()},4000)</script>
 <script>try{var _l=localStorage.getItem("kgr_lang");if(_l==="ml"||_l==="en"){document.documentElement.lang=_l}else if(!/bot|crawl|spider|lighthouse|google-|inspectiontool|slurp/i.test(navigator.userAgent)){document.documentElement.className+=" ask"}}catch(e){document.documentElement.className+=" ask"}</script>
 <style>
 :root{--bg:#F0F3EA;--card:#FBFCF8;--glass:rgba(251,252,248,.90);--glow1:rgba(200,150,46,.16);--glow2:rgba(30,120,90,.12);--text:#18261F;--muted:#5B695F;--gold:#8F6608;--line:#D9DFD0;--inp:#fff;
@@ -81,7 +82,7 @@ main{position:relative;z-index:1}
 @keyframes sheen{0%,55%{transform:translateX(-110%)}100%{transform:translateX(110%)}}
 @media (prefers-reduced-motion:reduce){.hero::before,.cw,.zari::after,body::before{animation:none}}
 .chg{display:inline-block;margin:12px 0 8px;font-size:14px;font-weight:600;padding:5px 12px;border-radius:999px;background:rgba(255,255,255,.09);color:var(--hero-ink)}
-.chg:empty{display:none}.chg.up{color:#FFB9AE}.chg.dn{color:#9FE3B6}
+.chg:empty{display:inline-block;visibility:hidden}.chg:empty::before,#latest:empty::before{content:"\00a0"}.chg.up{color:#FFB9AE}.chg.dn{color:#9FE3B6}
 .zari{position:relative;overflow:hidden;height:12px;background:repeating-linear-gradient(90deg,rgba(14,59,46,.38) 0 2px,transparent 2px 9px),linear-gradient(180deg,var(--zari2),var(--zari) 60%,#A9781B)}
 
 /* section menu */
@@ -157,7 +158,7 @@ input:focus-visible,button:focus-visible,.tabs a:focus-visible{outline:2px solid
 .ct{display:grid;grid-template-columns:1.7fr .8fr .5fr 1fr;gap:6px;font-size:13px;padding:8px 0;border-bottom:1px solid var(--line);font-variant-numeric:tabular-nums}
 .ct.h{color:var(--muted);font-size:11.5px;font-weight:600;margin-top:10px}.ct span:nth-child(n+2){text-align:right}
 details{margin-top:14px;border-top:1px solid var(--line);padding-top:6px}summary{cursor:pointer;font-weight:600;padding:8px 0}
-.foot{margin-top:38px;padding-top:16px;border-top:1px solid var(--line);font-size:12.5px;color:var(--muted)}
+.foot{position:relative;z-index:1}.foot-in{max-width:560px;margin:0 auto;padding:0 16px 40px}.foot p{margin:0;padding-top:16px;border-top:1px solid var(--line);font-size:12.5px;color:var(--muted)}
 
 /* ===== layouts: phone (default above) / tablet / desktop ===== */
 .brand,.d-only{display:none}
@@ -165,7 +166,7 @@ details{margin-top:14px;border-top:1px solid var(--line);padding-top:6px}summary
 .cols{display:block}
 .calc-in{display:block}
 @media (min-width:640px){
- main,.hero-in,.tabs-in{max-width:720px}
+ main,.hero-in,.tabs-in,.foot-in{max-width:720px}
  #chart,#mchart,#ychart,#achart{max-width:600px;margin-left:auto;margin-right:auto}
 }
 @media (min-width:1000px){
@@ -193,7 +194,7 @@ details{margin-top:14px;border-top:1px solid var(--line);padding-top:6px}summary
  .blk>.card,.blk>.calc-in{flex:1}
  .b-daily,.b-monthly,.b-yearly{grid-column:span 2}
  h2{font-size:26px;margin-top:44px}
- .foot{grid-column:1/-1;text-align:center}
+ .foot-in{max-width:1180px;padding:0 32px 72px}.foot p{text-align:center}
  .cols{display:grid;grid-template-columns:1fr 1fr;gap:0 36px;align-items:start}
  .cols>.col>.sec:first-child{margin-top:0;padding-top:0;border-top:0}
  .calc-in{display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:start}
@@ -219,7 +220,7 @@ details{margin-top:14px;border-top:1px solid var(--line);padding-top:6px}summary
 .lm-card button.lm-b.alt{background:var(--card);color:var(--text);border:2px solid var(--hero);box-shadow:none}
 .lm-card button.lm-b.pick{outline:3px solid var(--zari);outline-offset:2px}
 .lm-n{margin-top:16px;font-size:12.5px;color:var(--muted);line-height:1.6}
-.tabs .lgt{position:sticky;right:0;flex:none;width:auto;margin:auto -6px auto 8px;padding:6px 13px;font:600 13px/1.3 system-ui,"Noto Sans Malayalam","Nirmala UI",sans-serif;border-radius:999px;background:var(--bg);color:var(--text);border:1px solid var(--gold);box-shadow:-14px 0 10px 2px var(--bg),6px 0 0 0 var(--bg);white-space:nowrap}
+.tabs .lgt{position:sticky;right:0;flex:none;width:auto;margin:auto -6px auto 8px;min-height:40px;padding:8px 14px;font:600 13px/1.3 system-ui,"Noto Sans Malayalam","Nirmala UI",sans-serif;border-radius:999px;background:var(--bg);color:var(--text);border:1px solid var(--gold);box-shadow:-14px 0 10px 2px var(--bg),6px 0 0 0 var(--bg);white-space:nowrap}
 .tabs .lgt:hover{background:var(--glass);filter:none}
 @media (min-width:1000px){.tabs .lgt{margin:auto 0 auto 16px;box-shadow:none;position:static}}
 html[lang=ml]{--serif:"Noto Serif Malayalam","Noto Sans Malayalam",Manjari,"Nirmala UI",Kartika,FreeSerif,serif}
@@ -236,6 +237,8 @@ html[lang=ml] .hero h1{font-weight:700}
 .faq summary{font-weight:600}
 .faq .gd{max-width:72ch;color:var(--muted)}
 @media (min-width:1000px){.lead{grid-column:1/-1;margin-top:28px;font-size:16px}}
+html.loading main{visibility:hidden}
+#gr a{display:inline-block;padding:12px 0}
 </style>
 </head>
 <body>
@@ -278,6 +281,7 @@ html[lang=ml] .hero h1{font-weight:700}
 <!--LEAD:start-->
 <p class="lead" id="lead">Kerala gold rate today (28 Nov 2026): 22K gold is ₹11,720 per gram and ₹93,760 per pavan (8 g).</p>
 <!--LEAD:end-->
+<noscript><p class="lead">Turn on JavaScript to see the charts, market analysis and calculator.</p></noscript>
 
 <section class="blk b-guide">
 <h2 id="s-guide" data-i18n>Purchasing guide</h2>
@@ -381,8 +385,8 @@ html[lang=ml] .hero h1{font-weight:700}
 </div>
 </section>
 
-<div class="foot" data-i18n-html="foot">Rates are collected from public Kerala gold-rate sites several times a day. Your jeweller’s final price can differ, and making charges, GST and hallmarking are extra.</div>
 </main>
+<footer class="foot"><div class="foot-in"><p data-i18n-html="foot">Rates are collected from public Kerala gold-rate sites several times a day. Your jeweller’s final price can differ, and making charges, GST and hallmarking are extra.</p></div></footer>
 <script>
 var $=function(i){return document.getElementById(i)};
 var fmt=new Intl.NumberFormat('en-IN',{style:'currency',currency:'INR',maximumFractionDigits:2});
@@ -649,6 +653,7 @@ function dlabel(k){var p=k.split('-');return(+p[2])+' '+MON[+p[1]-1]+' '+p[0]}
 function latest(t){if(t.e>0)return['evening',t.e];if(t.a>0)return['afternoon',t.a];if(t.m>0)return['morning',t.m];return null}
 function sgn(n){return(n>=0?'+':'−')+fmt.format(Math.abs(n))}
 
+function ready(){document.documentElement.className=document.documentElement.className.replace(/\bloading\b/g,'').trim()}
 function tipP(h,v,pv,key){return'<b>'+h+'</b><br>'+tr('{0} /g',f0.format(v))+'<br>'+tr('{0} /pavan',f0.format(v*8))+(pv===null?'':'<br><small class="'+(pv>0?'up':pv<0?'dn':'')+'">'+tr(key,(pv>0?'▲ ':pv<0?'▼ ':'')+f0.format(Math.abs(pv)))+'</small>')}
 function attach(el,W,H,pts){
  var svg=el.querySelector('svg'),tip=el.querySelector('.tip'),ln=svg&&svg.querySelector('.cur'),dt=svg&&svg.querySelector('.curd');
@@ -669,7 +674,7 @@ function attach(el,W,H,pts){
 function load(){
  fetch('data.json?'+Date.now(),{cache:'no-store'}).then(function(r){if(!r.ok)throw 0;return r.json()})
  .then(function(d){DATA=d;prep(d);render(d)})
- .catch(function(){$('upd').innerHTML='<span class="warn">'+tr('Could not load the rates (data.json). Open this page from its web address, not as a file.')+'</span>'})}
+ .catch(function(){ready();$('upd').innerHTML='<span class="warn">'+tr('Could not load the rates (data.json). Open this page from its web address, not as a file.')+'</span>'})}
 
 function prep(d){
  var t=d.today,l=latest(t);rate=l?Number(l[1]):0;TODAYD=t.date;
@@ -707,7 +712,7 @@ function render(d){
  var ld=$('lead');
  if(ld)ld.textContent=rate>0?tr(t.date<iso?'Latest Kerala gold rate ({0}): 22K gold is {1} per gram and {2} per pavan (8 g).':'Kerala gold rate today ({0}): 22K gold is {1} per gram and {2} per pavan (8 g).',dlabel(t.date),f0.format(rate),f0.format(rate*8)):'';
  setTitle();
- computeMA();guide();chart();mchart();ychart();analysis();strategy()}
+ computeMA();guide();chart();mchart();ychart();analysis();strategy();ready()}
 
 function stats(){var all=HIST.concat([rate]),mn=Math.min.apply(null,all),mx=Math.max.apply(null,all);
  return{all:all,mn:mn,mx:mx,p:mx>mn?(rate-mn)/(mx-mn):0.5,avg:HIST.reduce(function(a,b){return a+b},0)/HIST.length}}
@@ -1069,7 +1074,7 @@ $('calc').onclick=function(){
 (function(){var tabs=document.querySelectorAll('#tabs a'),bar=$('tabs'),hs=[];
  tabs.forEach(function(a){hs.push(document.querySelector(a.getAttribute('href')))});
  var cur=-1;function on(){var y=window.scrollY+90,c=0,i;var bt=-1e9;for(i=0;i<hs.length;i++){if(!hs[i])continue;var tp=hs[i].getBoundingClientRect().top+window.scrollY;if(tp<=y&&tp>bt){bt=tp;c=i}}
-  if(c===cur)return;cur=c;tabs.forEach(function(a,j){a.classList.toggle('on',j==c)});
+  if(c===cur)return;cur=c;tabs.forEach(function(a,j){a.classList.toggle('on',j==c);if(j==c)a.setAttribute('aria-current','true');else a.removeAttribute('aria-current')});
   var a=tabs[c];bar.scrollLeft=a.offsetLeft-bar.clientWidth/2+a.clientWidth/2}
  window.addEventListener('scroll',on,{passive:true});window.addEventListener('load',on);on()})();
 (function(){
@@ -1113,8 +1118,6 @@ $('calc').onclick=function(){
  else if('IntersectionObserver' in window)new IntersectionObserver(function(e){e[0].isIntersecting?start():stop()}).observe(hero);
  else start();
  if('ResizeObserver' in window)new ResizeObserver(function(){size();if(mq.matches)frame(0)}).observe(hero);else window.addEventListener('resize',size);
- /* optional photo: upload hero.jpg next to index.html and it appears behind the header */
- var im=new Image();im.onload=function(){hero.style.setProperty('--photo','url(hero.jpg)');hero.classList.add('has-photo')};im.src='hero.jpg';
 })();
 /* ===== language: static text, switching, first-visit chooser ===== */
 function applyStatic(){
