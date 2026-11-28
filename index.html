@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#0E3B2E">
 <title>Kerala Gold Rate</title>
+<script>try{var _l=localStorage.getItem("kgr_lang");if(_l==="ml"||_l==="en"){document.documentElement.lang=_l}else{document.documentElement.className+=" ask"}}catch(e){document.documentElement.className+=" ask"}</script>
 <style>
 :root{--bg:#F0F3EA;--card:#FBFCF8;--glass:rgba(251,252,248,.90);--glow1:rgba(200,150,46,.16);--glow2:rgba(30,120,90,.12);--text:#18261F;--muted:#5B695F;--gold:#8F6608;--line:#D9DFD0;--inp:#fff;
 --hero:#0E3B2E;--hero-ink:#F6EBCB;--hero-mute:#A9C4B5;--zari:#C8962E;--zari2:#EBCB78;
@@ -181,23 +182,55 @@ details{margin-top:14px;border-top:1px solid var(--line);padding-top:6px}summary
 @media (min-width:1000px){.b-daily .row,.b-monthly .row,.b-yearly .row{flex-wrap:wrap;column-gap:10px;row-gap:0;font-size:15px}
 .b-daily .row>span:first-child,.b-monthly .row>span:first-child,.b-yearly .row>span:first-child{white-space:nowrap}
 .b-daily .row>span:last-child,.b-monthly .row>span:last-child,.b-yearly .row>span:last-child{margin-left:auto}}
+
+/* ===== language: chooser, toggle, Malayalam typography ===== */
+#langm{display:none;position:fixed;inset:0;z-index:50;align-items:center;justify-content:center;padding:20px;background:rgba(6,26,19,.78);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+.ask #langm{display:flex}
+.lm-card{background:var(--card);color:var(--text);border:1px solid var(--line);border-radius:18px;padding:28px 22px 22px;max-width:380px;width:100%;text-align:center;box-shadow:0 24px 70px rgba(0,0,0,.45)}
+.lm-coin{width:54px;height:54px;margin:0 auto 14px;border-radius:50%;display:grid;place-items:center;font:700 16px/1 var(--serif);color:#5B3D05;background:radial-gradient(circle at 34% 28%,#FCEBB0,#E3B64F 52%,#A9781B);box-shadow:inset 0 0 0 3px rgba(255,255,255,.28),inset 0 0 0 6px rgba(120,80,5,.38)}
+.lm-t{font:600 22px/1.3 var(--serif)}.lm-t2{font:600 19px/1.5 system-ui,"Noto Sans Malayalam","Nirmala UI",sans-serif;color:var(--muted);margin-top:2px}
+.lm-card button.lm-b{margin-top:14px;padding:16px;font-size:20px;line-height:1.3}
+.lm-card button.lm-b.alt{background:var(--card);color:var(--text);border:2px solid var(--hero);box-shadow:none}
+.lm-card button.lm-b.pick{outline:3px solid var(--zari);outline-offset:2px}
+.lm-n{margin-top:16px;font-size:12.5px;color:var(--muted);line-height:1.6}
+.tabs .lgt{position:sticky;right:0;flex:none;width:auto;margin:auto -6px auto 8px;padding:6px 13px;font:600 13px/1.3 system-ui,"Noto Sans Malayalam","Nirmala UI",sans-serif;border-radius:999px;background:var(--bg);color:var(--text);border:1px solid var(--gold);box-shadow:-14px 0 10px 2px var(--bg),6px 0 0 0 var(--bg);white-space:nowrap}
+.tabs .lgt:hover{background:var(--glass);filter:none}
+@media (min-width:1000px){.tabs .lgt{margin:auto 0 auto 16px;box-shadow:none;position:static}}
+html[lang=ml]{--serif:"Noto Serif Malayalam","Noto Sans Malayalam",Manjari,"Nirmala UI",Kartika,FreeSerif,serif}
+html[lang=ml] body{font-family:"Noto Sans Malayalam","Noto Sans Malayalam UI",Manjari,"Nirmala UI",Kartika,system-ui,sans-serif;line-height:1.75}
+html[lang=ml] button,html[lang=ml] input{font-family:inherit}
+html[lang=ml] h1,html[lang=ml] h2,html[lang=ml] .sec,html[lang=ml] .gt,html[lang=ml] .pv-l{letter-spacing:0;line-height:1.45}
+html[lang=ml] .badge{letter-spacing:0}
+html[lang=ml] .hz div,html[lang=ml] .leg,html[lang=ml] .lr small,html[lang=ml] .pl small,html[lang=ml] .ms{line-height:1.7}
+html[lang=ml] .tabs a{font-size:14px}
+html[lang=ml] .hero h1{font-weight:700}
 </style>
 </head>
 <body>
+<div id="langm" role="dialog" aria-modal="true" aria-labelledby="lm-t">
+<div class="lm-card">
+<div class="lm-coin" aria-hidden="true">22K</div>
+<div class="lm-t" id="lm-t">Choose your language</div>
+<div class="lm-t2" lang="ml">ഭാഷ തിരഞ്ഞെടുക്കുക</div>
+<button type="button" class="lm-b" id="lm-en" lang="en">English</button>
+<button type="button" class="lm-b alt" id="lm-ml" lang="ml">മലയാളം</button>
+<div class="lm-n">You can change this any time from the top bar.<br><span lang="ml">പിന്നീട് മുകളിലെ ബാറിൽ നിന്ന് മാറ്റാം.</span></div>
+</div>
+</div>
 <canvas id="bgdust" aria-hidden="true"></canvas>
 <header class="hero" id="today">
 <canvas id="dust" aria-hidden="true"></canvas>
 <div class="coin" aria-hidden="true"><div class="cw"><i class="cf">22K</i><i class="cb">₹</i></div></div>
 <div class="hero-in">
 <div class="h-title">
-<div class="ml" lang="ml">ഇന്നത്തെ സ്വർണവില</div>
-<h1>Kerala Gold Rate</h1>
-<div class="sub" id="upd">Loading rates…</div>
+<div class="ml" id="hml" lang="ml">ഇന്നത്തെ സ്വർണവില</div>
+<h1 id="hh1">Kerala Gold Rate</h1>
+<div class="sub" id="upd" data-i18n>Loading rates…</div>
 </div>
 <div class="h-price">
-<div class="pv-l">22K gold, 1 pavan (8 g)</div>
+<div class="pv-l" data-i18n>22K gold, 1 pavan (8 g)</div>
 <div class="pv" id="rp">—</div>
-<div class="gm"><b id="r22">—</b> per gram</div>
+<div class="gm"><b id="r22">—</b> <span data-i18n>per gram</span></div>
 <div class="chg" id="hchg"></div>
 <div class="sub" id="latest"></div>
 </div>
@@ -205,110 +238,347 @@ details{margin-top:14px;border-top:1px solid var(--line);padding-top:6px}summary
 <div class="zari" aria-hidden="true"></div>
 </header>
 <nav class="tabs" id="tabs" aria-label="Sections"><div class="tabs-in">
-<span class="brand"><b>Kerala Gold Rate</b><span id="nbp"></span></span>
-<a href="#today">Today</a><a href="#s-guide">Guide</a><a href="#s-daily"><span class="m-only">Daily</span><span class="d-only">Charts</span></a><a class="m-only" href="#s-monthly">Monthly</a><a class="m-only" href="#s-yearly">Yearly</a><a href="#s-analysis">Analysis</a><a href="#s-strategy">Strategy</a><a href="#s-calc">Calculator</a>
+<span class="brand"><b data-i18n>Kerala Gold Rate</b><span id="nbp"></span></span>
+<a href="#today" data-i18n>Today</a><a href="#s-guide" data-i18n>Guide</a><a href="#s-daily"><span class="m-only" data-i18n>Daily</span><span class="d-only" data-i18n>Charts</span></a><a class="m-only" href="#s-monthly" data-i18n>Monthly</a><a class="m-only" href="#s-yearly" data-i18n>Yearly</a><a href="#s-analysis" data-i18n>Analysis</a><a href="#s-strategy" data-i18n>Strategy</a><a href="#s-calc" data-i18n>Calculator</a>
+<button type="button" class="lgt" id="lgt" aria-label="Language"></button>
 </div></nav>
 <main>
 
 <section class="blk b-guide">
-<h2 id="s-guide">Purchasing guide</h2>
+<h2 id="s-guide" data-i18n>Purchasing guide</h2>
 <div class="card" id="guide" hidden>
 <div class="lights"><div class="light l-green" id="lg"></div><div class="light l-orange" id="lo"></div><div class="light l-red" id="lr"></div></div>
 <div class="gt" id="gt"></div>
 <div class="gd" id="gd"></div>
 <div class="leg" id="gr"></div>
-<div class="leg"><b>Green</b>: favourable to buy now. <b>Orange</b>: buy in parts. <b>Red</b>: better to wait. A rule-based guide from the price history on this page, not financial advice.</div>
+<div class="leg" data-i18n-html="guide_leg"><b>Green</b>: favourable to buy now. <b>Orange</b>: buy in parts. <b>Red</b>: better to wait. A rule-based guide from the price history on this page, not financial advice.</div>
 </div>
 </section>
 
 <section class="blk b-daily">
-<h2 id="s-daily">Daily comparison</h2>
+<h2 id="s-daily" data-i18n>Daily comparison</h2>
 <div class="card"><div id="chart"></div>
-<div class="leg">22K price per gram, last 7 days vs today. Dashed line = 7-day average. Bars are scaled to the recent range, not from zero. Hover or tap a bar to see its amount.</div></div>
+<div class="leg" data-i18n-html="daily_leg">22K price per gram, last 7 days vs today. Dashed line = 7-day average. Bars are scaled to the recent range, not from zero. Hover or tap a bar to see its amount.</div></div>
 </section>
 
 <section class="blk b-monthly">
-<h2 id="s-monthly">Monthly comparison</h2>
+<h2 id="s-monthly" data-i18n>Monthly comparison</h2>
 <div class="card"><div id="mchart"></div><div id="mstats" style="margin-top:8px"></div>
-<div class="leg" id="mleg">22K price per gram this month (last announced rate of each day). Dashed line = month average. The axis is scaled to the month's range, not from zero. Hover or tap the chart to see each day's amount.</div></div>
+<div class="leg" id="mleg" data-i18n-html="monthly_leg">22K price per gram this month (last announced rate of each day). Dashed line = month average. The axis is scaled to the month's range, not from zero. Hover or tap the chart to see each day's amount.</div></div>
 </section>
 
 <section class="blk b-yearly">
-<h2 id="s-yearly">Yearly comparison</h2>
+<h2 id="s-yearly" data-i18n>Yearly comparison</h2>
 <div class="card"><div id="ychart"></div><div id="ystats" style="margin-top:8px"></div>
-<div class="leg">22K price per gram, average of each month over the last 12 months. The thick bar behind each point is that month's low to high; the dashed line is the overall average. The axis is scaled to the range, not from zero. Each month uses every daily rate we have for it. Months with no data stay empty. Hover or tap a month to see its amount.</div></div>
+<div class="leg" data-i18n-html="yearly_leg">22K price per gram, average of each month over the last 12 months. The thick bar behind each point is that month's low to high; the dashed line is the overall average. The axis is scaled to the range, not from zero. Each month uses every daily rate we have for it. Months with no data stay empty. Hover or tap a month to see its amount.</div></div>
 </section>
 
 <section class="blk b-analysis">
-<h2 id="s-analysis">Market analysis</h2>
+<h2 id="s-analysis" data-i18n>Market analysis</h2>
 <div class="card" id="ma" hidden>
 <div class="cols"><div class="col">
 <span class="badge" id="mv"></span>
 <div class="gd" id="msum" style="margin-top:4px"></div>
-<div class="sec">Short term vs long term</div>
+<div class="sec" data-i18n>Short term vs long term</div>
 <div class="hz" id="mhz"></div>
 <div id="achart"></div>
-<div class="leg"><span style="color:var(--gold)">●</span> daily 22K price/gram &nbsp;<span style="color:#4f8ef7">●</span> 30-day average &nbsp;<span style="color:#a259d9">●</span> 90-day average. Dashed lines are the nearest support (green) and resistance (red). Hover or tap the chart to see a day.</div>
+<div class="leg" data-i18n-html="achart_leg"><span style="color:var(--gold)">●</span> daily 22K price/gram &nbsp;<span style="color:#4f8ef7">●</span> 30-day average &nbsp;<span style="color:#a259d9">●</span> 90-day average. Dashed lines are the nearest support (green) and resistance (red). Hover or tap the chart to see a day.</div>
 </div><div class="col">
-<div class="sec">Moving averages</div><div id="mavg"></div>
-<div class="sec">RSI: are prices stretched?</div><div id="mrsi"></div>
-<div class="sec">MACD: is momentum turning?</div><div id="mmacd"></div>
-<div class="sec">Support and resistance</div><div id="mlad"></div>
+<div class="sec" data-i18n>Moving averages</div><div id="mavg"></div>
+<div class="sec" data-i18n>RSI: are prices stretched?</div><div id="mrsi"></div>
+<div class="sec" data-i18n>MACD: is momentum turning?</div><div id="mmacd"></div>
+<div class="sec" data-i18n>Support and resistance</div><div id="mlad"></div>
 <div class="gd" id="mwatch" style="margin-top:8px;font-weight:600"></div>
-<div class="leg"><b>Support</b> is a price where falls have stopped before. <b>Resistance</b> is a price where rises have stopped before. Levels come from past turning points in the 22K history on this page and can fail.</div>
+<div class="leg" data-i18n-html="sr_leg"><b>Support</b> is a price where falls have stopped before. <b>Resistance</b> is a price where rises have stopped before. Levels come from past turning points in the 22K history on this page and can fail.</div>
 </div></div>
-<details><summary>All indicators</summary><div id="mtbl"></div></details>
-<div class="leg"><b>Bullish</b> = prices trending up. <b>Bearish</b> = prices trending down. This is rule-based analysis of the 22K price history on this page (moving averages, momentum, RSI, MACD). It does not include global gold prices, the dollar/rupee rate, interest rates or news, which also move gold. Not financial advice, and gold can move either way after you buy.</div>
+<details><summary data-i18n>All indicators</summary><div id="mtbl"></div></details>
+<div class="leg" data-i18n-html="disc_leg"><b>Bullish</b> = prices trending up. <b>Bearish</b> = prices trending down. This is rule-based analysis of the 22K price history on this page (moving averages, momentum, RSI, MACD). It does not include global gold prices, the dollar/rupee rate, interest rates or news, which also move gold. Not financial advice, and gold can move either way after you buy.</div>
 </div>
 </section>
 
 <section class="blk b-strategy">
-<h2 id="s-strategy">Buying strategy</h2>
+<h2 id="s-strategy" data-i18n>Buying strategy</h2>
 <div class="card" id="st" hidden>
 <div class="cols"><div class="col">
 <div id="sdec"></div>
-<div class="sec">Your purchase plan</div>
+<div class="sec" data-i18n>Your purchase plan</div>
 <div class="two">
-<div><label for="btot">Total budget (₹)</label><input id="btot" type="number" inputmode="decimal" step="any" placeholder="e.g. 100000"></div>
-<div><label for="bsp">Already spent (₹)</label><input id="bsp" type="number" inputmode="decimal" step="any" placeholder="0"></div>
+<div><label for="btot" data-i18n>Total budget (₹)</label><input id="btot" type="number" inputmode="decimal" step="any" placeholder="e.g. 100000" data-i18n-ph></div>
+<div><label for="bsp" data-i18n>Already spent (₹)</label><input id="bsp" type="number" inputmode="decimal" step="any" placeholder="0"></div>
 </div>
 <div class="gd" id="srem" style="margin-top:10px"></div>
 <div id="splan"></div>
-<div class="leg">Grams are for gold only, at the price shown for each part. Making charges and 3% GST are extra, so use the calculator below for the final bill. Your numbers stay on this device only.</div>
+<div class="leg" data-i18n-html="plan_leg">Grams are for gold only, at the price shown for each part. Making charges and 3% GST are extra, so use the calculator below for the final bill. Your numbers stay on this device only.</div>
 </div><div class="col">
-<div class="sec">How far below recent highs</div><div id="smet"></div>
-<div class="sec">What past falls tell us</div><div id="scor"></div>
+<div class="sec" data-i18n>How far below recent highs</div><div id="smet"></div>
+<div class="sec" data-i18n>What past falls tell us</div><div id="scor"></div>
 </div></div>
-<div class="leg">A fall means price dropped 5% or more from a peak. The history here is one year of daily rates, which is a small sample. Past falls do not predict the next one.</div>
+<div class="leg" data-i18n-html="fall_leg">A fall means price dropped 5% or more from a peak. The history here is one year of daily rates, which is a small sample. Past falls do not predict the next one.</div>
 </div>
 </section>
 
 <section class="blk b-calc">
-<h2 id="s-calc">Jewellery price calculator</h2>
+<h2 id="s-calc" data-i18n>Jewellery price calculator</h2>
 <div class="calc-in">
 <div class="card">
-<label for="w">Weight (grams)</label>
+<label for="w" data-i18n>Weight (grams)</label>
 <input id="w" type="number" inputmode="decimal" step="any">
-<label for="m">Making charge (%)</label>
+<label for="m" data-i18n>Making charge (%)</label>
 <input id="m" type="number" inputmode="decimal" step="any" value="10">
-<button id="calc">Calculate price</button>
+<button id="calc" data-i18n>Calculate price</button>
 </div>
 <div class="card" id="res" hidden></div>
 </div>
 </section>
 
-<div class="foot">Rates are collected from public Kerala gold-rate sites several times a day. Your jeweller’s final price can differ, and making charges, GST and hallmarking are extra.</div>
+<div class="foot" data-i18n-html="foot">Rates are collected from public Kerala gold-rate sites several times a day. Your jeweller’s final price can differ, and making charges, GST and hallmarking are extra.</div>
 </main>
 <script>
 var $=function(i){return document.getElementById(i)};
 var fmt=new Intl.NumberFormat('en-IN',{style:'currency',currency:'INR',maximumFractionDigits:2});
 var f0=new Intl.NumberFormat('en-IN',{style:'currency',currency:'INR',maximumFractionDigits:0});
-var MON=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+var MON_EN=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],MON=MON_EN,LANG='en',DATA=null,LASTCALC=null;
+var ML={
+/* ---- static text (key = English text) ---- */
+"Kerala Gold Rate":"കേരള സ്വർണവില",
+"Loading rates…":"വില ലോഡ് ചെയ്യുന്നു…",
+"22K gold, 1 pavan (8 g)":"22K സ്വർണം, 1 പവൻ (8 ഗ്രാം)",
+"per gram":"ഗ്രാമിന്",
+"Today":"ഇന്ന്","Guide":"ഗൈഡ്","Daily":"ദിവസം","Charts":"ചാർട്ടുകൾ","Monthly":"മാസം","Yearly":"വർഷം","Analysis":"വിശകലനം","Strategy":"തന്ത്രം","Calculator":"കാൽക്കുലേറ്റർ",
+"Purchasing guide":"വാങ്ങൽ മാർഗനിർദേശം",
+"Daily comparison":"ദിവസ താരതമ്യം",
+"Monthly comparison":"മാസ താരതമ്യം",
+"Yearly comparison":"വാർഷിക താരതമ്യം",
+"Market analysis":"വിപണി വിശകലനം",
+"Buying strategy":"വാങ്ങൽ തന്ത്രം",
+"Jewellery price calculator":"ആഭരണ വില കാൽക്കുലേറ്റർ",
+"Short term vs long term":"ഹ്രസ്വകാലം vs ദീർഘകാലം",
+"Moving averages":"മൂവിംഗ് ആവറേജുകൾ",
+"RSI: are prices stretched?":"RSI: വില അമിതമായോ?",
+"MACD: is momentum turning?":"MACD: പ്രവണത മാറുകയാണോ?",
+"Support and resistance":"താങ്ങ് നിലയും തടസ്സ നിലയും",
+"All indicators":"എല്ലാ സൂചകങ്ങളും",
+"Your purchase plan":"നിങ്ങളുടെ വാങ്ങൽ പദ്ധതി",
+"Total budget (₹)":"ആകെ ബജറ്റ് (₹)",
+"Already spent (₹)":"ഇതിനകം ചെലവാക്കിയത് (₹)",
+"e.g. 100000":"ഉദാ. 100000",
+"How far below recent highs":"സമീപകാല ഉയർന്ന വിലയിൽ നിന്ന് എത്ര താഴെ",
+"What past falls tell us":"മുൻകാല വിലയിടിവുകൾ പറയുന്നത്",
+"Weight (grams)":"തൂക്കം (ഗ്രാം)",
+"Making charge (%)":"പണിക്കൂലി (%)",
+"Calculate price":"വില കണക്കാക്കുക",
+/* ---- static html blocks (key = #id) ---- */
+"#guide_leg":"<b>പച്ച</b>: ഇപ്പോൾ വാങ്ങാൻ അനുകൂലം. <b>ഓറഞ്ച്</b>: ഘട്ടം ഘട്ടമായി വാങ്ങുക. <b>ചുവപ്പ്</b>: കാത്തിരിക്കുന്നതാണ് നല്ലത്. ഈ പേജിലെ വില ചരിത്രത്തെ അടിസ്ഥാനമാക്കിയുള്ള നിയമാധിഷ്ഠിത മാർഗനിർദേശമാണിത്, സാമ്പത്തിക ഉപദേശമല്ല.",
+"#daily_leg":"22K സ്വർണത്തിന്റെ ഗ്രാം വില: കഴിഞ്ഞ 7 ദിവസവും ഇന്നും. ഡാഷ് വര = 7 ദിവസത്തെ ശരാശരി. ബാറുകൾ പൂജ്യത്തിൽ നിന്നല്ല, സമീപകാല പരിധിക്ക് അനുസരിച്ചാണ് വരച്ചത്. തുക കാണാൻ ബാറിൽ ഹോവർ ചെയ്യുക അല്ലെങ്കിൽ ടാപ്പ് ചെയ്യുക.",
+"#monthly_leg":"ഈ മാസത്തെ 22K ഗ്രാം വില (ഓരോ ദിവസത്തെയും അവസാനം പ്രഖ്യാപിച്ച നിരക്ക്). ഡാഷ് വര = മാസത്തെ ശരാശരി. അച്ചുതണ്ട് പൂജ്യത്തിൽ നിന്നല്ല, മാസത്തെ പരിധിക്ക് അനുസരിച്ചാണ്. ഓരോ ദിവസത്തെയും തുക കാണാൻ ചാർട്ടിൽ ഹോവർ ചെയ്യുക അല്ലെങ്കിൽ ടാപ്പ് ചെയ്യുക.",
+"#yearly_leg":"22K ഗ്രാം വില, കഴിഞ്ഞ 12 മാസത്തെ ഓരോ മാസത്തിന്റെയും ശരാശരി. ഓരോ പോയിന്റിനും പിന്നിലെ കട്ടിയുള്ള ബാർ ആ മാസത്തെ കുറഞ്ഞതു മുതൽ കൂടിയതു വരെയുള്ള വിലയാണ്; ഡാഷ് വര മൊത്തം ശരാശരിയാണ്. അച്ചുതണ്ട് പൂജ്യത്തിൽ നിന്നല്ല, പരിധിക്ക് അനുസരിച്ചാണ്. ഓരോ മാസത്തിനും നമുക്കുള്ള എല്ലാ ദിവസത്തെയും നിരക്ക് ഉപയോഗിക്കുന്നു. ഡാറ്റ ഇല്ലാത്ത മാസങ്ങൾ ശൂന്യമായി തുടരും. തുക കാണാൻ ഒരു മാസത്തിൽ ഹോവർ ചെയ്യുക അല്ലെങ്കിൽ ടാപ്പ് ചെയ്യുക.",
+"#achart_leg":"<span style='color:var(--gold)'>●</span> ദിവസേനയുള്ള 22K വില/ഗ്രാം &nbsp;<span style='color:#4f8ef7'>●</span> 30 ദിവസ ശരാശരി &nbsp;<span style='color:#a259d9'>●</span> 90 ദിവസ ശരാശരി. ഡാഷ് വരകൾ ഏറ്റവും അടുത്ത താങ്ങ് നിലയും (പച്ച) തടസ്സ നിലയും (ചുവപ്പ്) ആണ്. ഒരു ദിവസം കാണാൻ ചാർട്ടിൽ ഹോവർ ചെയ്യുക അല്ലെങ്കിൽ ടാപ്പ് ചെയ്യുക.",
+"#sr_leg":"<b>താങ്ങ് നില</b> മുമ്പ് വിലയിടിവ് നിന്ന വിലയാണ്. <b>തടസ്സ നില</b> മുമ്പ് വിലക്കയറ്റം നിന്ന വിലയാണ്. ഈ പേജിലെ 22K ചരിത്രത്തിലെ പഴയ വഴിത്തിരിവുകളിൽ നിന്നാണ് ഈ നിലകൾ എടുത്തത്; ഇവ തെറ്റാനും സാധ്യതയുണ്ട്.",
+"#disc_leg":"<b>ഉയർച്ച</b> = വില കൂടുന്ന പ്രവണത. <b>താഴ്ച</b> = വില കുറയുന്ന പ്രവണത. ഈ പേജിലെ 22K വില ചരിത്രത്തെ (മൂവിംഗ് ആവറേജ്, മൊമെന്റം, RSI, MACD) അടിസ്ഥാനമാക്കിയുള്ള നിയമാധിഷ്ഠിത വിശകലനമാണിത്. സ്വർണത്തെ സ്വാധീനിക്കുന്ന ആഗോള സ്വർണവില, ഡോളർ/രൂപ നിരക്ക്, പലിശ നിരക്ക്, വാർത്തകൾ എന്നിവ ഇതിൽ ഉൾപ്പെടുന്നില്ല. സാമ്പത്തിക ഉപദേശമല്ല; വാങ്ങിയ ശേഷം സ്വർണവില ഏതു ദിശയിലും നീങ്ങാം.",
+"#plan_leg":"ഗ്രാം കണക്ക് സ്വർണത്തിന് മാത്രമാണ്, ഓരോ ഭാഗത്തിനും കാണിച്ച വിലയിൽ. പണിക്കൂലിയും 3% ജിഎസ്ടിയും അധികമാണ്; അന്തിമ ബില്ലിന് താഴെയുള്ള കാൽക്കുലേറ്റർ ഉപയോഗിക്കുക. നിങ്ങളുടെ കണക്കുകൾ ഈ ഉപകരണത്തിൽ മാത്രമേ സൂക്ഷിക്കൂ.",
+"#fall_leg":"5% ഓ അതിൽ കൂടുതലോ വില കുറയുന്നതാണ് ഇവിടെ ‘വിലയിടിവ്’. ഇവിടെയുള്ള ചരിത്രം ഒരു വർഷത്തെ ദിവസ നിരക്കുകൾ മാത്രമാണ്, അതായത് ചെറിയ സാമ്പിൾ. കഴിഞ്ഞ ഇടിവുകൾ അടുത്തതിനെ പ്രവചിക്കുന്നില്ല.",
+"#foot":"കേരളത്തിലെ പൊതു സ്വർണവില സൈറ്റുകളിൽ നിന്ന് ദിവസത്തിൽ പല തവണ നിരക്കുകൾ ശേഖരിക്കുന്നു. ജ്വല്ലറിയുടെ അന്തിമ വില വ്യത്യാസപ്പെടാം; പണിക്കൂലി, ജിഎസ്ടി, ഹാൾമാർക്കിംഗ് എന്നിവ അധികമാണ്.",
+
+/* ---- header / render ---- */
+"Rate for {0}. Updates automatically.":"{0}-ലെ നിരക്ക്. സ്വയമേവ അപ്ഡേറ്റ് ആകുന്നു.",
+" Today’s rate is not available yet, so this is the latest ({0}).":" ഇന്നത്തെ നിരക്ക് ഇതുവരെ ലഭ്യമല്ല, അതിനാൽ ഇത് ഏറ്റവും പുതിയതാണ് ({0}).",
+"Based on the {0} rate.":"{0} നിരക്കിനെ അടിസ്ഥാനമാക്കി.",
+"morning":"രാവിലത്തെ","afternoon":"ഉച്ചയ്ക്കുള്ള","evening":"വൈകുന്നേരത്തെ",
+"No rate available":"നിരക്ക് ലഭ്യമല്ല",
+"{0} /g · 22K":"{0} /ഗ്രാം · 22K",
+"No change since yesterday":"ഇന്നലെ മുതൽ മാറ്റമില്ല",
+"{0} {1} per pavan ({2}%) higher than yesterday":"{0} ഇന്നലത്തേക്കാൾ പവന് {1} ({2}%) കൂടുതൽ",
+"{0} {1} per pavan ({2}%) lower than yesterday":"{0} ഇന്നലത്തേക്കാൾ പവന് {1} ({2}%) കുറവ്",
+"Could not load the rates (data.json). Open this page from its web address, not as a file.":"വിലകൾ ലോഡ് ചെയ്യാനായില്ല (data.json). ഈ പേജ് ഫയലായി അല്ല, വെബ് വിലാസത്തിൽ നിന്ന് തുറക്കുക.",
+
+/* ---- guide ---- */
+"See your purchase plan":"നിങ്ങളുടെ വാങ്ങൽ പദ്ധതി കാണുക",
+"Good time to buy":"വാങ്ങാൻ നല്ല സമയം",
+"Today’s rate is in the lower part of the recent range.":"ഇന്നത്തെ നിരക്ക് സമീപകാല പരിധിയുടെ താഴ്ന്ന ഭാഗത്താണ്.",
+"Fair – buy only if needed":"ശരാശരി – ആവശ്യമെങ്കിൽ മാത്രം വാങ്ങുക",
+"Today’s rate is in the middle of the recent range. Consider buying in parts.":"ഇന്നത്തെ നിരക്ക് സമീപകാല പരിധിയുടെ മധ്യത്തിലാണ്. ഘട്ടം ഘട്ടമായി വാങ്ങുന്നത് പരിഗണിക്കുക.",
+"Expensive – better to wait":"വില കൂടുതൽ – കാത്തിരിക്കുന്നതാണ് നല്ലത്",
+"Today’s rate is near the recent high.":"ഇന്നത്തെ നിരക്ക് സമീപകാല ഉയർന്ന വിലയ്ക്ക് അടുത്താണ്.",
+"Recent range (22K/g): {0} to {1} · now {2}% of the way up":"സമീപകാല പരിധി (22K/ഗ്രാം): {0} മുതൽ {1} വരെ · ഇപ്പോൾ {2}% ഉയരത്തിൽ",
+
+/* ---- charts ---- */
+"Daily 22K gold price comparison":"ദിവസേനയുള്ള 22K സ്വർണവില താരതമ്യം",
+"{0} /g":"{0} /ഗ്രാം",
+"{0} /pavan":"{0} /പവൻ",
+"{0} vs previous day":"{0} (തലേ ദിവസത്തെ അപേക്ഷിച്ച്)",
+"{0} vs previous month":"{0} (മുൻ മാസത്തെ അപേക്ഷിച്ച്)",
+"Today · {0}":"ഇന്ന് · {0}",
+"The monthly chart appears once there are at least two days of rates this month.":"ഈ മാസം കുറഞ്ഞത് രണ്ട് ദിവസത്തെ നിരക്കുകൾ ആകുമ്പോൾ മാസ ചാർട്ട് ദൃശ്യമാകും.",
+"Monthly 22K gold price chart for {0}":"{0}-ലെ 22K സ്വർണവില മാസ ചാർട്ട്",
+"High {0}":"ഉയർന്നത് {0}",
+"Low {0}":"കുറഞ്ഞത് {0}",
+"Month high":"മാസത്തെ ഉയർന്ന വില",
+"Month low":"മാസത്തെ കുറഞ്ഞ വില",
+"Month average":"മാസത്തെ ശരാശരി",
+"Change since {0}":"{0} മുതലുള്ള മാറ്റം",
+"today":"ഇന്ന്",
+"Yearly 22K gold price chart, monthly averages":"വാർഷിക 22K സ്വർണവില ചാർട്ട്, മാസ ശരാശരികൾ",
+"{0} avg {1}":"{0} ശരാശരി {1}",
+"Avg {0} /g":"ശരാശരി {0} /ഗ്രാം",
+"Low {0} · High {1}":"കുറഞ്ഞത് {0} · ഉയർന്നത് {1}",
+"{0} reading":"{0} നിരക്ക്",
+"{0} days":"{0} ദിവസം",
+"Highest day":"ഏറ്റവും ഉയർന്ന ദിവസം",
+"Lowest day":"ഏറ്റവും കുറഞ്ഞ ദിവസം",
+"Average of months shown":"കാണിച്ച മാസങ്ങളുടെ ശരാശരി",
+
+/* ---- indicator rows and verdicts ---- */
+"Price vs {0}-day average":"വില vs {0} ദിവസ ശരാശരി",
+"{0}-day change":"{0} ദിവസ മാറ്റം",
+"RSI (14-day)":"RSI (14 ദിവസം)",
+" · overbought":" · അമിതമായി ഉയർന്നു",
+" · oversold":" · അമിതമായി ഇടിഞ്ഞു",
+" · no extreme":" · തീവ്ര നിലയിലല്ല",
+"MACD momentum":"MACD മൊമെന്റം",
+"above its signal line":"സിഗ്നൽ ലൈനിന് മുകളിൽ",
+"below its signal line":"സിഗ്നൽ ലൈനിന് താഴെ",
+"30-day vs 90-day average":"30 ദിവസ vs 90 ദിവസ ശരാശരി",
+"Strong bullish":"ശക്തമായ ഉയർച്ച",
+"Bullish":"ഉയർച്ച",
+"Neutral":"നിഷ്പക്ഷം",
+"Bearish":"താഴ്ച",
+"Strong bearish":"ശക്തമായ താഴ്ച",
+"Volatility":"ചാഞ്ചാട്ടം",
+"typical daily move {0}% (30-day)":"സാധാരണ ദിവസ വ്യതിയാനം {0}% (30 ദിവസം)",
+" vs {0}% (90-day)":" vs {0}% (90 ദിവസം)",
+"High":"കൂടുതൽ","Low":"കുറവ്","Normal":"സാധാരണം",
+
+/* ---- decision ---- */
+"Buy now":"ഇപ്പോൾ വാങ്ങുക",
+"Prices are clearly trending up, so waiting may cost more. Keep some of your budget for a dip.":"വില വ്യക്തമായി ഉയരുകയാണ്, അതിനാൽ കാത്തിരുന്നാൽ കൂടുതൽ ചെലവാകാം. വില ഇടിയുമ്പോൾ വാങ്ങാൻ ബജറ്റിന്റെ ഒരു ഭാഗം മാറ്റിവയ്ക്കുക.",
+"Buy in parts":"ഘട്ടം ഘട്ടമായി വാങ്ങുക",
+"The trend is up, but RSI is {0} (overbought), so prices are stretched. Do not chase them. Buy in parts.":"വില ഉയരുന്ന പ്രവണതയാണ്, പക്ഷേ RSI {0} ആണ് (അമിതമായി ഉയർന്നു), അതായത് വില വല്ലാതെ കൂടിയിരിക്കുന്നു. വിലയ്ക്ക് പിന്നാലെ ഓടരുത്. ഘട്ടം ഘട്ടമായി വാങ്ങുക.",
+"Prices are edging up. Buy in parts, with a bigger first part.":"വില പതുക്കെ ഉയരുന്നു. ഘട്ടം ഘട്ടമായി വാങ്ങുക, ആദ്യ ഭാഗം വലുതാക്കുക.",
+"There is no clear direction. Splitting your purchase averages out the price you pay.":"വ്യക്തമായ ദിശയില്ല. വാങ്ങൽ പല ഭാഗങ്ങളായി വിഭജിച്ചാൽ നിങ്ങൾ നൽകുന്ന ശരാശരി വില സന്തുലിതമാകും.",
+"Buy in parts, start small":"ഘട്ടം ഘട്ടമായി വാങ്ങുക, ചെറുതായി തുടങ്ങുക",
+"The trend is down, but RSI is {0} (oversold), so a bounce is possible. Start small and keep most of your budget for later.":"വില താഴുന്ന പ്രവണതയാണ്, പക്ഷേ RSI {0} ആണ് (അമിതമായി ഇടിഞ്ഞു), അതിനാൽ വില തിരിച്ചു കയറാൻ സാധ്യതയുണ്ട്. ചെറുതായി തുടങ്ങി ബജറ്റിന്റെ ഭൂരിഭാഗവും പിന്നീടേക്ക് മാറ്റിവയ്ക്കുക.",
+"Prices are drifting down. Start small and keep most of your budget for later.":"വില പതുക്കെ താഴുന്നു. ചെറുതായി തുടങ്ങി ബജറ്റിന്റെ ഭൂരിഭാഗവും പിന്നീടേക്ക് മാറ്റിവയ്ക്കുക.",
+"Wait":"കാത്തിരിക്കുക",
+"Prices are trending down and are not oversold yet. Hold off unless you must buy, and enter in steps using the purchase plan.":"വില താഴുന്ന പ്രവണതയിലാണ്, ഇതുവരെ അമിതമായി ഇടിഞ്ഞിട്ടില്ല. നിർബന്ധമില്ലെങ്കിൽ കാത്തിരിക്കുക; വാങ്ങുകയാണെങ്കിൽ വാങ്ങൽ പദ്ധതി ഉപയോഗിച്ച് ഘട്ടം ഘട്ടമായി വാങ്ങുക.",
+"round-number support":"റൗണ്ട് സംഖ്യ താങ്ങ് നില",
+"support, price has turned here {0} time":"താങ്ങ് നില, വില ഇവിടെ {0} തവണ തിരിഞ്ഞിട്ടുണ്ട്",
+"support, price has turned here {0} times":"താങ്ങ് നില, വില ഇവിടെ {0} തവണ തിരിഞ്ഞിട്ടുണ്ട്",
+"3% below today":"ഇന്നത്തേതിനേക്കാൾ 3% താഴെ",
+"30-day average, a close above it suggests the trend is improving":"30 ദിവസ ശരാശരി, ഇതിന് മുകളിൽ ക്ലോസ് ചെയ്താൽ പ്രവണത മെച്ചപ്പെടുന്നു എന്ന സൂചന",
+"resistance, a close above it suggests more upside":"തടസ്സ നില, ഇതിന് മുകളിൽ ക്ലോസ് ചെയ്താൽ കൂടുതൽ കയറ്റത്തിന് സാധ്യത",
+"2% above today":"ഇന്നത്തേതിനേക്കാൾ 2% മുകളിൽ",
+
+/* ---- analysis ---- */
+"The 22K price trend is {0}: {1} of {2} indicators point up, {3} point down and {4} are neutral.":"22K വിലയുടെ പ്രവണത {0} ആണ്: {2} സൂചകങ്ങളിൽ {1} എണ്ണം ഉയർച്ചയും {3} എണ്ണം താഴ്ചയും {4} എണ്ണം നിഷ്പക്ഷവും കാണിക്കുന്നു.",
+"Price is {0} over 7 days, {1} over 30 days and {2} over 90 days.":"വില 7 ദിവസത്തിൽ {0}, 30 ദിവസത്തിൽ {1}, 90 ദിവസത്തിൽ {2} മാറി.",
+"It is {0}% below the high since {1} ({2} on {3}).":"ഇത് {1} മുതലുള്ള ഏറ്റവും ഉയർന്ന വിലയേക്കാൾ ({3}-ന് {2}) {0}% താഴെയാണ്.",
+"See the buying strategy":"വാങ്ങൽ തന്ത്രം കാണുക",
+"{0} for what to do.":"എന്ത് ചെയ്യണമെന്നറിയാൻ {0}.",
+"Short term":"ഹ്രസ്വകാലം","Medium term":"ഇടത്തരം","Long term":"ദീർഘകാലം",
+"days":"ദിവസങ്ങൾ","weeks":"ആഴ്ചകൾ","months":"മാസങ്ങൾ",
+"{0} up · {1} down":"{0} ഉയർച്ച · {1} താഴ്ച",
+" · {0} flat":" · {0} മാറ്റമില്ല",
+"{0}-day average":"{0} ദിവസ ശരാശരി",
+"price {0}% above ▲":"വില {0}% കൂടുതൽ ▲",
+"price {0}% below ▼":"വില {0}% കുറവ് ▼",
+"Price is below all three averages.":"വില മൂന്ന് ശരാശരികൾക്കും താഴെയാണ്.",
+"Price is below all three averages, and the shorter averages sit below the longer ones. That is a clear downtrend.":"വില മൂന്ന് ശരാശരികൾക്കും താഴെയാണ്, ചെറിയ കാല ശരാശരികൾ വലിയ കാല ശരാശരികൾക്കും താഴെയാണ്. ഇത് വ്യക്തമായ താഴ്ച പ്രവണതയാണ്.",
+"Price is above all three averages.":"വില മൂന്ന് ശരാശരികൾക്കും മുകളിലാണ്.",
+"Price is above all three averages, and the shorter averages sit above the longer ones. That is a clear uptrend.":"വില മൂന്ന് ശരാശരികൾക്കും മുകളിലാണ്, ചെറിയ കാല ശരാശരികൾ വലിയ കാല ശരാശരികൾക്കും മുകളിലാണ്. ഇത് വ്യക്തമായ ഉയർച്ച പ്രവണതയാണ്.",
+"Price is back above its 7-day average but still below its 30-day average ({0}). That looks like a short bounce inside a bigger downtrend. A move above the 30-day average would be the first sign of a turn.":"വില 7 ദിവസ ശരാശരിക്ക് മുകളിൽ തിരിച്ചെത്തി, പക്ഷേ ഇപ്പോഴും 30 ദിവസ ശരാശരിക്ക് ({0}) താഴെയാണ്. വലിയ താഴ്ചയ്ക്കുള്ളിലെ ഒരു ചെറിയ തിരിച്ചുകയറ്റമായാണ് ഇത് തോന്നുന്നത്. 30 ദിവസ ശരാശരിക്ക് മുകളിൽ എത്തിയാൽ അത് മാറ്റത്തിന്റെ ആദ്യ സൂചനയാകും.",
+"Price slipped below its 7-day average but still holds above the 30-day average. That looks like a short dip inside a bigger uptrend.":"വില 7 ദിവസ ശരാശരിക്ക് താഴെയായി, പക്ഷേ ഇപ്പോഴും 30 ദിവസ ശരാശരിക്ക് മുകളിലാണ്. വലിയ ഉയർച്ചയ്ക്കുള്ളിലെ ഒരു ചെറിയ ഇടിവായാണ് ഇത് തോന്നുന്നത്.",
+"Price sits between its averages, so the trend is unclear.":"വില ശരാശരികൾക്കിടയിലാണ്, അതിനാൽ പ്രവണത വ്യക്തമല്ല.",
+"Overbought. Prices have risen fast and a pullback is likely, so avoid chasing.":"അമിതമായി ഉയർന്നു. വില വേഗത്തിൽ കൂടി, ഇനി ഇടിവിന് സാധ്യതയുണ്ട്; അതിനാൽ പിന്നാലെ ഓടി വാങ്ങരുത്.",
+"Strong. Buyers are in control, and it is not yet overbought (70).":"ശക്തം. വാങ്ങുന്നവരാണ് നിയന്ത്രണത്തിൽ, ഇതുവരെ അമിതമായി ഉയർന്നിട്ടില്ല (70).",
+"Balanced. Neither buyers nor sellers are in control.":"സന്തുലിതം. വാങ്ങുന്നവരോ വിൽക്കുന്നവരോ നിയന്ത്രണത്തിലല്ല.",
+"Weak. Sellers are in control and RSI is close to oversold (30). A bounce is possible, but the trend is still down.":"ദുർബലം. വിൽക്കുന്നവരാണ് നിയന്ത്രണത്തിൽ, RSI അമിത ഇടിവിന് (30) അടുത്താണ്. തിരിച്ചുകയറ്റം സാധ്യമാണ്, പക്ഷേ പ്രവണത ഇപ്പോഴും താഴേക്കാണ്.",
+"Oversold. Prices have fallen fast. Bounces often follow, but a strong downtrend can stay oversold for weeks, so buy small.":"അമിതമായി ഇടിഞ്ഞു. വില വേഗത്തിൽ കുറഞ്ഞു. തിരിച്ചുകയറ്റം പലപ്പോഴും ഉണ്ടാകാറുണ്ട്, പക്ഷേ ശക്തമായ താഴ്ച ആഴ്ചകളോളം തുടരാം; അതിനാൽ കുറച്ചു മാത്രം വാങ്ങുക.",
+" It was {0} five days ago, so momentum is improving.":" അഞ്ച് ദിവസം മുമ്പ് ഇത് {0} ആയിരുന്നു, അതിനാൽ മൊമെന്റം മെച്ചപ്പെടുന്നു.",
+" It was {0} five days ago, so momentum is worsening.":" അഞ്ച് ദിവസം മുമ്പ് ഇത് {0} ആയിരുന്നു, അതിനാൽ മൊമെന്റം മോശമാകുന്നു.",
+"RSI {0}":"RSI {0}",
+"out of 100":"100-ൽ",
+"Oversold":"അമിത ഇടിവ്","Balanced":"സന്തുലിതം","Overbought":"അമിത കയറ്റം",
+"MACD is below its signal line, but the gap has narrowed over the last 3 days. Selling pressure is easing. A cross above the signal line would be an early buy signal.":"MACD സിഗ്നൽ ലൈനിന് താഴെയാണ്, പക്ഷേ കഴിഞ്ഞ 3 ദിവസത്തിൽ വിടവ് കുറഞ്ഞു. വിൽപ്പന സമ്മർദം കുറയുകയാണ്. സിഗ്നൽ ലൈനിന് മുകളിലേക്ക് കടന്നാൽ അത് വാങ്ങലിന്റെ ആദ്യ സൂചനയാകും.",
+"MACD is below its signal line and the gap is widening, so downward momentum is still building.":"MACD സിഗ്നൽ ലൈനിന് താഴെയാണ്, വിടവ് കൂടുകയാണ്; അതിനാൽ താഴേക്കുള്ള മൊമെന്റം ഇപ്പോഴും ശക്തമാകുന്നു.",
+"MACD is above its signal line and the gap is widening, so upward momentum is building.":"MACD സിഗ്നൽ ലൈനിന് മുകളിലാണ്, വിടവ് കൂടുകയാണ്; അതിനാൽ മുകളിലേക്കുള്ള മൊമെന്റം ശക്തമാകുന്നു.",
+"MACD is above its signal line but the gap is narrowing, so the uptrend is losing steam.":"MACD സിഗ്നൽ ലൈനിന് മുകളിലാണ്, പക്ഷേ വിടവ് കുറയുകയാണ്; അതിനാൽ ഉയർച്ചയുടെ ശക്തി കുറയുന്നു.",
+" It is also below zero, which means the medium-term trend is down.":" ഇത് പൂജ്യത്തിനും താഴെയാണ്, അതായത് ഇടത്തരം കാല പ്രവണത താഴേക്കാണ്.",
+" It is also above zero, which means the medium-term trend is up.":" ഇത് പൂജ്യത്തിനും മുകളിലാണ്, അതായത് ഇടത്തരം കാല പ്രവണത മുകളിലേക്കാണ്.",
+" It crossed above the signal line {0}.":" ഇത് {0} സിഗ്നൽ ലൈനിന് മുകളിലേക്ക് കടന്നു.",
+" It crossed below the signal line {0}.":" ഇത് {0} സിഗ്നൽ ലൈനിന് താഴേക്ക് കടന്നു.",
+"{0} day ago":"{0} ദിവസം മുമ്പ്",
+"{0} days ago":"{0} ദിവസം മുമ്പ്",
+"MACD line":"MACD ലൈൻ",
+"Signal line":"സിഗ്നൽ ലൈൻ",
+"Gap (MACD minus signal)":"വിടവ് (MACD − സിഗ്നൽ)",
+"rising":"കൂടുന്നു",
+"falling":"കുറയുന്നു",
+"Resistance":"തടസ്സ നില",
+"Support":"താങ്ങ് നില",
+"round number, no past turning point":"റൗണ്ട് സംഖ്യ, മുൻകാല വഴിത്തിരിവില്ല",
+"turned here {0} time · last {1}":"ഇവിടെ {0} തവണ തിരിഞ്ഞു · അവസാനം {1}",
+"turned here {0} times · last {1}":"ഇവിടെ {0} തവണ തിരിഞ്ഞു · അവസാനം {1}",
+"{0} from today":"ഇന്നത്തേതിൽ നിന്ന് {0}",
+"Watch: a close above {0} is a first sign of strength":"ശ്രദ്ധിക്കുക: {0}-ന് മുകളിൽ ക്ലോസ് ചെയ്യുന്നത് കരുത്തിന്റെ ആദ്യ സൂചനയാണ്",
+", but the trend only turns up on a close above the 30-day average ({0})":", പക്ഷേ 30 ദിവസ ശരാശരിക്ക് ({0}) മുകളിൽ ക്ലോസ് ചെയ്താൽ മാത്രമേ പ്രവണത ഉയരുകയുള്ളൂ",
+". A fall below {0} would extend the decline.":". {0}-ന് താഴേക്ക് പോയാൽ ഇടിവ് തുടരും.",
+"Bullish ▲":"ഉയർച്ച ▲","Bearish ▼":"താഴ്ച ▼","Neutral ◆":"നിഷ്പക്ഷം ◆",
+
+/* ---- plan ---- */
+"Enter your total budget to see rupee amounts. Until then the plan shows shares of your budget.":"രൂപയിലുള്ള തുക കാണാൻ നിങ്ങളുടെ ആകെ ബജറ്റ് നൽകുക. അതുവരെ പദ്ധതി ബജറ്റിന്റെ ശതമാനം മാത്രം കാണിക്കും.",
+"<b>Your budget is used up.</b> Nothing is left to plan. Raise the total budget or lower the amount already spent.":"<b>നിങ്ങളുടെ ബജറ്റ് തീർന്നു.</b> ആസൂത്രണം ചെയ്യാൻ ഒന്നും ബാക്കിയില്ല. ആകെ ബജറ്റ് കൂട്ടുക അല്ലെങ്കിൽ ഇതിനകം ചെലവാക്കിയ തുക കുറയ്ക്കുക.",
+"Budget left: <b>{0}</b>. At today’s rate that buys about <b>{1} g</b> ({2} pavan) of 22K gold.":"ബാക്കിയുള്ള ബജറ്റ്: <b>{0}</b>. ഇന്നത്തെ നിരക്കിൽ ഇതുകൊണ്ട് ഏകദേശം <b>{1} ഗ്രാം</b> ({2} പവൻ) 22K സ്വർണം വാങ്ങാം.",
+"Part 1 · now":"ഭാഗം 1 · ഇപ്പോൾ",
+"Part 1 · hold off":"ഭാഗം 1 · കാത്തിരിക്കുക",
+"Part 2 · on a dip":"ഭാഗം 2 · വില ഇടിയുമ്പോൾ",
+"Part 3 · on strength":"ഭാഗം 3 · വില ഉയരുമ്പോൾ",
+"At today’s price of {0} per gram.":"ഇന്നത്തെ വിലയായ ഗ്രാമിന് {0}-ൽ.",
+"Not yet. Only buy now if you need the gold soon.":"ഇപ്പോൾ വേണ്ട. സ്വർണം ഉടൻ ആവശ്യമുണ്ടെങ്കിൽ മാത്രം വാങ്ങുക.",
+"If price falls to {0} per gram ({1}), or in 2 weeks, whichever comes first.":"ഗ്രാമിന് വില {0} ആയി കുറഞ്ഞാൽ ({1}), അല്ലെങ്കിൽ 2 ആഴ്ചയ്ക്കുള്ളിൽ, ഏതാണോ ആദ്യം വരുന്നത്.",
+"If price closes above {0} per gram ({1}), or in 4 weeks, whichever comes first.":"ഗ്രാമിന് വില {0}-ന് മുകളിൽ ക്ലോസ് ചെയ്താൽ ({1}), അല്ലെങ്കിൽ 4 ആഴ്ചയ്ക്കുള്ളിൽ, ഏതാണോ ആദ്യം വരുന്നത്.",
+"of your budget":"ബജറ്റിന്റെ",
+"about {0} g":"ഏകദേശം {0} ഗ്രാം",
+
+/* ---- strategy ---- */
+"Last 30 days":"കഴിഞ്ഞ 30 ദിവസം",
+"Last 90 days":"കഴിഞ്ഞ 90 ദിവസം",
+"Last 12 months":"കഴിഞ്ഞ 12 മാസം",
+"At the high":"ഉയർന്ന വിലയിൽ",
+"{0} below the high":"ഉയർന്ന വിലയേക്കാൾ {0} താഴെ",
+"Low {0} ({1})":"കുറഞ്ഞത് {0} ({1})",
+"High {0} ({1})":"ഉയർന്നത് {0} ({1})",
+"The dot shows where today’s price sits between the low (green end, cheaper) and the high (red end, dearer) of each period.":"ഓരോ കാലയളവിലെയും കുറഞ്ഞ വിലയ്ക്കും (പച്ച അറ്റം, വില കുറവ്) ഉയർന്ന വിലയ്ക്കും (ചുവപ്പ് അറ്റം, വില കൂടുതൽ) ഇടയിൽ ഇന്നത്തെ വില എവിടെയാണെന്ന് കുത്ത് കാണിക്കുന്നു.",
+"The current fall is {0}, from {1} on {2} to a low of {3} on {4} ({5} days).":"ഇപ്പോഴത്തെ ഇടിവ് {0} ആണ്: {2}-ന് {1}-ൽ നിന്ന് {4}-ന് {3} എന്ന ഏറ്റവും താഴ്ന്ന നിലയിലേക്ക് ({5} ദിവസം).",
+"That is deeper than {0} of the {1} earlier falls of 5% or more.":"5% ഓ അതിലധികമോ ഉണ്ടായ {1} മുൻ ഇടിവുകളിൽ {0} എണ്ണത്തേക്കാൾ ഇത് ആഴമേറിയതാണ്.",
+"Price has bounced {0} from that low so far.":"ആ താഴ്ന്ന നിലയിൽ നിന്ന് വില ഇതുവരെ {0} തിരിച്ചുകയറി.",
+"No fall of 5% or more is under way. Price is {0} above its last low of {1} on {2} ({3} days ago).":"5% ഓ അതിലധികമോ ഇടിവ് ഇപ്പോൾ നടക്കുന്നില്ല. വില അവസാന താഴ്ന്ന നിലയായ {2}-ലെ {1}-നേക്കാൾ {0} ഉയരത്തിലാണ് ({3} ദിവസം മുമ്പ്).",
+"There has been no fall of 5% or more in the data yet.":"ഡാറ്റയിൽ ഇതുവരെ 5% ഓ അതിലധികമോ ഇടിവ് ഉണ്ടായിട്ടില്ല.",
+"Since {0}, price fell 5% or more {1} time before.":"{0} മുതൽ വില 5% ഓ അതിലധികമോ {1} തവണ ഇടിഞ്ഞിട്ടുണ്ട്.",
+"Since {0}, price fell 5% or more {1} times before.":"{0} മുതൽ വില 5% ഓ അതിലധികമോ {1} തവണ ഇടിഞ്ഞിട്ടുണ്ട്.",
+"A typical fall was {0} over about {1} days.":"സാധാരണ ഇടിവ് ഏകദേശം {1} ദിവസത്തിൽ {0} ആയിരുന്നു.",
+"Thirty days after those lows, price was higher in {0} of {1} cases (typical change {2}).":"ആ താഴ്ന്ന നിലകൾക്ക് 30 ദിവസത്തിന് ശേഷം {1} സന്ദർഭങ്ങളിൽ {0} എണ്ണത്തിൽ വില കൂടുതലായിരുന്നു (സാധാരണ മാറ്റം {2}).",
+"There are too few completed cases to say what usually follows.":"സാധാരണ എന്താണ് സംഭവിക്കുന്നതെന്ന് പറയാൻ പൂർത്തിയായ സന്ദർഭങ്ങൾ വളരെ കുറവാണ്.",
+"Fall":"ഇടിവ്","Size":"വലുപ്പം","Days":"ദിവസം","30 days later":"30 ദിവസത്തിന് ശേഷം",
+"Now":"ഇപ്പോൾ","open":"തുടരുന്നു","not yet":"ഇതുവരെ ഇല്ല",
+
+/* ---- calculator ---- */
+"Rate not loaded yet":"നിരക്ക് ഇതുവരെ ലോഡ് ആയിട്ടില്ല",
+"Enter the weight":"തൂക്കം നൽകുക",
+"Gold value (22K)":"സ്വർണ മൂല്യം (22K)",
+"Making ({0}%)":"പണിക്കൂലി ({0}%)",
+"GST (3%)":"ജിഎസ്ടി (3%)",
+"Total":"ആകെ"
+};
+var MON_ML=['ജനു','ഫെബ്','മാർ','ഏപ്രി','മേയ്','ജൂൺ','ജൂലൈ','ഓഗ','സെപ്','ഒക്ടോ','നവം','ഡിസം'];
+function tr(s){var o=(LANG==='ml'&&ML[s])||s,i;for(i=1;i<arguments.length;i++)o=o.split('{'+(i-1)+'}').join(arguments[i]);return o}
+function lc(s){return LANG==='en'?s.toLowerCase():s}
+function uc(s){return LANG==='en'?s.toUpperCase():s}
 var rate=0,HIST=[],DAYS=[],MONTH=[],MDAYS=[],TODAYD='',MLABEL='',YM=[],YALL=[],HK=[],AD={};
 function dlabel(k){var p=k.split('-');return(+p[2])+' '+MON[+p[1]-1]+' '+p[0]}
-function latest(t){if(t.e>0)return['Evening',t.e];if(t.a>0)return['Afternoon',t.a];if(t.m>0)return['Morning',t.m];return null}
+function latest(t){if(t.e>0)return['evening',t.e];if(t.a>0)return['afternoon',t.a];if(t.m>0)return['morning',t.m];return null}
 function sgn(n){return(n>=0?'+':'−')+fmt.format(Math.abs(n))}
 
+function tipP(h,v,pv,key){return'<b>'+h+'</b><br>'+tr('{0} /g',f0.format(v))+'<br>'+tr('{0} /pavan',f0.format(v*8))+(pv===null?'':'<br><small class="'+(pv>0?'up':pv<0?'dn':'')+'">'+tr(key,(pv>0?'▲ ':pv<0?'▼ ':'')+f0.format(Math.abs(pv)))+'</small>')}
 function attach(el,W,H,pts){
  var svg=el.querySelector('svg'),tip=el.querySelector('.tip'),ln=svg&&svg.querySelector('.cur'),dt=svg&&svg.querySelector('.curd');
  if(!svg||!tip||!ln||!dt||!pts.length)return;
@@ -327,8 +597,8 @@ function attach(el,W,H,pts){
 
 function load(){
  fetch('data.json?'+Date.now(),{cache:'no-store'}).then(function(r){if(!r.ok)throw 0;return r.json()})
- .then(function(d){prep(d);render(d)})
- .catch(function(){$('upd').innerHTML='<span class="warn">Could not load the rates (data.json). Open this page from its web address, not as a file.</span>'})}
+ .then(function(d){DATA=d;prep(d);render(d)})
+ .catch(function(){$('upd').innerHTML='<span class="warn">'+tr('Could not load the rates (data.json). Open this page from its web address, not as a file.')+'</span>'})}
 
 function prep(d){
  var t=d.today,l=latest(t);rate=l?Number(l[1]):0;TODAYD=t.date;
@@ -352,16 +622,16 @@ function prep(d){
 function render(d){
  var t=d.today,l=latest(t);
  var up=$('upd'),now=new Date(),iso=now.getFullYear()+'-'+('0'+(now.getMonth()+1)).slice(-2)+'-'+('0'+now.getDate()).slice(-2);
- up.textContent='Rate for '+dlabel(t.date)+'. Updates automatically.';
- if(t.date<iso){var s=document.createElement('span');s.className='warn';s.textContent=' Today’s rate is not available yet, so this is the latest ('+dlabel(t.date)+').';up.appendChild(s)}
- $('latest').textContent=l?'Based on the '+l[0].toLowerCase()+' rate.':'No rate available';
+ up.textContent=tr('Rate for {0}. Updates automatically.',dlabel(t.date));
+ if(t.date<iso){var s=document.createElement('span');s.className='warn';s.textContent=tr(' Today’s rate is not available yet, so this is the latest ({0}).',dlabel(t.date));up.appendChild(s)}
+ $('latest').textContent=l?tr('Based on the {0} rate.',tr(l[0])):tr('No rate available');
  $('r22').textContent=rate>0?f0.format(rate):'—';
- $('nbp').textContent=rate>0?f0.format(rate)+' /g · 22K':'';
+ $('nbp').textContent=rate>0?tr('{0} /g · 22K',f0.format(rate)):'';
  $('rp').textContent=rate>0?f0.format(rate*8):'—';
  var hc=$('hchg');
  if(rate>0&&HIST.length){var dv=rate-HIST[HIST.length-1],pp=dv/HIST[HIST.length-1]*100;
   hc.className='chg '+(dv>0?'up':dv<0?'dn':'');
-  hc.textContent=dv==0?'No change since yesterday':(dv>0?'▲ ':'▼ ')+f0.format(Math.abs(dv)*8)+' per pavan ('+Math.abs(pp).toFixed(1)+'%) '+(dv>0?'higher':'lower')+' than yesterday'}
+  hc.textContent=dv==0?tr('No change since yesterday'):tr(dv>0?'{0} {1} per pavan ({2}%) higher than yesterday':'{0} {1} per pavan ({2}%) lower than yesterday',dv>0?'▲':'▼',f0.format(Math.abs(dv)*8),Math.abs(pp).toFixed(1))}
  else{hc.className='chg';hc.textContent=''}
  computeMA();guide();chart();mchart();ychart();analysis();strategy()}
 
@@ -373,20 +643,20 @@ function guide(){var g=$('guide');
  if(DEC){g.hidden=false;
   $('lg').className='light l-green'+(DEC.lt=='g'?' on':'');$('lo').className='light l-orange'+(DEC.lt=='o'?' on':'');$('lr').className='light l-red'+(DEC.lt=='r'?' on':'');
   $('gt').textContent=DEC.title;$('gd').textContent=DEC.why;
-  $('gr').innerHTML='<a href="#s-strategy">See your purchase plan</a>';return}
+  $('gr').innerHTML='<a href="#s-strategy">'+tr('See your purchase plan')+'</a>';return}
  if(!ok()){g.hidden=true;return}g.hidden=false;
  var s=stats(),p=s.p,c,t,d;
- if(p<=0.33){c='g';t='Good time to buy';d='Today’s rate is in the lower part of the recent range.'}
- else if(p<=0.66){c='o';t='Fair – buy only if needed';d='Today’s rate is in the middle of the recent range. Consider buying in parts.'}
- else{c='r';t='Expensive – better to wait';d='Today’s rate is near the recent high.'}
+ if(p<=0.33){c='g';t=tr('Good time to buy');d=tr('Today’s rate is in the lower part of the recent range.')}
+ else if(p<=0.66){c='o';t=tr('Fair – buy only if needed');d=tr('Today’s rate is in the middle of the recent range. Consider buying in parts.')}
+ else{c='r';t=tr('Expensive – better to wait');d=tr('Today’s rate is near the recent high.')}
  $('lg').className='light l-green'+(c=='g'?' on':'');$('lo').className='light l-orange'+(c=='o'?' on':'');$('lr').className='light l-red'+(c=='r'?' on':'');
  $('gt').textContent=t;$('gd').textContent=d;
- $('gr').textContent='Recent range (22K/g): '+fmt.format(s.mn)+' to '+fmt.format(s.mx)+' · now '+Math.round(p*100)+'% of the way up'}
+ $('gr').textContent=tr('Recent range (22K/g): {0} to {1} · now {2}% of the way up',fmt.format(s.mn),fmt.format(s.mx),Math.round(p*100))}
 
 function chart(){var el=$('chart');if(!ok()){el.innerHTML='';return}
- var s=stats(),v=s.all,lab=DAYS.concat(['Today']),lo=s.mn-100,hi=s.mx+100,W=360,H=190,L=8,B=24,T=16,bw=(W-2*L)/v.length;
+ var s=stats(),v=s.all,lab=DAYS.concat([tr('Today')]),lo=s.mn-100,hi=s.mx+100,W=360,H=190,L=8,B=24,T=16,bw=(W-2*L)/v.length;
  var y=function(x){return T+(H-T-B)*(1-(x-lo)/(hi-lo))};
- var tc=s.p<=0.33?'#2e9e4f':s.p<=0.66?'#f08a1c':'#d63a3a',o='<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Daily 22K gold price comparison">';
+ var tc=s.p<=0.33?'#2e9e4f':s.p<=0.66?'#f08a1c':'#d63a3a',o='<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="'+tr('Daily 22K gold price comparison')+'">';
  for(var i=0;i<v.length;i++){var x=L+i*bw+4,yy=y(v[i]),last=i==v.length-1;
   o+='<rect class="'+(last?'':'bar')+'" x="'+x+'" y="'+yy+'" width="'+(bw-8)+'" height="'+(H-B-yy)+'" rx="3"'+(last?' style="fill:'+tc+'"':'')+'/>';
   o+='<text x="'+(x+(bw-8)/2)+'" y="'+(yy-3)+'" text-anchor="middle">'+Math.round(v[i]).toLocaleString('en-IN')+'</text>';
@@ -395,17 +665,17 @@ function chart(){var el=$('chart');if(!ok()){el.innerHTML='';return}
  o+='<line class="cur" y1="'+T+'" y2="'+(H-B)+'" style="display:none"/><circle class="curd" r="5" style="display:none"/>';
  el.innerHTML=o+'</svg><div class="tip" hidden></div>';
  var hp=[];for(i=0;i<v.length;i++){var last2=(i==v.length-1),pv=i>0?v[i]-v[i-1]:null;
-  hp.push({x:L+i*bw+4+(bw-8)/2,y:y(v[i]),t:'<b>'+(last2?'Today · '+dlabel(TODAYD):dlabel(HK[i]))+'</b><br>'+f0.format(v[i])+' /g<br>'+f0.format(v[i]*8)+' /pavan'+(pv===null?'':'<br><small class="'+(pv>0?'up':pv<0?'dn':'')+'">'+(pv>0?'▲ ':pv<0?'▼ ':'')+f0.format(Math.abs(pv))+' vs previous day</small>')})}
+  hp.push({x:L+i*bw+4+(bw-8)/2,y:y(v[i]),t:tipP(last2?tr('Today · {0}',dlabel(TODAYD)):dlabel(HK[i]),v[i],pv,'{0} vs previous day')})}
  attach(el,W,H,hp)}
 
 function mchart(){var el=$('mchart'),st=$('mstats');
- if(!(rate>0)||MONTH.length<1){el.innerHTML='<div class="leg">The monthly chart appears once there are at least two days of rates this month.</div>';st.innerHTML='';return}
+ if(!(rate>0)||MONTH.length<1){el.innerHTML='<div class="leg">'+tr('The monthly chart appears once there are at least two days of rates this month.')+'</div>';st.innerHTML='';return}
  var td=+TODAYD.slice(8),dd=MDAYS.concat([td]),v=MONTH.concat([rate]),n=v.length,mn=Math.min.apply(null,v),mx=Math.max.apply(null,v),sum=0,i,k;
  for(i=0;i<n;i++)sum+=v[i];
  var avg=sum/n,W=360,H=210,L=42,R=10,T=20,B=26,lo=mn-150,hi=mx+150,d0=dd[0],span=Math.max(td-d0,1);
  var x=function(day){return L+(W-L-R)*(day-d0)/span},y=function(q){return T+(H-T-B)*(1-(q-lo)/(hi-lo))};
  var p=mx>mn?(rate-mn)/(mx-mn):0.5,tc=p<=0.33?'#2e9e4f':p<=0.66?'#f08a1c':'#d63a3a';
- var o='<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Monthly 22K gold price chart for '+MLABEL+'">';
+ var o='<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="'+tr('Monthly 22K gold price chart for {0}',MLABEL)+'">';
  for(k=0;k<4;k++){var t=lo+(hi-lo)*k/3;o+='<line class="gl" x1="'+L+'" x2="'+(W-R)+'" y1="'+y(t)+'" y2="'+y(t)+'"/><text x="'+(L-4)+'" y="'+(y(t)+3)+'" text-anchor="end">'+(Math.round(t/10)*10).toLocaleString('en-IN')+'</text>'}
  var pts=[];for(i=0;i<n;i++)pts.push(x(dd[i]).toFixed(1)+','+y(v[i]).toFixed(1));
  o+='<polygon class="ar" points="'+pts.join(' ')+' '+x(td).toFixed(1)+','+(H-B)+' '+x(d0).toFixed(1)+','+(H-B)+'"/>';
@@ -413,23 +683,23 @@ function mchart(){var el=$('mchart'),st=$('mstats');
  o+='<line x1="'+L+'" x2="'+(W-R)+'" y1="'+y(avg)+'" y2="'+y(avg)+'" stroke="#888" stroke-dasharray="4 3"/>';
  var imx=v.indexOf(mx),imn=v.indexOf(mn);
  var an=function(j){return j>n*0.7?'end':j<n*0.15?'start':'middle'};
- o+='<circle cx="'+x(dd[imx])+'" cy="'+y(mx)+'" r="3" fill="#d63a3a"/><text x="'+x(dd[imx])+'" y="'+(y(mx)-6)+'" text-anchor="'+an(imx)+'">High '+mx.toLocaleString('en-IN')+'</text>';
- o+='<circle cx="'+x(dd[imn])+'" cy="'+y(mn)+'" r="3" fill="#2e9e4f"/><text x="'+x(dd[imn])+'" y="'+(y(mn)+14)+'" text-anchor="'+an(imn)+'">Low '+mn.toLocaleString('en-IN')+'</text>';
+ o+='<circle cx="'+x(dd[imx])+'" cy="'+y(mx)+'" r="3" fill="#d63a3a"/><text x="'+x(dd[imx])+'" y="'+(y(mx)-6)+'" text-anchor="'+an(imx)+'">'+tr('High {0}',mx.toLocaleString('en-IN'))+'</text>';
+ o+='<circle cx="'+x(dd[imn])+'" cy="'+y(mn)+'" r="3" fill="#2e9e4f"/><text x="'+x(dd[imn])+'" y="'+(y(mn)+14)+'" text-anchor="'+an(imn)+'">'+tr('Low {0}',mn.toLocaleString('en-IN'))+'</text>';
  o+='<circle cx="'+x(td)+'" cy="'+y(rate)+'" r="4.5" fill="'+tc+'" stroke="#fff" stroke-width="1"/>';
  var tk=[1,5,10,15,20,25,30];
  for(i=0;i<tk.length;i++){if(tk[i]>=d0&&tk[i]<=td-3)o+='<text x="'+x(tk[i])+'" y="'+(H-9)+'" text-anchor="middle">'+tk[i]+' '+MON[+TODAYD.slice(5,7)-1]+'</text>'}
- o+='<text x="'+x(td)+'" y="'+(H-9)+'" text-anchor="end">Today</text>';
+ o+='<text x="'+x(td)+'" y="'+(H-9)+'" text-anchor="end">'+tr('Today')+'</text>';
  o+='<line class="cur" y1="'+T+'" y2="'+(H-B)+'" style="display:none"/><circle class="curd" r="5" style="display:none"/>';
  el.innerHTML=o+'</svg><div class="tip" hidden></div>';
  var hp=[];for(i=0;i<n;i++){var isT=(i==n-1),pv=i>0?v[i]-v[i-1]:null;
-  hp.push({x:x(dd[i]),y:y(v[i]),t:'<b>'+(isT?'Today · ':'')+dd[i]+' '+MON[+TODAYD.slice(5,7)-1]+' '+TODAYD.slice(0,4)+'</b><br>'+f0.format(v[i])+' /g<br>'+f0.format(v[i]*8)+' /pavan'+(pv===null?'':'<br><small class="'+(pv>0?'up':pv<0?'dn':'')+'">'+(pv>0?'▲ ':pv<0?'▼ ':'')+f0.format(Math.abs(pv))+' vs previous day</small>')})}
+  var dl=dd[i]+' '+MON[+TODAYD.slice(5,7)-1]+' '+TODAYD.slice(0,4);hp.push({x:x(dd[i]),y:y(v[i]),t:tipP(isT?tr('Today · {0}',dl):dl,v[i],pv,'{0} vs previous day')})}
  attach(el,W,H,hp);
- var dn=function(j){return dd[j]==td&&j==n-1?'today':dd[j]+' '+MON[+TODAYD.slice(5,7)-1]};
+ var dn=function(j){return dd[j]==td&&j==n-1?tr('today'):dd[j]+' '+MON[+TODAYD.slice(5,7)-1]};
  var ch=rate-v[0],cp=ch/v[0]*100;
- st.innerHTML='<div class="row"><span>Month high</span><span>'+fmt.format(mx)+' ('+dn(imx)+')</span></div>'+
- '<div class="row"><span>Month low</span><span>'+fmt.format(mn)+' ('+dn(imn)+')</span></div>'+
- '<div class="row"><span>Month average</span><span>'+fmt.format(avg)+'</span></div>'+
- '<div class="row tot"><span>Change since '+dd[0]+' '+MON[+TODAYD.slice(5,7)-1]+'</span><span>'+sgn(ch)+' ('+(cp>=0?'+':'−')+Math.abs(cp).toFixed(1)+'%)</span></div>'}
+ st.innerHTML='<div class="row"><span>'+tr('Month high')+'</span><span>'+fmt.format(mx)+' ('+dn(imx)+')</span></div>'+
+ '<div class="row"><span>'+tr('Month low')+'</span><span>'+fmt.format(mn)+' ('+dn(imn)+')</span></div>'+
+ '<div class="row"><span>'+tr('Month average')+'</span><span>'+fmt.format(avg)+'</span></div>'+
+ '<div class="row tot"><span>'+tr('Change since {0}',dd[0]+' '+MON[+TODAYD.slice(5,7)-1])+'</span><span>'+sgn(ch)+' ('+(cp>=0?'+':'−')+Math.abs(cp).toFixed(1)+'%)</span></div>'}
 
 function ychart(){var el=$('ychart'),st=$('ystats'),n=YM.length;
  if(!(rate>0)||n<1||YALL.length<1){el.innerHTML='';st.innerHTML='';return}
@@ -443,7 +713,7 @@ function ychart(){var el=$('ychart'),st=$('ystats'),n=YM.length;
  var pad=Math.max((hi-lo)*0.12,100);lo-=pad;hi+=pad;
  var x=function(j){return L+(W-L-R)*j/(N-1)},y=function(q){return T+(H-T-B)*(1-(q-lo)/(hi-lo))};
  var cur=YM[n-1],p=hi>lo?(cur.avg-lo)/(hi-lo):0.5,tc=p<=0.33?'#2e9e4f':p<=0.66?'#f08a1c':'#d63a3a';
- var o='<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Yearly 22K gold price chart, monthly averages">',k;
+ var o='<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="'+tr('Yearly 22K gold price chart, monthly averages')+'">',k;
  for(k=0;k<4;k++){var tv=lo+(hi-lo)*k/3;o+='<line class="gl" x1="'+L+'" x2="'+(W-R)+'" y1="'+y(tv)+'" y2="'+y(tv)+'"/><text x="'+(L-4)+'" y="'+(y(tv)+3)+'" text-anchor="end">'+(Math.round(tv/10)*10).toLocaleString('en-IN')+'</text>'}
  var sl=YM.map(function(m){return slot(m.mk)}),pts=[];
  for(i=0;i<n;i++)pts.push(x(sl[i]).toFixed(1)+','+y(YM[i].avg).toFixed(1));
@@ -455,22 +725,22 @@ function ychart(){var el=$('ychart'),st=$('ystats'),n=YM.length;
  for(i=0;i<n;i++){if(YM[i].avg>YM[imx].avg)imx=i;if(YM[i].avg<YM[imn].avg)imn=i}
  for(i=0;i<n;i++)o+='<circle cx="'+x(sl[i]).toFixed(1)+'" cy="'+y(YM[i].avg).toFixed(1)+'" r="'+(i==n-1?4.5:2.5)+'" fill="'+(i==n-1?tc:'var(--gold)')+'"/>';
  if(n>=2){
-  o+='<text x="'+x(sl[imx])+'" y="'+(y(YM[imx].mx)-6)+'" text-anchor="'+ia(sl[imx])+'">High '+Math.round(YM[imx].avg).toLocaleString('en-IN')+'</text>';
-  if(imn!=imx)o+='<text x="'+x(sl[imn])+'" y="'+(y(YM[imn].mn)+14)+'" text-anchor="'+ia(sl[imn])+'">Low '+Math.round(YM[imn].avg).toLocaleString('en-IN')+'</text>'}
- else o+='<text x="'+x(sl[0])+'" y="'+(y(YM[0].mx)-6)+'" text-anchor="end">'+MON[+YM[0].mk.slice(5,7)-1]+' avg '+Math.round(YM[0].avg).toLocaleString('en-IN')+'</text>';
+  o+='<text x="'+x(sl[imx])+'" y="'+(y(YM[imx].mx)-6)+'" text-anchor="'+ia(sl[imx])+'">'+tr('High {0}',Math.round(YM[imx].avg).toLocaleString('en-IN'))+'</text>';
+  if(imn!=imx)o+='<text x="'+x(sl[imn])+'" y="'+(y(YM[imn].mn)+14)+'" text-anchor="'+ia(sl[imn])+'">'+tr('Low {0}',Math.round(YM[imn].avg).toLocaleString('en-IN'))+'</text>'}
+ else o+='<text x="'+x(sl[0])+'" y="'+(y(YM[0].mx)-6)+'" text-anchor="end">'+tr('{0} avg {1}',MON[+YM[0].mk.slice(5,7)-1],Math.round(YM[0].avg).toLocaleString('en-IN'))+'</text>';
  for(i=0;i<N;i++){var mi=sm-1+i,m=(mi%12)+1,yr=sy+Math.floor(mi/12),xs=x(i).toFixed(1);
   o+='<text x="'+xs+'" y="'+(H-20)+'" text-anchor="middle">'+MON[m-1]+'</text>';
   if(m==1)o+='<text x="'+xs+'" y="'+(H-8)+'" text-anchor="middle" style="fill:var(--muted)">'+yr+'</text>'}
  o+='<line class="cur" y1="'+T+'" y2="'+(H-B)+'" style="display:none"/><circle class="curd" r="5" style="display:none"/>';
  el.innerHTML=o+'</svg><div class="tip" hidden></div>';
  var hp=[];for(i=0;i<n;i++){var mi2=+YM[i].mk.slice(5,7),pa=i>0?YM[i].avg-YM[i-1].avg:null;
-  hp.push({x:x(sl[i]),y:y(YM[i].avg),t:'<b>'+MON[mi2-1]+' '+YM[i].mk.slice(0,4)+'</b><br>Avg '+f0.format(YM[i].avg)+' /g<br><small>Low '+f0.format(YM[i].mn)+' · High '+f0.format(YM[i].mx)+'<br>'+YM[i].n+(YM[i].n==1?' reading':' days')+'</small>'+(pa===null?'':'<br><small class="'+(pa>0?'up':pa<0?'dn':'')+'">'+(pa>0?'▲ ':pa<0?'▼ ':'')+f0.format(Math.abs(pa))+' vs previous month</small>')})}
+  hp.push({x:x(sl[i]),y:y(YM[i].avg),t:'<b>'+MON[mi2-1]+' '+YM[i].mk.slice(0,4)+'</b><br>'+tr('Avg {0} /g',f0.format(YM[i].avg))+'<br><small>'+tr('Low {0} · High {1}',f0.format(YM[i].mn),f0.format(YM[i].mx))+'<br>'+(YM[i].n==1?tr('{0} reading',1):tr('{0} days',YM[i].n))+'</small>'+(pa===null?'':'<br><small class="'+(pa>0?'up':pa<0?'dn':'')+'">'+tr('{0} vs previous month',(pa>0?'▲ ':pa<0?'▼ ':'')+f0.format(Math.abs(pa)))+'</small>')})}
  attach(el,W,H,hp);
  var ch=rate-YM[0].avg,cp=ch/YM[0].avg*100;
- st.innerHTML='<div class="row"><span>Highest day</span><span>'+fmt.format(dmx.v)+' ('+dlabel(dmx.k)+')</span></div>'+
- '<div class="row"><span>Lowest day</span><span>'+fmt.format(dmn.v)+' ('+dlabel(dmn.k)+')</span></div>'+
- '<div class="row"><span>Average of months shown</span><span>'+fmt.format(avg)+'</span></div>'+
- '<div class="row tot"><span>Change since '+mlab(YM[0].mk)+'</span><span>'+sgn(ch)+' ('+(cp>=0?'+':'−')+Math.abs(cp).toFixed(1)+'%)</span></div>'}
+ st.innerHTML='<div class="row"><span>'+tr('Highest day')+'</span><span>'+fmt.format(dmx.v)+' ('+dlabel(dmx.k)+')</span></div>'+
+ '<div class="row"><span>'+tr('Lowest day')+'</span><span>'+fmt.format(dmn.v)+' ('+dlabel(dmn.k)+')</span></div>'+
+ '<div class="row"><span>'+tr('Average of months shown')+'</span><span>'+fmt.format(avg)+'</span></div>'+
+ '<div class="row tot"><span>'+tr('Change since {0}',mlab(YM[0].mk))+'</span><span>'+sgn(ch)+' ('+(cp>=0?'+':'−')+Math.abs(cp).toFixed(1)+'%)</span></div>'}
 
 var MA=null,DEC=null,PLANINIT=false;
 function dnum(k){var q=k.split('-');return Date.UTC(+q[0],+q[1]-1,+q[2])/864e5}
@@ -546,21 +816,21 @@ function computeMA(){
  /* indicator votes: +1 bullish, -1 bearish, 0 neutral */
  var S=[],add=function(g2,name,val,r){S.push({g:g2,name:name,val:val,r:r})};
  var cmp=function(a,b,band){var d=(a/b-1)*100;return d>band?1:d<-band?-1:0};
- var avgRow=function(g2,N,av){if(av)add(g2,'Price vs '+N+'-day average',f0.format(P)+' vs '+f0.format(av)+' ('+pcs((P/av-1)*100)+')',cmp(P,av,.3))};
+ var avgRow=function(g2,N,av){if(av)add(g2,tr('Price vs {0}-day average',N),f0.format(P)+' vs '+f0.format(av)+' ('+pcs((P/av-1)*100)+')',cmp(P,av,.3))};
  avgRow('s',7,m.s7);
- if(m.c7!==null)add('s','7-day change',pcs(m.c7),m.c7>.5?1:m.c7<-.5?-1:0);
- add('s','RSI (14-day)',m.rsi.toFixed(0)+(m.rsi>=70?' · overbought':m.rsi<=30?' · oversold':' · no extreme'),m.rsi>55?1:m.rsi<45?-1:0);
- add('s','MACD momentum',m.hist>0?'above its signal line':'below its signal line',Math.abs(m.hist)<P*0.0003?0:m.hist>0?1:-1);
+ if(m.c7!==null)add('s',tr('{0}-day change',7),pcs(m.c7),m.c7>.5?1:m.c7<-.5?-1:0);
+ add('s',tr('RSI (14-day)'),m.rsi.toFixed(0)+(m.rsi>=70?tr(' · overbought'):m.rsi<=30?tr(' · oversold'):tr(' · no extreme')),m.rsi>55?1:m.rsi<45?-1:0);
+ add('s',tr('MACD momentum'),m.hist>0?tr('above its signal line'):tr('below its signal line'),Math.abs(m.hist)<P*0.0003?0:m.hist>0?1:-1);
  avgRow('m',30,m.s30);
- if(m.c30!==null)add('m','30-day change',pcs(m.c30),m.c30>1.5?1:m.c30<-1.5?-1:0);
+ if(m.c30!==null)add('m',tr('{0}-day change',30),pcs(m.c30),m.c30>1.5?1:m.c30<-1.5?-1:0);
  avgRow('l',90,m.s90);avgRow('l',200,m.s200);
- if(m.s30&&m.s90)add('l','30-day vs 90-day average',f0.format(m.s30)+' vs '+f0.format(m.s90),cmp(m.s30,m.s90,.3));
- if(m.c90!==null)add('l','90-day change',pcs(m.c90),m.c90>3?1:m.c90<-3?-1:0);
+ if(m.s30&&m.s90)add('l',tr('30-day vs 90-day average'),f0.format(m.s30)+' vs '+f0.format(m.s90),cmp(m.s30,m.s90,.3));
+ if(m.c90!==null)add('l',tr('{0}-day change',90),pcs(m.c90),m.c90>3?1:m.c90<-3?-1:0);
  var sum=0,bull=0,bear=0,neu=0;
  S.forEach(function(x){sum+=x.r;if(x.r>0)bull++;else if(x.r<0)bear++;else neu++});
  m.S=S;m.bull=bull;m.bear=bear;m.neu=neu;m.ratio=sum/S.length;
  var r=m.ratio;
- m.vt=r>=.5?['Strong bullish','bu','▲▲']:r>=.2?['Bullish','bu','▲']:r>-.2?['Neutral','ne','◆']:r>-.5?['Bearish','be','▼']:['Strong bearish','be','▼▼'];
+ m.vt=r>=.5?['Strong bullish','bu','▲▲']:r>=.2?['Bullish','bu','▲']:r>-.2?['Neutral','ne','◆']:r>-.5?['Bearish','be','▼']:['Strong bearish','be','▼▼'];m.vt[0]=tr(m.vt[0]);
  var rng=function(days){var tg=LD-days,hi=-1,lo=1e12,hk='',lk='',q;for(q=0;q<n;q++)if(D[q]>=tg){if(C[q]>hi){hi=C[q];hk=K[q]}if(C[q]<lo){lo=C[q];lk=K[q]}}return{hi:hi,lo:lo,hk:hk,lk:lk}};
  m.r30=rng(30);m.r90=rng(90);m.r365=rng(365);m.ra=rng(99999);
  m.since=MON[+K[0].slice(5,7)-1]+' '+K[0].slice(0,4);
@@ -571,80 +841,80 @@ function computeMA(){
 /* buy now / buy in parts / wait, from the overall trend score and RSI */
 function decide(){
  var m=MA,r=m.ratio,rsi=m.rsi,P=m.P,i,key,lt,title,fr,why;
- if(r>=.4&&rsi<70){key='now';lt='g';title='Buy now';fr=[60,20,20];why='Prices are clearly trending up, so waiting may cost more. Keep some of your budget for a dip.'}
- else if(r>=.4){key='parts';lt='o';title='Buy in parts';fr=[40,30,30];why='The trend is up, but RSI is '+rsi.toFixed(0)+' (overbought), so prices are stretched. Do not chase them. Buy in parts.'}
- else if(r>=.2){key='parts';lt='o';title='Buy in parts';fr=[50,25,25];why='Prices are edging up. Buy in parts, with a bigger first part.'}
- else if(r>-.2){key='parts';lt='o';title='Buy in parts';fr=[34,33,33];why='There is no clear direction. Splitting your purchase averages out the price you pay.'}
- else if(rsi<=30){key='parts';lt='o';title='Buy in parts, start small';fr=[25,35,40];why='The trend is down, but RSI is '+rsi.toFixed(0)+' (oversold), so a bounce is possible. Start small and keep most of your budget for later.'}
- else if(r>-.4){key='parts';lt='o';title='Buy in parts, start small';fr=[25,35,40];why='Prices are drifting down. Start small and keep most of your budget for later.'}
- else{key='wait';lt='r';title='Wait';fr=[0,50,50];why='Prices are trending down and are not oversold yet. Hold off unless you must buy, and enter in steps using the purchase plan.'}
+ if(r>=.4&&rsi<70){key='now';lt='g';title=tr('Buy now');fr=[60,20,20];why=tr('Prices are clearly trending up, so waiting may cost more. Keep some of your budget for a dip.')}
+ else if(r>=.4){key='parts';lt='o';title=tr('Buy in parts');fr=[40,30,30];why=tr('The trend is up, but RSI is {0} (overbought), so prices are stretched. Do not chase them. Buy in parts.',rsi.toFixed(0))}
+ else if(r>=.2){key='parts';lt='o';title=tr('Buy in parts');fr=[50,25,25];why=tr('Prices are edging up. Buy in parts, with a bigger first part.')}
+ else if(r>-.2){key='parts';lt='o';title=tr('Buy in parts');fr=[34,33,33];why=tr('There is no clear direction. Splitting your purchase averages out the price you pay.')}
+ else if(rsi<=30){key='parts';lt='o';title=tr('Buy in parts, start small');fr=[25,35,40];why=tr('The trend is down, but RSI is {0} (oversold), so a bounce is possible. Start small and keep most of your budget for later.',rsi.toFixed(0))}
+ else if(r>-.4){key='parts';lt='o';title=tr('Buy in parts, start small');fr=[25,35,40];why=tr('Prices are drifting down. Start small and keep most of your budget for later.')}
+ else{key='wait';lt='r';title=tr('Wait');fr=[0,50,50];why=tr('Prices are trending down and are not oversold yet. Hold off unless you must buy, and enter in steps using the purchase plan.')}
  var dip=null;for(i=0;i<m.lv.sup.length;i++){if(m.lv.sup[i].lv<=P*.985){dip=m.lv.sup[i];break}}
  var L2=dip?dip.lv:Math.round(P*.97/5)*5;
- var L2n=dip?(dip.round?'round-number support':'support, price has turned here '+dip.n+(dip.n==1?' time':' times')):'3% below today';
+ var L2n=dip?(dip.round?tr('round-number support'):tr(dip.n==1?'support, price has turned here {0} time':'support, price has turned here {0} times',dip.n)):tr('3% below today');
  var below=m.s30&&P<m.s30*.998,L3,L3n;
- if(below){L3=Math.round(m.s30/5)*5;L3n='30-day average, a close above it suggests the trend is improving'}
- else if(m.lv.res.length){L3=m.lv.res[0].lv;L3n='resistance, a close above it suggests more upside'}
- else{L3=Math.round(P*1.02/5)*5;L3n='2% above today'}
+ if(below){L3=Math.round(m.s30/5)*5;L3n=tr('30-day average, a close above it suggests the trend is improving')}
+ else if(m.lv.res.length){L3=m.lv.res[0].lv;L3n=tr('resistance, a close above it suggests more upside')}
+ else{L3=Math.round(P*1.02/5)*5;L3n=tr('2% above today')}
  DEC={key:key,lt:lt,title:title,fr:fr,why:why,L2:L2,L2n:L2n,L3:L3,L3n:L3n}}
 
 function analysis(){
  var box=$('ma');$('s-analysis').hidden=!MA;if(!MA){box.hidden=true;return}box.hidden=false;
  var m=MA,P=m.P,K=m.K,C=m.C,D=m.D,n=m.n,LD=m.LD,S=m.S,i;
  var col={bu:'#2e9e4f',be:'#d63a3a',ne:'#f08a1c'},vt=m.vt;
- $('mv').textContent=vt[0].toUpperCase()+' '+vt[2];$('mv').style.background=col[vt[1]];
+ $('mv').textContent=uc(vt[0])+' '+vt[2];$('mv').style.background=col[vt[1]];
  var T=[];
- T.push('The 22K price trend is <b class="'+vt[1]+'">'+vt[0].toLowerCase()+'</b>: '+m.bull+' of '+S.length+' indicators point up, '+m.bear+' point down and '+m.neu+' are neutral.');
- if(m.c7!==null&&m.c30!==null&&m.c90!==null)T.push('Price is '+pcs(m.c7)+' over 7 days, '+pcs(m.c30)+' over 30 days and '+pcs(m.c90)+' over 90 days.');
- T.push('It is '+Math.abs((P/m.ra.hi-1)*100).toFixed(1)+'% below the high since '+m.since+' ('+f0.format(m.ra.hi)+' on '+dlabel(m.ra.hk)+'). <a href="#s-strategy">See the buying strategy</a> for what to do.');
+ T.push(tr('The 22K price trend is {0}: {1} of {2} indicators point up, {3} point down and {4} are neutral.','<b class="'+vt[1]+'">'+lc(vt[0])+'</b>',m.bull,S.length,m.bear,m.neu));
+ if(m.c7!==null&&m.c30!==null&&m.c90!==null)T.push(tr('Price is {0} over 7 days, {1} over 30 days and {2} over 90 days.',pcs(m.c7),pcs(m.c30),pcs(m.c90)));
+ T.push(tr('It is {0}% below the high since {1} ({2} on {3}).',Math.abs((P/m.ra.hi-1)*100).toFixed(1),m.since,f0.format(m.ra.hi),dlabel(m.ra.hk)));T.push(tr('{0} for what to do.','<a href="#s-strategy">'+tr('See the buying strategy')+'</a>'));
  $('msum').innerHTML=T.join(' ');
 
  /* short vs long term */
  var H={s:{u:0,d:0,z:0,sc:0},m:{u:0,d:0,z:0,sc:0},l:{u:0,d:0,z:0,sc:0}};
  S.forEach(function(x){var g=H[x.g];g.sc+=x.r;if(x.r>0)g.u++;else if(x.r<0)g.d++;else g.z++});
- var hz=function(g){var q=H[g],t=q.u+q.d+q.z,a=t?q.sc/t:0;return a>.25?['Bullish','bu','▲']:a<-.25?['Bearish','be','▼']:['Neutral','ne','◆']};
+ var hz=function(g){var q=H[g],t=q.u+q.d+q.z,a=t?q.sc/t:0;return a>.25?[tr('Bullish'),'bu','▲']:a<-.25?[tr('Bearish'),'be','▼']:[tr('Neutral'),'ne','◆']};
  $('mhz').innerHTML=[['Short term','days','s'],['Medium term','weeks','m'],['Long term','months','l']].map(function(h){var v=hz(h[2]),q=H[h[2]];
-  return'<div>'+h[0]+' ('+h[1]+')<b class="'+v[1]+'">'+v[0]+' '+v[2]+'</b><small>'+q.u+' up · '+q.d+' down'+(q.z?' · '+q.z+' flat':'')+'</small></div>'}).join('');
+  return'<div>'+tr(h[0])+' ('+tr(h[1])+')<b class="'+v[1]+'">'+v[0]+' '+v[2]+'</b><small>'+tr('{0} up · {1} down',q.u,q.d)+(q.z?tr(' · {0} flat',q.z):'')+'</small></div>'}).join('');
 
  /* moving averages */
- var av=[['7-day',m.s7],['30-day',m.s30],['90-day',m.s90]],ab=[P>=m.s7,P>=m.s30,P>=m.s90],na=ab.filter(Boolean).length,tx;
- if(na==0)tx='Price is below all three averages'+(m.s7<m.s30&&m.s30<m.s90?', and the shorter averages sit below the longer ones. That is a clear downtrend.':'.');
- else if(na==3)tx='Price is above all three averages'+(m.s7>m.s30&&m.s30>m.s90?', and the shorter averages sit above the longer ones. That is a clear uptrend.':'.');
- else if(ab[0]&&!ab[1])tx='Price is back above its 7-day average but still below its 30-day average ('+f0.format(m.s30)+'). That looks like a short bounce inside a bigger downtrend. A move above the 30-day average would be the first sign of a turn.';
- else if(!ab[0]&&ab[1])tx='Price slipped below its 7-day average but still holds above the 30-day average. That looks like a short dip inside a bigger uptrend.';
- else tx='Price sits between its averages, so the trend is unclear.';
- $('mavg').innerHTML='<div class="hz">'+av.map(function(a){var d=(P/a[1]-1)*100;return'<div>'+a[0]+' average<b>'+f0.format(a[1])+'</b><span class="'+(d>=0?'bu':'be')+'">price '+Math.abs(d).toFixed(1)+'% '+(d>=0?'above ▲':'below ▼')+'</span></div>'}).join('')+'</div><div class="gd">'+tx+'</div>';
+ var av=[[7,m.s7],[30,m.s30],[90,m.s90]],ab=[P>=m.s7,P>=m.s30,P>=m.s90],na=ab.filter(Boolean).length,tx;
+ if(na==0)tx=tr(m.s7<m.s30&&m.s30<m.s90?'Price is below all three averages, and the shorter averages sit below the longer ones. That is a clear downtrend.':'Price is below all three averages.');
+ else if(na==3)tx=tr(m.s7>m.s30&&m.s30>m.s90?'Price is above all three averages, and the shorter averages sit above the longer ones. That is a clear uptrend.':'Price is above all three averages.');
+ else if(ab[0]&&!ab[1])tx=tr('Price is back above its 7-day average but still below its 30-day average ({0}). That looks like a short bounce inside a bigger downtrend. A move above the 30-day average would be the first sign of a turn.',f0.format(m.s30));
+ else if(!ab[0]&&ab[1])tx=tr('Price slipped below its 7-day average but still holds above the 30-day average. That looks like a short dip inside a bigger uptrend.');
+ else tx=tr('Price sits between its averages, so the trend is unclear.');
+ $('mavg').innerHTML='<div class="hz">'+av.map(function(a){var d=(P/a[1]-1)*100;return'<div>'+tr('{0}-day average',a[0])+'<b>'+f0.format(a[1])+'</b><span class="'+(d>=0?'bu':'be')+'">'+tr(d>=0?'price {0}% above ▲':'price {0}% below ▼',Math.abs(d).toFixed(1))+'</span></div>'}).join('')+'</div><div class="gd">'+tx+'</div>';
 
  /* RSI */
  var rs=m.rsi,rt,dr=rs-m.rsi5;
- if(rs>=70)rt='Overbought. Prices have risen fast and a pullback is likely, so avoid chasing.';
- else if(rs>=60)rt='Strong. Buyers are in control, and it is not yet overbought (70).';
- else if(rs>40)rt='Balanced. Neither buyers nor sellers are in control.';
- else if(rs>30)rt='Weak. Sellers are in control and RSI is close to oversold (30). A bounce is possible, but the trend is still down.';
- else rt='Oversold. Prices have fallen fast. Bounces often follow, but a strong downtrend can stay oversold for weeks, so buy small.';
- if(Math.abs(dr)>=3)rt+=' It was '+m.rsi5.toFixed(0)+' five days ago, so momentum is '+(dr>0?'improving':'worsening')+'.';
- $('mrsi').innerHTML='<div><b style="font:600 22px var(--serif)">RSI '+rs.toFixed(0)+'</b> <span class="leg">out of 100</span></div><div class="gauge"><i class="gk" style="left:'+Math.max(2,Math.min(98,rs))+'%"></i></div><div class="gz"><span style="width:30%">Oversold</span><span style="width:40%">Balanced</span><span style="width:30%">Overbought</span></div><div class="gd" style="margin-top:8px">'+rt+'</div>';
+ if(rs>=70)rt=tr('Overbought. Prices have risen fast and a pullback is likely, so avoid chasing.');
+ else if(rs>=60)rt=tr('Strong. Buyers are in control, and it is not yet overbought (70).');
+ else if(rs>40)rt=tr('Balanced. Neither buyers nor sellers are in control.');
+ else if(rs>30)rt=tr('Weak. Sellers are in control and RSI is close to oversold (30). A bounce is possible, but the trend is still down.');
+ else rt=tr('Oversold. Prices have fallen fast. Bounces often follow, but a strong downtrend can stay oversold for weeks, so buy small.');
+ if(Math.abs(dr)>=3)rt+=tr(dr>0?' It was {0} five days ago, so momentum is improving.':' It was {0} five days ago, so momentum is worsening.',m.rsi5.toFixed(0));
+ $('mrsi').innerHTML='<div><b style="font:600 22px var(--serif)">'+tr('RSI {0}',rs.toFixed(0))+'</b> <span class="leg">'+tr('out of 100')+'</span></div><div class="gauge"><i class="gk" style="left:'+Math.max(2,Math.min(98,rs))+'%"></i></div><div class="gz"><span style="width:30%">'+tr('Oversold')+'</span><span style="width:40%">'+tr('Balanced')+'</span><span style="width:30%">'+tr('Overbought')+'</span></div><div class="gd" style="margin-top:8px">'+rt+'</div>';
 
  /* MACD */
  var up=m.hist>m.hist3,pos=m.hist>0,mt;
- if(!pos&&up)mt='MACD is below its signal line, but the gap has narrowed over the last 3 days. Selling pressure is easing. A cross above the signal line would be an early buy signal.';
- else if(!pos)mt='MACD is below its signal line and the gap is widening, so downward momentum is still building.';
- else if(up)mt='MACD is above its signal line and the gap is widening, so upward momentum is building.';
- else mt='MACD is above its signal line but the gap is narrowing, so the uptrend is losing steam.';
- mt+=m.macd<0?' It is also below zero, which means the medium-term trend is down.':' It is also above zero, which means the medium-term trend is up.';
- if(m.cross)mt+=' It crossed '+(m.cross.dir>0?'above':'below')+' the signal line '+(m.cross.ago==0?'today':m.cross.ago+(m.cross.ago==1?' day':' days')+' ago')+'.';
- $('mmacd').innerHTML='<div class="row"><span>MACD line</span><span>'+sg0(m.macd)+'</span></div><div class="row"><span>Signal line</span><span>'+sg0(m.sig)+'</span></div><div class="row"><span>Gap (MACD minus signal)</span><span class="'+(pos?'bu':'be')+'">'+sg0(m.hist)+' · '+(up?'rising':'falling')+'</span></div><div class="gd" style="margin-top:6px">'+mt+'</div>';
+ if(!pos&&up)mt=tr('MACD is below its signal line, but the gap has narrowed over the last 3 days. Selling pressure is easing. A cross above the signal line would be an early buy signal.');
+ else if(!pos)mt=tr('MACD is below its signal line and the gap is widening, so downward momentum is still building.');
+ else if(up)mt=tr('MACD is above its signal line and the gap is widening, so upward momentum is building.');
+ else mt=tr('MACD is above its signal line but the gap is narrowing, so the uptrend is losing steam.');
+ mt+=m.macd<0?tr(' It is also below zero, which means the medium-term trend is down.'):tr(' It is also above zero, which means the medium-term trend is up.');
+ if(m.cross)mt+=tr(m.cross.dir>0?' It crossed above the signal line {0}.':' It crossed below the signal line {0}.',m.cross.ago==0?tr('today'):tr(m.cross.ago==1?'{0} day ago':'{0} days ago',m.cross.ago));
+ $('mmacd').innerHTML='<div class="row"><span>'+tr('MACD line')+'</span><span>'+sg0(m.macd)+'</span></div><div class="row"><span>'+tr('Signal line')+'</span><span>'+sg0(m.sig)+'</span></div><div class="row"><span>'+tr('Gap (MACD minus signal)')+'</span><span class="'+(pos?'bu':'be')+'">'+sg0(m.hist)+' · '+tr(up?'rising':'falling')+'</span></div><div class="gd" style="margin-top:6px">'+mt+'</div>';
 
  /* support and resistance ladder */
- var lr=function(cls,x,kind){var d=(x.lv/P-1)*100;return'<div class="lr '+cls+'"><span>'+kind+'<small>'+(x.round?'round number, no past turning point':'turned here '+x.n+(x.n==1?' time':' times')+' · last '+dshort(x.last))+'</small></span><span style="text-align:right">'+f0.format(x.lv)+'<small>'+pcs(d)+' from today</small></span></div>'};
+ var lr=function(cls,x,kind){var d=(x.lv/P-1)*100;return'<div class="lr '+cls+'"><span>'+tr(kind)+'<small>'+(x.round?tr('round number, no past turning point'):tr(x.n==1?'turned here {0} time · last {1}':'turned here {0} times · last {1}',x.n,dshort(x.last)))+'</small></span><span style="text-align:right">'+f0.format(x.lv)+'<small>'+tr('{0} from today',pcs(d))+'</small></span></div>'};
  var ld='';m.lv.res.slice().reverse().forEach(function(x){ld+=lr('res',x,'Resistance')});
- ld+='<div class="lr now"><span>Today</span><span>'+f0.format(P)+'</span></div>';
+ ld+='<div class="lr now"><span>'+tr('Today')+'</span><span>'+f0.format(P)+'</span></div>';
  m.lv.sup.forEach(function(x){ld+=lr('sup',x,'Support')});
  $('mlad').innerHTML=ld;
- $('mwatch').textContent='Watch: a close above '+f0.format(m.lv.res[0].lv)+' is a first sign of strength'+(m.s30&&P<m.s30?', but the trend only turns up on a close above the 30-day average ('+f0.format(m.s30)+')':'')+'. A fall below '+f0.format(m.lv.sup[0].lv)+' would extend the decline.';
+ $('mwatch').textContent=tr('Watch: a close above {0} is a first sign of strength',f0.format(m.lv.res[0].lv))+(m.s30&&P<m.s30?tr(', but the trend only turns up on a close above the 30-day average ({0})',f0.format(m.s30)):'')+tr('. A fall below {0} would extend the decline.',f0.format(m.lv.sup[0].lv));
 
  /* all indicators */
- $('mtbl').innerHTML=S.map(function(x){var c=x.r>0?['bu','Bullish ▲']:x.r<0?['be','Bearish ▼']:['ne','Neutral ◆'];return'<div class="row"><span>'+x.name+'<br><small>'+x.val+'</small></span><span class="'+c[0]+'">'+c[1]+'</span></div>'}).join('')+
-  '<div class="row"><span>Volatility<br><small>typical daily move '+m.v30.toFixed(2)+'% (30-day)'+(m.v90?' vs '+m.v90.toFixed(2)+'% (90-day)':'')+'</small></span><span class="ne">'+(m.v90?(m.v30/m.v90>1.3?'High':m.v30/m.v90<.75?'Low':'Normal'):'—')+'</span></div>';
+ $('mtbl').innerHTML=S.map(function(x){var c=x.r>0?['bu',tr('Bullish ▲')]:x.r<0?['be',tr('Bearish ▼')]:['ne',tr('Neutral ◆')];return'<div class="row"><span>'+x.name+'<br><small>'+x.val+'</small></span><span class="'+c[0]+'">'+c[1]+'</span></div>'}).join('')+
+  '<div class="row"><span>'+tr('Volatility')+'<br><small>'+tr('typical daily move {0}% (30-day)',m.v30.toFixed(2))+(m.v90?tr(' vs {0}% (90-day)',m.v90.toFixed(2)):'')+'</small></span><span class="ne">'+(m.v90?tr(m.v30/m.v90>1.3?'High':m.v30/m.v90<.75?'Low':'Normal'):'—')+'</span></div>';
 
  /* chart: price + 30/90-day averages + nearest support/resistance */
  var a30=C.map(function(_,q){return q+1<30?null:m.sma(30,q+1)}),a90=C.map(function(_,q){return q+1<90?null:m.sma(90,q+1)});
@@ -653,16 +923,16 @@ function analysis(){
  var pd=(hi-lo)*.06;lo-=pd;hi+=pd;
  var x=function(q){return L+(W-L-R)*(D[q]-D[0])/(LD-D[0])},y=function(v){return T0+(Ht-T0-B)*(1-(v-lo)/(hi-lo))};
  var path=function(a){var d='',q;for(q=0;q<n;q++)if(a[q]!==null)d+=(d?'L':'M')+x(q).toFixed(1)+','+y(a[q]).toFixed(1);return d};
- var o='<svg viewBox="0 0 '+W+' '+Ht+'" role="img" aria-label="Daily 22K gold price with 30-day and 90-day moving averages">',k2;
+ var o='<svg viewBox="0 0 '+W+' '+Ht+'" role="img" aria-label="'+tr('Daily 22K gold price comparison')+'">',k2;
  for(k2=0;k2<4;k2++){var tv=lo+(hi-lo)*k2/3;o+='<line class="gl" x1="'+L+'" x2="'+(W-R)+'" y1="'+y(tv)+'" y2="'+y(tv)+'"/><text x="'+(L-4)+'" y="'+(y(tv)+3)+'" text-anchor="end">'+(Math.round(tv/10)*10).toLocaleString('en-IN')+'</text>'}
  var pm='';for(i=0;i<n;i++){var mk=K[i].slice(0,7);if(mk!==pm){pm=mk;var mm=+K[i].slice(5,7);if(x(i)>L+8||i==0){o+='<text x="'+x(i).toFixed(1)+'" y="'+(Ht-16)+'" text-anchor="middle">'+MON[mm-1]+'</text>';if(mm==1)o+='<text x="'+x(i).toFixed(1)+'" y="'+(Ht-5)+'" text-anchor="middle" style="fill:var(--muted)">'+K[i].slice(0,4)+'</text>'}}}
  var ll=function(v,c,lab){if(v<lo||v>hi)return'';return'<line x1="'+L+'" x2="'+(W-R)+'" y1="'+y(v).toFixed(1)+'" y2="'+y(v).toFixed(1)+'" stroke="'+c+'" stroke-dasharray="3 3" stroke-width="1"/><text x="'+(W-R-2)+'" y="'+(y(v)-3).toFixed(1)+'" text-anchor="end" style="fill:'+c+'">'+lab+' '+v.toLocaleString('en-IN')+'</text>'};
- o+=ll(m.lv.res[0].lv,'#d63a3a','Resistance')+ll(m.lv.sup[0].lv,'#2e9e4f','Support');
+ o+=ll(m.lv.res[0].lv,'#d63a3a',tr('Resistance'))+ll(m.lv.sup[0].lv,'#2e9e4f',tr('Support'));
  o+='<path d="'+path(a90)+'" fill="none" stroke="#a259d9" stroke-width="1.6"/><path d="'+path(a30)+'" fill="none" stroke="#4f8ef7" stroke-width="1.6"/><path d="'+path(C)+'" fill="none" stroke="var(--gold)" stroke-width="1.8" stroke-linejoin="round"/>';
  o+='<circle cx="'+x(n-1).toFixed(1)+'" cy="'+y(P).toFixed(1)+'" r="3.5" fill="'+col[vt[1]]+'"/>';
  o+='<line class="cur" y1="'+T0+'" y2="'+(Ht-B)+'" style="display:none"/><circle class="curd" r="5" style="display:none"/>';
  $('achart').innerHTML=o+'</svg><div class="tip" hidden></div>';
- var hp=[];for(i=0;i<n;i++)hp.push({x:x(i),y:y(C[i]),t:'<b>'+dlabel(K[i])+'</b><br>'+f0.format(C[i])+' /g'+(a30[i]!==null?'<br><small><span style="color:#4f8ef7">●</span> 30-day avg '+f0.format(a30[i])+'</small>':'')+(a90[i]!==null?'<br><small><span style="color:#a259d9">●</span> 90-day avg '+f0.format(a90[i])+'</small>':'')});
+ var hp=[];for(i=0;i<n;i++)hp.push({x:x(i),y:y(C[i]),t:'<b>'+dlabel(K[i])+'</b><br>'+tr('{0} /g',f0.format(C[i]))+(a30[i]!==null?'<br><small><span style="color:#4f8ef7">●</span> '+tr('{0}-day average',30)+' '+f0.format(a30[i])+'</small>':'')+(a90[i]!==null?'<br><small><span style="color:#a259d9">●</span> '+tr('{0}-day average',90)+' '+f0.format(a90[i])+'</small>':'')});
  attach($('achart'),W,Ht,hp)}
 
 function plan(){
@@ -672,54 +942,56 @@ function plan(){
  var R=Math.max(0,t-sp),pr=[P,DEC.L2,DEC.L3],fr=DEC.fr,u=R>=20000?100:R>=2000?10:1,am=[],i;
  am[0]=Math.round(R*fr[0]/100/u)*u;am[1]=Math.round(R*fr[1]/100/u)*u;am[2]=Math.max(0,R-am[0]-am[1]);
  var rem=$('srem');
- if(t<=0)rem.innerHTML='Enter your total budget to see rupee amounts. Until then the plan shows shares of your budget.';
- else if(R<=0)rem.innerHTML='<b>Your budget is used up.</b> Nothing is left to plan. Raise the total budget or lower the amount already spent.';
- else rem.innerHTML='Budget left: <b>'+f0.format(R)+'</b>. At today’s rate that buys about <b>'+(R/P).toFixed(1)+' g</b> ('+(R/P/8).toFixed(2)+' pavan) of 22K gold.';
- var tt=[fr[0]>0?'Part 1 · now':'Part 1 · hold off','Part 2 · on a dip','Part 3 · on strength'];
- var ds=[fr[0]>0?'At today’s price of '+f0.format(P)+' per gram.':'Not yet. Only buy now if you need the gold soon.',
-  'If price falls to '+f0.format(DEC.L2)+' per gram ('+DEC.L2n+'), or in 2 weeks, whichever comes first.',
-  'If price closes above '+f0.format(DEC.L3)+' per gram ('+DEC.L3n+'), or in 4 weeks, whichever comes first.'];
+ if(t<=0)rem.innerHTML=tr('Enter your total budget to see rupee amounts. Until then the plan shows shares of your budget.');
+ else if(R<=0)rem.innerHTML=tr('<b>Your budget is used up.</b> Nothing is left to plan. Raise the total budget or lower the amount already spent.');
+ else rem.innerHTML=tr('Budget left: <b>{0}</b>. At today’s rate that buys about <b>{1} g</b> ({2} pavan) of 22K gold.',f0.format(R),(R/P).toFixed(1),(R/P/8).toFixed(2));
+ var tt=[tr(fr[0]>0?'Part 1 · now':'Part 1 · hold off'),tr('Part 2 · on a dip'),tr('Part 3 · on strength')];
+ var ds=[fr[0]>0?tr('At today’s price of {0} per gram.',f0.format(P)):tr('Not yet. Only buy now if you need the gold soon.'),
+  tr('If price falls to {0} per gram ({1}), or in 2 weeks, whichever comes first.',f0.format(DEC.L2),DEC.L2n),
+  tr('If price closes above {0} per gram ({1}), or in 4 weeks, whichever comes first.',f0.format(DEC.L3),DEC.L3n)];
  var h='';
- for(i=0;i<3;i++){var r1=t>0&&R>0?'<b>'+f0.format(am[i])+'</b><small>'+(am[i]>0?'about '+(am[i]/pr[i]).toFixed(2)+' g':'—')+'</small>':'<b>'+fr[i]+'%</b><small>of your budget</small>';
+ for(i=0;i<3;i++){var r1=t>0&&R>0?'<b>'+f0.format(am[i])+'</b><small>'+(am[i]>0?tr('about {0} g',(am[i]/pr[i]).toFixed(2)):'—')+'</small>':'<b>'+fr[i]+'%</b><small>'+tr('of your budget')+'</small>';
   h+='<div class="pl"><div><span class="pt">'+tt[i]+'</span><small>'+ds[i]+'</small></div><div>'+r1+'</div></div>'}
  $('splan').innerHTML=R<=0&&t>0?'':h}
 
 function strategy(){
  var box=$('st');$('s-strategy').hidden=!(MA&&DEC);if(!MA||!DEC){box.hidden=true;return}box.hidden=false;
  var m=MA,P=m.P,C=m.C,K=m.K,i,c={g:'#2e9e4f',o:'#f08a1c',r:'#d63a3a'}[DEC.lt];
- $('sdec').innerHTML='<span class="badge" style="background:'+c+'">'+DEC.title.toUpperCase()+'</span><div class="gd">'+DEC.why+'</div>';
+ $('sdec').innerHTML='<span class="badge" style="background:'+c+'">'+uc(DEC.title)+'</span><div class="gd">'+DEC.why+'</div>';
  if(!PLANINIT){PLANINIT=true;try{var sv=JSON.parse(localStorage.getItem('kgr_budget')||'null');if(sv){$('btot').value=sv.t||'';$('bsp').value=sv.s||''}}catch(e){}
   $('btot').oninput=plan;$('bsp').oninput=plan}
  plan();
  /* how far below recent highs */
  var mt=function(label,r){var pos=r.hi>r.lo?Math.max(0,Math.min(1,(P-r.lo)/(r.hi-r.lo))):.5,below=(P/r.hi-1)*100,above=(P/r.lo-1)*100;
-  return'<div class="mt"><div class="mh"><span>'+label+'</span><span><b>'+(below>-.05?'At the high':pcs(below)+' below the high')+'</b></span></div><div class="trk"><b style="left:'+(pos*100).toFixed(1)+'%"></b></div><div class="ms"><span>Low '+f0.format(r.lo)+' ('+dshort(r.lk)+')</span><span>High '+f0.format(r.hi)+' ('+dshort(r.hk)+')</span></div></div>'};
- $('smet').innerHTML=mt('Last 30 days',m.r30)+mt('Last 90 days',m.r90)+mt('Last 12 months',m.r365)+'<div class="leg">The dot shows where today’s price sits between the low (green end, cheaper) and the high (red end, dearer) of each period.</div>';
+  return'<div class="mt"><div class="mh"><span>'+label+'</span><span><b>'+(below>-.05?tr('At the high'):tr('{0} below the high',pcs(below)))+'</b></span></div><div class="trk"><b style="left:'+(pos*100).toFixed(1)+'%"></b></div><div class="ms"><span>'+tr('Low {0} ({1})',f0.format(r.lo),dshort(r.lk))+'</span><span>'+tr('High {0} ({1})',f0.format(r.hi),dshort(r.hk))+'</span></div></div>'};
+ $('smet').innerHTML=mt(tr('Last 30 days'),m.r30)+mt(tr('Last 90 days'),m.r90)+mt(tr('Last 12 months'),m.r365)+'<div class="leg">'+tr('The dot shows where today’s price sits between the low (green end, cheaper) and the high (red end, dearer) of each period.')+'</div>';
  /* past corrections */
  var cr=m.cr,dn=cr.downs,nD=dn.length,cu=cr.cur,h='';
  var mf=med(dn.map(function(x){return x.fall})),md=med(dn.map(function(x){return x.days}));
  var af=dn.filter(function(x){return x.after!==null}).map(function(x){return x.after}),upc=af.filter(function(x){return x>0}).length,ma2=med(af);
  if(cu&&cu.down){var dp=dn.filter(function(x){return cu.fall<x.fall}).length;
-  h+='<div class="gd">The current fall is <b>'+pcs(cu.fall)+'</b>, from '+f0.format(C[cu.a])+' on '+dshort(K[cu.a])+' to a low of '+f0.format(C[cu.b])+' on '+dshort(K[cu.b])+' ('+cu.days+' days). '+(nD?'That is deeper than '+dp+' of the '+nD+' earlier falls of 5% or more. ':'')+'Price has bounced '+pcs(cu.bounce)+' from that low so far.</div>'}
- else if(cu)h+='<div class="gd">No fall of 5% or more is under way. Price is <b>'+pcs(cu.gain)+'</b> above its last low of '+f0.format(C[cu.b])+' on '+dshort(K[cu.b])+' ('+cu.days+' days ago).</div>';
- else h+='<div class="gd">There has been no fall of 5% or more in the data yet.</div>';
- if(nD)h+='<div class="gd">Since '+m.since+', price fell 5% or more '+nD+(nD==1?' time':' times')+' before. A typical fall was <b>'+pcs(mf)+'</b> over about '+Math.round(md)+' days. '+(af.length>=3?'Thirty days after those lows, price was higher in <b>'+upc+' of '+af.length+'</b> cases (typical change '+pcs(ma2)+').':'There are too few completed cases to say what usually follows.')+'</div>';
+  h+='<div class="gd">'+tr('The current fall is {0}, from {1} on {2} to a low of {3} on {4} ({5} days).','<b>'+pcs(cu.fall)+'</b>',f0.format(C[cu.a]),dshort(K[cu.a]),f0.format(C[cu.b]),dshort(K[cu.b]),cu.days)+' '+(nD?tr('That is deeper than {0} of the {1} earlier falls of 5% or more.',dp,nD)+' ':'')+tr('Price has bounced {0} from that low so far.',pcs(cu.bounce))+'</div>'}
+ else if(cu)h+='<div class="gd">'+tr('No fall of 5% or more is under way. Price is {0} above its last low of {1} on {2} ({3} days ago).','<b>'+pcs(cu.gain)+'</b>',f0.format(C[cu.b]),dshort(K[cu.b]),cu.days)+'</div>';
+ else h+='<div class="gd">'+tr('There has been no fall of 5% or more in the data yet.')+'</div>';
+ if(nD)h+='<div class="gd">'+tr(nD==1?'Since {0}, price fell 5% or more {1} time before.':'Since {0}, price fell 5% or more {1} times before.',m.since,nD)+' '+tr('A typical fall was {0} over about {1} days.','<b>'+pcs(mf)+'</b>',Math.round(md))+' '+(af.length>=3?tr('Thirty days after those lows, price was higher in {0} of {1} cases (typical change {2}).','<b>'+upc,af.length+'</b>',pcs(ma2)):tr('There are too few completed cases to say what usually follows.'))+'</div>';
  var rows=dn.slice(-6).reverse();
- if(rows.length||(cu&&cu.down)){h+='<div class="ct h"><span>Fall</span><span>Size</span><span>Days</span><span>30 days later</span></div>';
-  if(cu&&cu.down)h+='<div class="ct"><span><b>Now</b>: '+drng(K[cu.a],K[cu.b])+'</span><span class="be">'+pcs(cu.fall)+'</span><span>'+cu.days+'</span><span>open</span></div>';
-  rows.forEach(function(x){h+='<div class="ct"><span>'+drng(K[x.a],K[x.b])+'</span><span class="be">'+pcs(x.fall)+'</span><span>'+x.days+'</span><span class="'+(x.after===null?'':x.after>0?'bu':'be')+'">'+(x.after===null?'not yet':pcs(x.after))+'</span></div>'})}
+ if(rows.length||(cu&&cu.down)){h+='<div class="ct h"><span>'+tr('Fall')+'</span><span>'+tr('Size')+'</span><span>'+tr('Days')+'</span><span>'+tr('30 days later')+'</span></div>';
+  if(cu&&cu.down)h+='<div class="ct"><span><b>'+tr('Now')+'</b>: '+drng(K[cu.a],K[cu.b])+'</span><span class="be">'+pcs(cu.fall)+'</span><span>'+cu.days+'</span><span>'+tr('open')+'</span></div>';
+  rows.forEach(function(x){h+='<div class="ct"><span>'+drng(K[x.a],K[x.b])+'</span><span class="be">'+pcs(x.fall)+'</span><span>'+x.days+'</span><span class="'+(x.after===null?'':x.after>0?'bu':'be')+'">'+(x.after===null?tr('not yet'):pcs(x.after))+'</span></div>'})}
  $('scor').innerHTML=h}
 
-$('calc').onclick=function(){
- if(!(rate>0)){alert('Rate not loaded yet');return}
- var w=parseFloat($('w').value);if(!(w>0)){alert('Enter the weight');return}
- var mp=parseFloat($('m').value)||0;
+function showCalc(){
+ if(!LASTCALC||!(rate>0))return;var w=LASTCALC.w,mp=LASTCALC.mp;
  var g=rate*w,mk=g*mp/100,gst=(g+mk)*0.03,t=g+mk+gst;
  var r=$('res');r.hidden=false;
- r.innerHTML='<div class="row"><span>Gold value (22K)</span><span>'+fmt.format(g)+'</span></div>'+
- '<div class="row"><span>Making ('+mp+'%)</span><span>'+fmt.format(mk)+'</span></div>'+
- '<div class="row"><span>GST (3%)</span><span>'+fmt.format(gst)+'</span></div>'+
- '<div class="row tot"><span>Total</span><span>'+fmt.format(t)+'</span></div>'};
+ r.innerHTML='<div class="row"><span>'+tr('Gold value (22K)')+'</span><span>'+fmt.format(g)+'</span></div>'+
+ '<div class="row"><span>'+tr('Making ({0}%)',mp)+'</span><span>'+fmt.format(mk)+'</span></div>'+
+ '<div class="row"><span>'+tr('GST (3%)')+'</span><span>'+fmt.format(gst)+'</span></div>'+
+ '<div class="row tot"><span>'+tr('Total')+'</span><span>'+fmt.format(t)+'</span></div>'}
+$('calc').onclick=function(){
+ if(!(rate>0)){alert(tr('Rate not loaded yet'));return}
+ var w=parseFloat($('w').value);if(!(w>0)){alert(tr('Enter the weight'));return}
+ LASTCALC={w:w,mp:parseFloat($('m').value)||0};showCalc()};
 (function(){var tabs=document.querySelectorAll('#tabs a'),bar=$('tabs'),hs=[];
  tabs.forEach(function(a){hs.push(document.querySelector(a.getAttribute('href')))});
  var cur=-1;function on(){var y=window.scrollY+90,c=0,i;var bt=-1e9;for(i=0;i<hs.length;i++){if(!hs[i])continue;var tp=hs[i].getBoundingClientRect().top+window.scrollY;if(tp<=y&&tp>bt){bt=tp;c=i}}
@@ -769,6 +1041,39 @@ $('calc').onclick=function(){
  if('ResizeObserver' in window)new ResizeObserver(function(){size();if(mq.matches)frame(0)}).observe(hero);else window.addEventListener('resize',size);
  /* optional photo: upload hero.jpg next to index.html and it appears behind the header */
  var im=new Image();im.onload=function(){hero.style.setProperty('--photo','url(hero.jpg)');hero.classList.add('has-photo')};im.src='hero.jpg';
+})();
+/* ===== language: static text, switching, first-visit chooser ===== */
+function applyStatic(){
+ var els=document.querySelectorAll('[data-i18n],[data-i18n-html],[data-i18n-ph]'),i,e,k,v;
+ for(i=0;i<els.length;i++){e=els[i];
+  if(e.hasAttribute('data-i18n-ph')){if(e._en===undefined)e._en=e.getAttribute('placeholder');e.setAttribute('placeholder',tr(e._en))}
+  else if(e.hasAttribute('data-i18n-html')){if(e._en===undefined)e._en=e.innerHTML;k='#'+e.getAttribute('data-i18n-html');e.innerHTML=(LANG==='ml'&&ML[k])||e._en}
+  else{if(e._en===undefined)e._en=e.textContent.trim();e.textContent=tr(e._en)}}
+ var ml=LANG==='ml';
+ $('hml').textContent=ml?'Kerala Gold Rate':'ഇന്നത്തെ സ്വർണവില';$('hml').setAttribute('lang',ml?'en':'ml');
+ $('hh1').textContent=ml?'ഇന്നത്തെ സ്വർണവില':'Kerala Gold Rate';
+ document.title=tr('Kerala Gold Rate');
+ var b=$('lgt');b.textContent=ml?'English':'മലയാളം';b.setAttribute('lang',ml?'en':'ml');b.setAttribute('aria-label',ml?'Change language to English':'ഭാഷ മലയാളത്തിലേക്ക് മാറ്റുക')}
+function setLang(l,save){
+ LANG=l==='ml'?'ml':'en';MON=LANG==='ml'?MON_ML:MON_EN;
+ document.documentElement.setAttribute('lang',LANG);
+ if(save){try{localStorage.setItem('kgr_lang',LANG)}catch(e){}}
+ applyStatic();
+ if(DATA){prep(DATA);render(DATA);showCalc()}}
+function closeAsk(){document.documentElement.className=document.documentElement.className.replace(/\bask\b/g,'').trim();
+ ['today','tabs'].forEach(function(i){$(i).inert=false});document.querySelector('main').inert=false;document.body.style.overflow=''}
+(function(){
+ var st=null;try{st=localStorage.getItem('kgr_lang')}catch(e){}
+ var asking=/\bask\b/.test(document.documentElement.className);
+ setLang(st==='ml'?'ml':'en',false);
+ $('lgt').onclick=function(){setLang(LANG==='ml'?'en':'ml',true)};
+ if(asking){
+  ['today','tabs'].forEach(function(i){$(i).inert=true});document.querySelector('main').inert=true;document.body.style.overflow='hidden';
+  var pref=/^ml/i.test(navigator.language||''),be=$('lm-en'),bm=$('lm-ml');
+  if(pref){bm.className='lm-b pick';be.className='lm-b alt';bm.parentNode.insertBefore(bm,be)}
+  (pref?bm:be).focus();
+  be.onclick=function(){setLang('en',true);closeAsk()};
+  bm.onclick=function(){setLang('ml',true);closeAsk()}}
 })();
 load();
 </script>
