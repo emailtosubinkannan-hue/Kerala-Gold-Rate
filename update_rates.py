@@ -7,6 +7,7 @@ looks wrong, the script exits with an error and leaves data.json untouched.
 import json
 import re
 import sys
+import time
 import urllib.request
 from datetime import datetime, timedelta, timezone
 
@@ -80,7 +81,14 @@ def main():
 
     days = data["days"]
     previous = days[max(days)] if days else None
-    rate = fetch_rate(previous)
+    rate = None
+    for attempt in range(3):  # the rate sites can lag or time out: try a few times
+        rate = fetch_rate(previous)
+        if rate is not None:
+            break
+        if attempt < 2:
+            print("Retrying in 30 seconds...")
+            time.sleep(30)
     if rate is None:
         print("No valid rate found. data.json left unchanged.")
         sys.exit(1)
@@ -91,6 +99,9 @@ def main():
 
     if data["today"].get("date") != today:
         data["today"] = {"date": today, "m": None, "a": None, "e": None}
+    elif data["today"].get(slot) == rate and days.get(today) == rate:
+        print(f"Rate unchanged ({rate}); nothing to save.")
+        return
     data["today"][slot] = rate
     days[today] = rate
     data["days"] = dict(sorted(days.items()))
