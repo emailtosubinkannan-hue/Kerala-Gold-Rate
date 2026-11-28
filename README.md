@@ -10,6 +10,7 @@ A free website that updates the Kerala 22K gold rate by itself, 5 times a day
 | `index.html` | The page people open (rate, charts, buy/wait signals, calculator) |
 | `data.json` | The saved rates and history. The robot updates this file |
 | `update_rates.py` | Reads the rate from a public rates website |
+| `update_global.py` | Collects international gold, USD/INR and gold headlines into `global.json` for the Global drivers section |
 | `.github/workflows/update.yml` | The schedule that runs the script on GitHub |
 
 ---

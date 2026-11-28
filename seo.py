@@ -32,9 +32,9 @@ FAQ = [
     ("Is the gold rate the same in every Kerala jeweller?",
      "Most jewellers in Kerala follow the daily rate announced by the state’s gold traders’ association, so the gold rate is usually the same across the state. Making charges and discounts differ from shop to shop."),
     ("Is it a good time to buy gold today?",
-     "See the purchasing guide, market analysis and buying strategy on this page. They use the last year of 22K prices to show the trend, momentum, support and resistance, and suggest whether to buy now, buy in parts or wait. It is a rule-based guide, not financial advice."),
+     "See the purchasing guide, market analysis, global drivers and buying strategy on this page. They use the last year of 22K prices to show the trend, momentum, support and resistance, add international gold, the dollar-rupee rate and recent gold headlines, and suggest whether to buy now, buy in parts or wait. It is a rule-based guide, not financial advice."),
     ("Where do these rates come from?",
-     "The rates are collected automatically from public Kerala gold-rate websites several times a day, and the charts are built from the daily rates saved on this page."),
+     "The rates are collected automatically from public Kerala gold-rate websites several times a day, and the charts are built from the daily rates saved on this page. International gold and dollar-rupee prices come from public market-data feeds, and headlines from Google News."),
 ]
 
 
