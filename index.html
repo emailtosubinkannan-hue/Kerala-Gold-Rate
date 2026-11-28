@@ -212,6 +212,22 @@ details{margin-top:14px;border-top:1px solid var(--line);padding-top:6px}summary
 .b-daily .row>span:first-child,.b-monthly .row>span:first-child,.b-yearly .row>span:first-child{white-space:nowrap}
 .b-daily .row>span:last-child,.b-monthly .row>span:last-child,.b-yearly .row>span:last-child{margin-left:auto}}
 
+/* ===== gulf ===== */
+.gk{display:flex;gap:6px;margin:4px 0 12px}
+.gk button{font:600 13px system-ui,sans-serif;padding:6px 14px;border-radius:999px;border:1px solid var(--line);background:var(--bg);color:var(--text);cursor:pointer}
+.gk button[aria-pressed=true]{background:var(--hero);color:var(--hero-ink);border-color:var(--hero)}
+.gk button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.gcs{display:grid;grid-template-columns:1fr;gap:10px;margin:10px 0}
+.gc{border:1px solid var(--line);border-radius:12px;padding:12px 14px;background:var(--bg)}
+.gc h3{margin:0 0 6px;font:600 17px var(--serif)}
+.gc .row{padding:5px 0;font-size:14px}.gc .row b{font-variant-numeric:tabular-nums}
+.gc .sv{margin-top:6px;padding:8px 10px;border-radius:8px;background:rgba(46,158,79,.12);font-weight:600;font-size:14px;color:#1f7a3c}
+.gc .sv.no{background:rgba(214,58,58,.10);color:#c23030}
+.gc .sv small{display:block;font-weight:400;font-size:11.5px;color:var(--muted);margin-top:1px}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .gc .sv{color:#7fdc9d}:root:not([data-theme="light"]) .gc .sv.no{color:#ff9a9a}}
+:root[data-theme="dark"] .gc .sv{color:#7fdc9d}:root[data-theme="dark"] .gc .sv.no{color:#ff9a9a}
+@media (min-width:640px){.gcs{grid-template-columns:1fr 1fr}}
+@media (min-width:1000px){.gcs{grid-template-columns:repeat(3,1fr)}}
 /* ===== day history ===== */
 .dht{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums;font-size:13px}
 .dht th{font-weight:600;color:var(--muted);font-size:11.5px;text-align:right;padding:6px 3px;border-bottom:1px solid var(--line)}
@@ -297,7 +313,7 @@ html.loading main{visibility:hidden}
 </header>
 <nav class="tabs" id="tabs" aria-label="Sections"><div class="tabs-in">
 <span class="brand"><b data-i18n>Kerala Gold Rate</b><span id="nbp"></span></span>
-<a href="#today" data-i18n>Today</a><a href="#s-guide" data-i18n>Guide</a><a href="#s-daily"><span class="m-only" data-i18n>Daily</span><span class="d-only" data-i18n>Charts</span></a><a class="m-only" href="#s-monthly" data-i18n>Monthly</a><a class="m-only" href="#s-yearly" data-i18n>Yearly</a><a href="#s-day" data-i18n>History</a><a href="#s-analysis" data-i18n>Analysis</a><a href="#s-global" data-i18n>Global</a><a href="#s-strategy" data-i18n>Strategy</a><a href="#s-calc" data-i18n>Calculator</a>
+<a href="#today" data-i18n>Today</a><a href="#s-guide" data-i18n>Guide</a><a href="#s-daily"><span class="m-only" data-i18n>Daily</span><span class="d-only" data-i18n>Charts</span></a><a class="m-only" href="#s-monthly" data-i18n>Monthly</a><a class="m-only" href="#s-yearly" data-i18n>Yearly</a><a href="#s-day" data-i18n>History</a><a href="#s-analysis" data-i18n>Analysis</a><a href="#s-global" data-i18n>Global</a><a href="#s-gulf" data-i18n>Gulf</a><a href="#s-strategy" data-i18n>Strategy</a><a href="#s-calc" data-i18n>Calculator</a>
 <button type="button" class="lgt" id="lgt" aria-label="Language"></button>
 </div></nav>
 <main>
@@ -386,6 +402,18 @@ html.loading main{visibility:hidden}
 <div class="leg" id="gfoot"></div>
 </div>
 <div class="card" id="gl0" hidden><div class="gd" id="gl0t"></div></div>
+</section>
+
+<section class="blk b-gulf">
+<h2 id="s-gulf" data-i18n>Gold rates for Gulf residents</h2>
+<div class="card" id="gu" hidden>
+<div class="gd" id="gusum"></div>
+<div class="gk" role="group" aria-label="Karat"><button type="button" data-k="22" aria-pressed="true">22K</button><button type="button" data-k="24" aria-pressed="false">24K</button><button type="button" data-k="18" aria-pressed="false">18K</button></div>
+<div class="gcs" id="gcs"></div>
+<div class="leg" id="gunote"></div>
+<div class="leg" data-i18n-html="gu_leg"><b>How to read this.</b> Each card shows the gold price in the country’s currency, then the same amount converted to rupees at today’s dollar-rupee rate, then the Kerala rate for the same weight and purity. The saving is Kerala minus the Gulf price. It covers the price of the gold only. It leaves out the 5% VAT (UAE), making charges, bank or exchange fees, and Indian customs duty on gold you bring in. Gold jewellery brought home is duty-free only up to a limit (as reported in 2026: 20 g for men and 40 g for women who lived abroad for over a year; coins and bars are not covered), and the rules can change, so check Indian customs before you buy.</div>
+</div>
+<div class="card" id="gu0" hidden><div class="gd" id="gu0t"></div></div>
 </section>
 
 <section class="blk b-strategy">
@@ -758,7 +786,29 @@ var ML={
 "vs yesterday":"ഇന്നലത്തേതിനെ അപേക്ഷിച്ച്",
 "vs morning":"രാവിലത്തേതിനെ അപേക്ഷിച്ച്",
 "vs afternoon":"ഉച്ചയ്ക്കത്തേതിനെ അപേക്ഷിച്ച്",
-"#day_leg":"ഓരോ ദിവസത്തെയും രാവിലെയും ഉച്ചയ്ക്കും വൈകുന്നേരവും പ്രഖ്യാപിച്ച നിരക്ക്, ദിവസത്തിനുള്ളിൽ വില എങ്ങനെ മാറിയെന്ന് കാണാൻ. “—” എന്നാൽ ആ സമയത്തെ നിരക്ക് സൂക്ഷിച്ചിട്ടില്ല. മുൻ ദിവസങ്ങളുടെ വിവരങ്ങൾ ഇനി മുതൽ നിറഞ്ഞുവരും."
+"#day_leg":"ഓരോ ദിവസത്തെയും രാവിലെയും ഉച്ചയ്ക്കും വൈകുന്നേരവും പ്രഖ്യാപിച്ച നിരക്ക്, ദിവസത്തിനുള്ളിൽ വില എങ്ങനെ മാറിയെന്ന് കാണാൻ. “—” എന്നാൽ ആ സമയത്തെ നിരക്ക് സൂക്ഷിച്ചിട്ടില്ല. മുൻ ദിവസങ്ങളുടെ വിവരങ്ങൾ ഇനി മുതൽ നിറഞ്ഞുവരും.",
+"Gold rates for Gulf residents":"ഗൾഫ് നിവാസികൾക്കുള്ള സ്വർണവില",
+"Gulf":"ഗൾഫ്",
+"UAE":"യുഎഇ",
+"Saudi Arabia":"സൗദി അറേബ്യ",
+"Qatar":"ഖത്തർ",
+"Kuwait":"കുവൈത്ത്",
+"Oman":"ഒമാൻ",
+"Bahrain":"ബഹ്റൈൻ",
+"1 gram":"1 ഗ്രാം",
+"1 pavan (8 g)":"1 പവൻ (8 ഗ്രാം)",
+"Kerala, 1 pavan":"കേരളം, 1 പവൻ",
+"Cheaper than Kerala by {0} per pavan ({1})":"കേരളത്തേക്കാൾ പവന് {0} കുറവ് ({1})",
+"Costlier than Kerala by {0} per pavan ({1})":"കേരളത്തേക്കാൾ പവന് {0} കൂടുതൽ ({1})",
+"{0} per gram":"ഗ്രാമിന് {0}",
+"shop rate":"കടയിലെ നിരക്ക്",
+"estimate from world price":"ലോക വിലയിൽ നിന്നുള്ള കണക്ക്",
+"{0} gold in the UAE costs about {1} per pavan at today’s exchange rate, against {2} in Kerala. That is {3} less for the gold itself ({4}).":"ഇന്നത്തെ വിനിമയ നിരക്കിൽ യുഎഇയിൽ {0} സ്വർണത്തിന് പവന് ഏകദേശം {1} ആണ്; കേരളത്തിൽ {2}. സ്വർണത്തിന്റെ വിലയിൽ മാത്രം {3} കുറവ് ({4}).",
+"Local prices: shop rates from {0} ({1}); other values are estimated from the world gold price. Converted at ₹{2} per US dollar.":"പ്രാദേശിക വിലകൾ: {0}-ൽ നിന്നുള്ള കടയിലെ നിരക്കുകൾ ({1}); മറ്റുള്ളവ ലോക സ്വർണവിലയിൽ നിന്നുള്ള കണക്കാണ്. ഒരു യുഎസ് ഡോളറിന് ₹{2} നിരക്കിൽ മാറ്റിയത്.",
+"Local prices are estimated from the world gold price (US$ {0} per ounce, {1}) and each currency’s dollar rate, so shop rates can differ by a few percent. Converted at ₹{2} per US dollar.":"പ്രാദേശിക വിലകൾ ലോക സ്വർണവിലയിൽ (ഔൺസിന് US$ {0}, {1}) നിന്നും ഓരോ കറൻസിയുടെ ഡോളർ നിരക്കിൽ നിന്നും കണക്കാക്കിയതാണ്; അതിനാൽ കടയിലെ നിരക്ക് ഏതാനും ശതമാനം വ്യത്യാസപ്പെടാം. ഒരു യുഎസ് ഡോളറിന് ₹{2} നിരക്കിൽ മാറ്റിയത്.",
+"Gulf rates are not available right now. They will appear here after the next update.":"ഗൾഫ് നിരക്കുകൾ ഇപ്പോൾ ലഭ്യമല്ല. അടുത്ത അപ്ഡേറ്റിനു ശേഷം ഇവിടെ കാണാം.",
+"#gu_leg":"<b>ഇത് എങ്ങനെ വായിക്കാം.</b> ഓരോ കാർഡിലും ആ രാജ്യത്തെ കറൻസിയിലെ സ്വർണവില, അതേ തുക ഇന്നത്തെ ഡോളർ–രൂപ നിരക്കിൽ രൂപയിലേക്ക് മാറ്റിയത്, അതേ തൂക്കത്തിനും പരിശുദ്ധിക്കുമുള്ള കേരള നിരക്ക് എന്നിവ കാണാം. ലാഭം = കേരള വില − ഗൾഫ് വില. ഇത് സ്വർണത്തിന്റെ വില മാത്രമാണ്; 5% VAT (യുഎഇ), പണിക്കൂലി, ബാങ്ക്/എക്സ്ചേഞ്ച് ഫീസ്, കൊണ്ടുവരുന്ന സ്വർണത്തിന് ഇന്ത്യൻ കസ്റ്റംസ് തീരുവ എന്നിവ ഉൾപ്പെടുന്നില്ല. വിദേശത്ത് നിന്ന് കൊണ്ടുവരുന്ന സ്വർണാഭരണങ്ങൾക്ക് ഒരു പരിധി വരെ മാത്രമേ തീരുവ ഒഴിവുള്ളൂ (2026-ലെ റിപ്പോർട്ടുകൾ പ്രകാരം: ഒരു വർഷത്തിലധികം വിദേശത്ത് താമസിച്ച പുരുഷന്മാർക്ക് 20 ഗ്രാം, സ്ത്രീകൾക്ക് 40 ഗ്രാം; നാണയങ്ങളും ബാറുകളും ഇതിൽ ഉൾപ്പെടില്ല). നിയമങ്ങൾ മാറാം, അതിനാൽ വാങ്ങുന്നതിന് മുമ്പ് ഇന്ത്യൻ കസ്റ്റംസ് പരിശോധിക്കുക.",
+"{0} gold in the UAE costs about {1} per pavan at today’s exchange rate, against {2} in Kerala. That is {3} more for the gold itself ({4}).":"ഇന്നത്തെ വിനിമയ നിരക്കിൽ യുഎഇയിൽ {0} സ്വർണത്തിന് പവന് ഏകദേശം {1} ആണ്; കേരളത്തിൽ {2}. സ്വർണത്തിന്റെ വിലയിൽ മാത്രം {3} കൂടുതൽ ({4})."
 };
 var MON_ML=['ജനു','ഫെബ്','മാർ','ഏപ്രി','മേയ്','ജൂൺ','ജൂലൈ','ഓഗ','സെപ്','ഒക്ടോ','നവം','ഡിസം'];
 function tr(s){var o=(LANG==='ml'&&ML[s])||s,i;for(i=1;i<arguments.length;i++)o=o.split('{'+(i-1)+'}').join(arguments[i]);return o}
@@ -831,7 +881,7 @@ function render(d){
  var ld=$('lead');
  if(ld)ld.textContent=rate>0?tr(t.date<iso?'Latest Kerala gold rate ({0}): 22K gold is {1} per gram and {2} per pavan (8 g).':'Kerala gold rate today ({0}): 22K gold is {1} per gram and {2} per pavan (8 g).',dlabel(t.date),f0.format(rate),f0.format(rate*8)):'';
  setTitle();
- computeMA();guide();chart();mchart();ychart();analysis();globalSec();dayHist();strategy();ready()}
+ computeMA();guide();chart();mchart();ychart();analysis();globalSec();gulfSec();dayHist();strategy();ready()}
 
 function stats(){var all=HIST.concat([rate]),mn=Math.min.apply(null,all),mx=Math.max.apply(null,all);
  return{all:all,mn:mn,mx:mx,p:mx>mn?(rate-mn)/(mx-mn):0.5,avg:HIST.reduce(function(a,b){return a+b},0)/HIST.length}}
@@ -1162,6 +1212,35 @@ function dayHist(){
   if(vals.length>1){var df=vals[vals.length-1]-vals[0];ch=df===0?'<td class="z">'+tr('No change')+'</td>':'<td class="'+(df>0?'u':'d')+'">'+(df>0?'▲ ':'▼ ')+dl(df)+'<small>'+pcs(df/vals[0]*100)+'</small></td>'}
   o+='<tr'+(d===t.date?' class="td"':'')+'><td>'+(d===t.date?tr('Today'):dshort(d))+'</td>'+c+ch+'</tr>'});
  $('dtbl').innerHTML=o+'</table>'}
+
+
+/* ===== Gulf shop rates: local currency, converted to rupees, compared with Kerala ===== */
+var GULFK=22,GCO=[['AE','UAE','AED',3.6725,2],['SA','Saudi Arabia','SAR',3.75,2],['QA','Qatar','QAR',3.64,2],['KW','Kuwait','KWD',.307,3],['OM','Oman','OMR',.3845,3],['BH','Bahrain','BHD',.376,3]];
+function gulfSec(){
+ var box=$('gu'),no=$('gu0'),g=GDATA,ok2=false,gl,fl,gk,fk;
+ if(g&&g.gold&&g.usdinr&&rate>0){gk=serKeys(g.gold);fk=serKeys(g.usdinr);
+  if(gk.length&&fk.length&&dnum(TODAYD)-dnum(gk[gk.length-1])<=7&&dnum(TODAYD)-dnum(fk[fk.length-1])<=10){ok2=true;gl=Number(g.gold[gk[gk.length-1]]);fl=Number(g.usdinr[fk[fk.length-1]])}}
+ if(!ok2){box.hidden=true;no.hidden=!(rate>0);$('gu0t').textContent=tr('Gulf rates are not available right now. They will appear here after the next update.');return}
+ no.hidden=true;box.hidden=false;
+ var K=GULFK,pub=g.gulf&&g.gulf.r&&g.gulf.date&&dnum(TODAYD)-dnum(g.gulf.date)<=3?g.gulf.r:null;
+ var kerala=rate*K/22,nd=function(v,d){return v.toLocaleString('en-US',{minimumFractionDigits:d,maximumFractionDigits:d})};
+ var h='',used=0,first=null;
+ GCO.forEach(function(c){
+  var peg=c[3],d=c[4],loc=gl/31.1035*peg*K/24,src='est';
+  var pr=pub&&pub[c[0]];if(pr){var v=pr[String(K)]||(pr['24']?pr['24']*K/24:pr['22']?pr['22']*K/22:0);if(v>0){loc=Number(v);src='pub';used++}}
+  var inr=loc*fl/peg,inr8=inr*8,k8=kerala*8,sv=kerala-inr,pc=sv/kerala*100;
+  if(!first)first={sv:sv,pc:pc,sv8:sv*8,c:c};
+  h+='<div class="gc"><h3>'+tr(c[1])+'</h3>'+
+   '<div class="row"><span>'+tr('1 gram')+'</span><span><b>'+c[2]+' '+nd(loc,d)+'</b> · '+f0.format(inr)+'</span></div>'+
+   '<div class="row"><span>'+tr('1 pavan (8 g)')+'</span><span><b>'+c[2]+' '+nd(loc*8,d)+'</b> · '+f0.format(inr8)+'</span></div>'+
+   '<div class="row"><span>'+tr('Kerala, 1 pavan')+'</span><span>'+f0.format(k8)+'</span></div>'+
+   '<div class="sv'+(sv>=0?'':' no')+'">'+(sv>=0?tr('Cheaper than Kerala by {0} per pavan ({1})',f0.format(sv*8),Math.abs(pc).toFixed(1)+'%'):tr('Costlier than Kerala by {0} per pavan ({1})',f0.format(-sv*8),Math.abs(pc).toFixed(1)+'%'))+
+   '<small>'+tr('{0} per gram',f0.format(Math.abs(sv)))+' · '+(src==='pub'?tr('shop rate'):tr('estimate from world price'))+'</small></div></div>'});
+ $('gcs').innerHTML=h;
+ var bs=document.querySelectorAll('.gk button'),i;for(i=0;i<bs.length;i++){bs[i].setAttribute('aria-pressed',String(+bs[i].getAttribute('data-k')===K));bs[i].onclick=function(){GULFK=+this.getAttribute('data-k');gulfSec()}}
+ $('gusum').innerHTML=tr(first.sv>=0?'{0} gold in the UAE costs about {1} per pavan at today’s exchange rate, against {2} in Kerala. That is {3} less for the gold itself ({4}).':'{0} gold in the UAE costs about {1} per pavan at today’s exchange rate, against {2} in Kerala. That is {3} more for the gold itself ({4}).',K+'K',f0.format((kerala-first.sv)*8),f0.format(kerala*8),'<b>'+f0.format(Math.abs(first.sv8))+'</b>',Math.abs(first.pc).toFixed(1)+'%');
+ var dd=pub?(g.gulf.date):null;
+ $('gunote').textContent=used?tr('Local prices: shop rates from {0} ({1}); other values are estimated from the world gold price. Converted at ₹{2} per US dollar.',g.gulf.src||'—',dshort(dd),fl.toFixed(2)):tr('Local prices are estimated from the world gold price (US$ {0} per ounce, {1}) and each currency’s dollar rate, so shop rates can differ by a few percent. Converted at ₹{2} per US dollar.',Math.round(gl).toLocaleString('en-US'),dshort(gk[gk.length-1]),fl.toFixed(2))}
 
 /* ===== international gold, USD/INR and news (global.json, written by update_global.py) ===== */
 var GDATA=null,GL=null;

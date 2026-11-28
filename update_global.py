@@ -127,6 +127,53 @@ def merge(old, new, max_jump):
     return dict(sorted((k, v) for k, v in out.items() if k >= cut))
 
 
+# ------------------------------------------------------------ Gulf shop rates
+# Local currency per US dollar (pegged, except the Kuwaiti dinar, which is approximate).
+GULF = [("AE", "dubai", 3.6725), ("SA", "saudi-arabia", 3.75), ("QA", "qatar", 3.64),
+        ("KW", "kuwait", 0.307), ("OM", "oman", 0.3845), ("BH", "bahrain", 0.376)]
+
+
+def strip_tags(html):
+    html = re.sub(r"(?is)<(script|style).*?</\1>", " ", html)
+    text = re.sub(r"(?s)<[^>]+>", " ", html)
+    return re.sub(r"\s+", " ", text)
+
+
+def pick_karat(text, karat, expect):
+    """First number after '<karat>K' that is within 4% of the expected local price."""
+    for m in re.finditer(r"\b%dK\b" % karat, text):
+        for n in re.findall(r"\d[\d,]*\.?\d*", text[m.end(): m.end() + 220]):
+            try:
+                v = float(n.replace(",", ""))
+            except ValueError:
+                continue
+            if abs(v / expect - 1) <= 0.04:
+                return v
+    return None
+
+
+def fetch_gulf(gold_usd, diag):
+    """Published 24K/22K shop rates for the Gulf countries (GoodReturns), checked against
+    the world price so a misread number is never used. Returns None if nothing was read."""
+    out = {}
+    for code, slug, peg in GULF:
+        est24 = gold_usd / 31.1035 * peg
+        try:
+            text = strip_tags(get("https://www.goodreturns.in/gold-rates/%s.html" % slug))
+        except Exception as exc:
+            diag.append("gulf %s failed (%s)" % (code, str(exc)[:60]))
+            continue
+        r = {}
+        for k in (24, 22):
+            v = pick_karat(text, k, est24 * k / 24)
+            if v:
+                r[str(k)] = v
+        if r:
+            out[code] = r
+    diag.append("gulf: %d of %d countries read" % (len(out), len(GULF)))
+    return out or None
+
+
 # ----------------------------------------------------------------------- news
 THEMES = [
     ("Fed and interest rates", r"\bfed\b|federal reserve|fomc|powell|rate cut|rate hike|interest rate|treasury yield|bond yield|\byields?\b"),
@@ -237,6 +284,12 @@ def main():
         ("Yahoo", lambda: from_yahoo("INR=X")),
     ], FX_RANGE, 1, diag)
     news = fetch_news(diag)
+    gulf = None
+    if gold:
+        try:
+            gulf = fetch_gulf(gold[max(gold)], diag)
+        except Exception as exc:
+            diag.append("gulf failed (%s)" % str(exc)[:60])
 
     new = dict(old)
     if gold:
@@ -249,13 +302,15 @@ def main():
         new["news"] = news
         new["themes"] = themes(news)
         sources["news"] = "Google News"
+    if gulf:
+        new["gulf"] = {"date": d_str(now), "src": "GoodReturns", "r": gulf}
     new["sources"] = sources
     new["diag"] = diag
     for line in diag:
         print(line)
 
     same = all(json.dumps(new.get(k), sort_keys=True) == json.dumps(old.get(k), sort_keys=True)
-               for k in ("gold", "usdinr", "news", "themes", "sources", "diag"))
+               for k in ("gold", "usdinr", "news", "themes", "gulf", "sources", "diag"))
     new["checked"] = now.isoformat(timespec="minutes")
     if same and old.get("checked"):
         # nothing new: remember the check time only when the diagnostics changed anyway
