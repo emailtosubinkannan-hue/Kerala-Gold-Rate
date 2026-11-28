@@ -30,7 +30,8 @@ jobs:
         run: python update_rates.py
       - name: Fetch international gold, USD/INR and news
         continue-on-error: true
-        run: python update_global.py
+        # a manual run always refreshes; scheduled runs refresh at most every 2.5 hours
+        run: python update_global.py ${{ github.event_name == 'workflow_dispatch' && '--force' || '' }}
       - name: Commit data
         run: |
           git config user.name "gold-rate-bot"
